@@ -4,7 +4,7 @@ import SignUp from "../components/SingUp";
 
 const SignPage = () => {
   return (
-    <div className="SignPage">
+    <div className="signPage">
       <section className="signin-section">
         <SignIn></SignIn>
       </section>
