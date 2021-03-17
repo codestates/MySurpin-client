@@ -1,32 +1,32 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import NewListSection from "../components/NewListsSection";
+import Surpin from "../components/Surpin";
+import SearchResult from "../components/SearchResult";
 
 const SearchPage = () => {
   return (
-    <div>
+    <div className="searchBar">
       <Navbar></Navbar>
       <div className="searchbar">
         <input className="sarchbar__input"></input>
-        <button className="sarchbar__button"></button>
+        <button className="sarchbar__button">
+          <img src=""></img>
+        </button>
       </div>
       <div className="searchpage-best-results">
+        <div className="searchpage__best__title"></div>
         <ul className="searchpage-best-lists">
           <li className="searchpage-best-list">
-            <NewListSection></NewListSection>
+            <Surpin></Surpin>
           </li>
         </ul>
       </div>
       <div className="searchpage-all-results">
         <div className="searchpage__all__title"></div>
         <div className="searchpage__all__lists">
-          <ul className="searchpage-all-results">
-            <li className="searchpage-all-result">
-              <div className="name"></div>
-              <div className="description"></div>
-              <div className="numbOfUrls"></div>
-              <div className="createdAt"></div>
-              <div className="modifiedAt"></div>
+          <ul className="searchpage-all-results__lists">
+            <li className="searchpage-all-result__list">
+              <SearchResult></SearchResult>
             </li>
           </ul>
         </div>
