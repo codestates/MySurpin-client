@@ -20,5 +20,4 @@ const SignPage = () => {
     </div>
   );
 };
-
 export default SignPage;

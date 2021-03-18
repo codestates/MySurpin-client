@@ -370,6 +370,7 @@ li {
     }
   }
 }
+
 // Component - SignUp
 .signUp {
   .signup__formOff {
@@ -443,6 +444,7 @@ li {
     }
   }
 }
+
 // Page - EditUserInfo
 .editUserInfo {
   height: 100vh;
@@ -455,53 +457,66 @@ li {
     width: 50%;
   }
 }
-// Page - SurpinModal
-.surpinModal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  .surpinModal__sidebar {
-    border: 1px solid #eee;
-    width: 24vw;
-    height: 90vh;
-    .sidebar__listinfo__thumbnail {
-      .sidebar__listinfo__title {
-      }
-      .sidebar__listinfo__writer {
-      }
-    }
-  }
-  .surpinModal__main {
-    border: 1px solid #eee;
-    width: 60vw;
-    height: 90vh;
-  }
-}
-// Component - SignIn
-.signIn {
-  display: flex;
-  flex-direction: column;
-  .signin-formOn {
-    color: #fff;
-  }
-  .signin-formOff {
+
+// Component - Changeinfo
+.changeInfo {
+  .changeinfo__formOn {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    .signin__title {
+    .changeinfo__title {
       font-weight: 700;
-      color: #fff;
       font-size: 36px;
+      color: $blue;
+      .changeinfo__title__text {
+        color: #fff;
+      }
     }
-    .signin__ment {
-      font-size: 14px;
+    .changeinfo__form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 4px;
+      }
+    }
+    .changeinfo__btn {
       color: rgba(255, 255, 255, 0.8);
-      padding: 48px;
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
     }
-    .signin__btn {
+  }
+  .changeinfo__formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .changeinfo__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: #fff;
+    }
+    .changeinfo__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .changeinfo__btn {
       color: rgba(255, 255, 255, 0.8);
       width: 240px;
       height: 48px;
@@ -516,26 +531,53 @@ li {
     }
   }
 }
-// Component - SignUp
-.signUp {
-  .signup__formOff {
-  }
-  .signup__formOn {
+
+// Component - Withdrawal
+.withdrawal {
+  .withdrawal_formOff {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    .signup__title {
+    .withdrawal__title {
       font-weight: 700;
       font-size: 36px;
       color: $blue;
     }
-    .signup__ment {
+    .withdrawal__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
     }
-    .signup-form {
+    .withdrawal__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .withdrawal_formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .withdrawal__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+      margin-bottom: 36px;
+    }
+    .withdrawal__img {
+    }
+    .withdrawal-form {
       display: flex;
       flex-direction: column;
       margin-bottom: 36px;
@@ -547,7 +589,7 @@ li {
         margin: 4px;
       }
     }
-    .signup__btn {
+    .withdrawl__btn {
       color: $blue;
       width: 240px;
       height: 48px;

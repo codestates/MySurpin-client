@@ -4,6 +4,8 @@ import MainPage from "./pages/MainPage";
 import SearchPage from "./pages/SearchPage";
 import SignPage from "./pages/SignPage";
 import EditUserInfo from "./pages/EditUserInfo";
+import SurpinModal from "./pages/SurpinModal";
+
 function App() {
   return (
     <Router>
@@ -19,6 +21,9 @@ function App() {
         </Route>
         <Route path="/edituserinfo">
           <EditUserInfo />
+        </Route>
+        <Route path="/surpinmodal">
+          <SurpinModal />
         </Route>
       </Switch>
     </Router>

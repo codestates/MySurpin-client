@@ -16,24 +16,26 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
         <div className="signin-formOn">
           <div className="signin__title">Sign In Surpin</div>
           <button className="google-login__logo">
-            <img src="../../public/images/logo-google.png" alt=""></img>
+            G<img src="../../public/images/logo-google.png" alt=""></img>
           </button>
-          <div className="signin__ment"></div>
+          <div className="signin__ment">or use email account</div>
           <div className="signin-form">
             <input
               className="signin-form__email__input"
+              placeholder="Email"
               value={email}
               required
               onChange={onChangeEmail}
             ></input>
             <input
               className="signin-form__password__input"
+              placeholder="Password"
               value={password}
               required
               onChange={onChangePassword}
             ></input>
           </div>
-          <button className="signin__btn">로그인 완료!</button>
+          <button className="signin__btn">sign in</button>
         </div>
       ) : (
         <div className="signin-formOff">
@@ -43,7 +45,7 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
             information
           </div>
           <button className="signin__btn" onClick={() => handleSignIn()}>
-            로그인 페이지로 이동
+            sign in
           </button>
         </div>
       )}

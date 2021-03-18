@@ -35,10 +35,9 @@ const SignUp = ({ isSignInOn, handleSignIn }) => {
       {isSignInOn ? (
         <div className="signup__formOff">
           <div className="signup__title">Sign Up Surpin</div>
-          <div className="signup__ment"></div>
-
+          <div className="signup__ment">sign up and make your own surpin!</div>
           <button className="signup__btn" onClick={() => handleSignIn()}>
-            회원가입 페이지로 이동
+            signup
           </button>
         </div>
       ) : (
@@ -76,7 +75,7 @@ const SignUp = ({ isSignInOn, handleSignIn }) => {
             ></input>
           </div>
           <button className="signup__btn" onClick={passwordErrorMsg}>
-            회원가입 완료!
+            sign up
           </button>
         </div>
       )}
