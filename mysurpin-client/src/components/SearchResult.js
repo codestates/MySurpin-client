@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const SearchResult = (props) => {
-  const {name, description, urlsCount, createdAt, modifiedAt} = props;
+  const { name, description, urlsCount, createdAt, modifiedAt } = props;
 
   return (
     <div className="searchResult">
