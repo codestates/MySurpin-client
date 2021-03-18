@@ -3,8 +3,8 @@ import React, { useState, useCallback } from "react";
 const SignUp = ({ isSignInOn, handleSignIn }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
+  const [password, setPassword] = useState("");
   const [passwordcheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const onChangePasswordCheck = useCallback(
@@ -21,15 +21,21 @@ const SignUp = ({ isSignInOn, handleSignIn }) => {
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
+
   const onChangePassword = (e) => {
     setPassword(e.target.value);
   };
 
-  const passwordErrorMsg = () => {
+  const errorMsg = (e) => {
     if (passwordError === true) {
       alert("패스워드가 일치하지 않습니다.");
     }
+    const emailValue = e.target.value.split("@");
+    if (emailValue.length !== 2) {
+      alert("이메일 형식을 맞춰주세요");
+    }
   };
+
   return (
     <div className="signUp">
       {isSignInOn ? (
@@ -74,7 +80,7 @@ const SignUp = ({ isSignInOn, handleSignIn }) => {
               onChange={onChangePasswordCheck}
             ></input>
           </div>
-          <button className="signup__btn" onClick={passwordErrorMsg}>
+          <button className="signup__btn" onClick={errorMsg}>
             sign up
           </button>
         </div>
