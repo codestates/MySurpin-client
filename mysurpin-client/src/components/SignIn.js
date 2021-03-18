@@ -1,7 +1,19 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { increment } from "../actions";
+import store from "../store/store";
+
 const SignIn = ({ isSignInOn, handleSignIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const counter = useSelector((state) => state.tagsReducer);
+  const dispatch = useDispatch();
+
+  const practice = () => {
+    dispatch(increment());
+    console.log(store.getState());
+  };
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -44,7 +56,10 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
             To keep connected with us, please login with your personal
             information
           </div>
-          <button className="signin__btn" onClick={() => handleSignIn()}>
+          {/* <button className="signin__btn" onClick={() => handleSignIn()}>
+            sign in
+          </button> */}
+          <button className="signin__btn" onClick={() => practice()}>
             sign in
           </button>
         </div>

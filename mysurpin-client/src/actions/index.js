@@ -1,3 +1,46 @@
+import axios from "axios";
+
+export const INCREMENT = "INCREMENT";
+export const increment = () => {
+  return {
+    type: INCREMENT,
+  };
+};
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // action types
 // user
 export const SIGN_IN = "SIGN_IN";
@@ -10,18 +53,18 @@ export const SHOW_USER_LISTS = "SHOW_USER_LISTS";
 export const SHOW_SURPIN = "SHOW_SURPIN";
 // tag
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
-
 // actions creator functions
+
 // user action
 
-export const signIn = (token, email, nickname) => {
+export const signIn = async (email, password) => {
+  const data = await axios.get("https://api.mysurpin.com/user/userinfo", {
+    email: email,
+    password: password,
+  });
   return {
     type: SIGN_IN,
-    payload: {
-      token,
-      email,
-      nickname,
-    },
+    token: data.accessToken,
   };
 };
 
@@ -63,11 +106,12 @@ export const getBestTags = () => {
   };
 };
 
-export const showUserLists = (token, nickname, tag, pageNumber) => {
+export const showUserLists = (token, email, nickname, tag, pageNumber) => {
   return {
     type: SHOW_USER_LISTS,
     payload: {
       token,
+      email,
       nickname,
       tag,
       pageNumber,
