@@ -1,15 +1,21 @@
-import React from "react";
-import SignIn from "../components/SingIn";
-import SignUp from "../components/SingUp";
+import React, { useState } from "react";
+import SignIn from "../components/SignIn";
+import SignUp from "../components/SignUp";
 
 const SignPage = () => {
+  const [signIn, setSignIn] = useState(false);
+
+  const handleSignIn = () => {
+    setSignIn(!signIn);
+  };
+
   return (
     <div className="signPage">
       <section className="signin-section">
-        <SignIn></SignIn>
+        <SignIn isSignInOn={signIn} handleSignIn={handleSignIn}></SignIn>
       </section>
       <section className="signup-section">
-        <SignUp></SignUp>
+        <SignUp isSignInOn={signIn} handleSignIn={handleSignIn}></SignUp>
       </section>
     </div>
   );
