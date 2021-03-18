@@ -2,7 +2,6 @@ import React from "react";
 
 const Navbar = (props) => {
   const { isFirstPage, isLogin } = props;
-
   return (
     <div className="navbar">
       <img className="navbar__logo-img" src="" alt="" />
@@ -12,7 +11,11 @@ const Navbar = (props) => {
         <div className="navbar__searchbar">
           <input className="navbar__searchbar__input"></input>
           <button className="navbar__searchbar__btn">
-            <img className="navbar__searchbar__btn-img" src="" alt="" />
+            <img
+              className="navbar__searchbar__btn-img"
+              src="../public/images/loupe.png"
+              alt=""
+            />
           </button>
         </div>
       )}

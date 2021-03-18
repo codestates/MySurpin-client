@@ -9,6 +9,7 @@ const MainPage = () => {
   return (
     <div className="mainPage">
       <Navbar></Navbar>
+      <ScrollBtn></ScrollBtn>
       <ul className="mainpage__sections">
         <li>
           <MainSection></MainSection>
@@ -20,7 +21,6 @@ const MainPage = () => {
           <NewListsSection></NewListsSection>
         </li>
       </ul>
-      <ScrollBtn></ScrollBtn>
     </div>
   );
 };

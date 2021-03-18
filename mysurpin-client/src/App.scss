@@ -1,39 +1,69 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  // border: 1px #555 solid;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+button {
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+// nav bar
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  background-color: #fff;
+  width: 100vw;
+  height: 8%;
+  min-height: 60px;
+
+  .navbar__searchbar {
+    border: #555 1px solid;
+  }
+
+  .navbar__btn {
+    margin-right: 8%;
+    width: 150px;
+    height: 36px;
+    border-radius: 18px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.scroll-buttons {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+  position: fixed;
+  z-index: 100;
+  left: 95%;
+  top: 50%;
+  button {
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 6px;
+    margin: 3px;
   }
 }
 
+// mainpage sections
+.mainpage__sections {
+  display: flex;
+  flex-direction: column;
+
+  .mainSection {
+    height: 100vh;
+    background-color: #eee;
+  }
+  .besttagsSection {
+    height: 100vh;
+    background-color: #555;
+  }
+  .newListsSection {
+    height: 100vh;
+    background-color: #eee;
+  }
+}
