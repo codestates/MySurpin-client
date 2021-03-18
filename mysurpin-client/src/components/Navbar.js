@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const Navbar = (props) => {
-  const {isFirstPage, isLogin} = props;
+  const { isFirstPage, isLogin } = props;
 
   return (
     <div className="navbar">
-      <img className="navbar__logo-img" src="" alt=""/>
+      <img className="navbar__logo-img" src="" alt="" />
       {isFirstPage ? (
         <div className="navbar__searchbar hidden"></div>
       ) : (
