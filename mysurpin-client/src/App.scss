@@ -20,11 +20,10 @@ li {
 }
 // Component - Navbar
 .navbar {
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: fixed;
-  // background-color: #fff;
   width: 95vw;
   height: 10%;
   min-height: 60px;
@@ -72,6 +71,7 @@ li {
     margin: 3px;
   }
 }
+
 // Component - MainpageSections
 .mainpage__sections {
   display: flex;
@@ -243,12 +243,7 @@ li {
     background-color: $surpin;
   }
 }
-// Component - Tag
-.tag {
-  border: 1px solid #555;
-  width: 30px;
-  height: 12px;
-}
+
 // Component - SearchResult
 .searchResult {
   width: 90%;
@@ -604,26 +599,247 @@ li {
     }
   }
 }
+
+// Page - SurpinLists
+.surpinLists {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  font-size: 30px;
+  font-weight: 700;
+  .surpinlists__tags {
+    margin: 16px 0;
+    font-size: 20px;
+    .surpinlists__tags__tags {
+      margin-top: 20px;
+      display: flex;
+      .surpinlist__tags__tag .tag {
+        font-weight: 400;
+        margin-right: 6px;
+        &:hover {
+          border: 1px solid rgba(0, 0, 0, 0);
+          background-color: $blue;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .surpinlists__lists {
+    margin-top: 36px;
+    .surpinlists__lists__title {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .surpinlists__lists__lists {
+      display: flex;
+      flex-wrap: wrap;
+      .surpin {
+        margin-bottom: 16px;
+      }
+    }
+  }
+  .surpinlists__btn {
+  }
+}
+
 // Page - SurpinModal
 .surpinModal {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  .surpinModal__back-btn {
+    font-size: 36px;
+    align-self: flex-start;
+    margin: 48px 24px 0 0;
+    &:hover {
+      color: $blue;
+    }
+  }
   .surpinModal__sidebar {
+    display: flex;
+    flex-direction: column;
     border: 1px solid #eee;
-    width: 24vw;
+    width: 16vw;
     height: 90vh;
+    padding: 0 24px;
     .sidebar__listinfo__thumbnail {
+      display: flex;
+      border: 1px solid #eee;
+      margin-top: 36px;
+      height: 35%;
       .sidebar__listinfo__title {
+        width: 70%;
+        position: relative;
+        top: 18%;
+        left: 18%;
+        font-size: 24px;
       }
       .sidebar__listinfo__writer {
+        z-index: 100;
+        cursor: pointer;
+        align-self: flex-end;
+        justify-self: flex-end;
+        margin-bottom: 36px;
+        margin-right: 12px;
+        font-size: 14px;
+      }
+    }
+    .sidebar__thumbnail__input {
+      margin: 24px 0px;
+    }
+    .sidebar__description {
+      // border: 1px solid #eee;
+      height: 15%;
+      margin-bottom: 16px;
+      .description__title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .description__text {
+        font-size: 13px;
+        font-weight: 400;
+      }
+    }
+    .sidebar__taglists {
+      // border: 1px solid #eee;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      .taglists__form__text {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .taglists__form {
+        justify-self: center;
+        margin-bottom: 24px;
+        input {
+          margin-left: 12px;
+          padding: 12px;
+          border-bottom: 1px solid #eee;
+        }
+        button {
+          border: 1px solid #eee;
+          padding: 5px 24px;
+          border-radius: 16px;
+          font-weight: 800;
+          &:hover {
+            background-color: $surpin;
+          }
+        }
+      }
+      .taglists__show {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          margin-bottom: 12px;
+        }
       }
     }
   }
   .surpinModal__main {
     border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
     width: 60vw;
     height: 90vh;
+    .surpinModal__header {
+      height: 8%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      button {
+        margin-right: 36px;
+        align-self: flex-end;
+      }
+    }
+    .surpinModal__show-contents {
+      border: 1px solid #eee;
+      height: 65%;
+      overflow-y: scroll;
+    }
+    .surpinModal__input-contents {
+      display: flex;
+      justify-content: center;
+      height: 8%;
+      margin-top: 12px;
+      input {
+        width: 240px;
+        height: 48px;
+        padding: 0 24px;
+        border: 1px solid #eee;
+        margin-right: 8px;
+        &::placeholder {
+          color: #eee;
+        }
+      }
+      button {
+        width: 48px;
+        height: 48px;
+        background-color: $blue;
+        color: #fff;
+      }
+    }
+    .surpinModal__revise-btn__wrapper {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      height: 18%;
+      .surpinModal__revise-btn {
+        align-self: flex-end;
+        margin-right: 24px;
+        border: 1px solid $blue;
+        color: $blue;
+        width: 180px;
+        height: 48px;
+        border-radius: 24px;
+        transition: all 0.5s ease;
+        &:hover {
+          color: #fff;
+          background-color: $blue;
+        }
+      }
+    }
   }
+}
+
+// Component - UrlList
+.urlList {
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: 14px;
+  .urlList__checkbox {
+    width: 10%;
+  }
+  .urlList__urlName {
+    font-weight: 600;
+    width: 40%;
+  }
+  .urlList__url {
+    width: 40%;
+  }
+  .urlList__delete-btn {
+    color: #eee;
+    width: 10%;
+    z-index: 100;
+    &:hover {
+      color: #40a8c4;
+    }
+  }
+  &:hover {
+    background-color: $surpin;
+  }
+}
+
+// Component - Tag
+.tag {
+  margin: 2px 4px 2px 0px;
+  font-size: 14px;
+  border: 1px solid #555;
+  padding: 3px 6px;
+  border-radius: 16px;
 }

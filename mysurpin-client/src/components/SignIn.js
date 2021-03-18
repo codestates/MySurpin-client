@@ -1,25 +1,20 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { increment } from "../actions";
-import store from "../store/store";
+import { useHistory } from "react-router-dom";
 
-const SignIn = ({ isSignInOn, handleSignIn }) => {
+const SignIn = ({ isSignInOn, handlePageState }) => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const counter = useSelector((state) => state.tagsReducer);
-  const dispatch = useDispatch();
-
-  const practice = () => {
-    dispatch(increment());
-    console.log(store.getState());
-  };
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
   const onChangePassword = (e) => {
     setPassword(e.target.value);
+  };
+
+  const handleSignIn = () => {
+    history.push("/surpinlists");
   };
 
   return (
@@ -47,7 +42,9 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
               onChange={onChangePassword}
             ></input>
           </div>
-          <button className="signin__btn">sign in</button>
+          <button className="signin__btn" onClick={handleSignIn}>
+            sign in
+          </button>
         </div>
       ) : (
         <div className="signin-formOff">
@@ -56,10 +53,7 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
             To keep connected with us, please login with your personal
             information
           </div>
-          {/* <button className="signin__btn" onClick={() => handleSignIn()}>
-            sign in
-          </button> */}
-          <button className="signin__btn" onClick={() => practice()}>
+          <button className="signin__btn" onClick={() => handlePageState()}>
             sign in
           </button>
         </div>

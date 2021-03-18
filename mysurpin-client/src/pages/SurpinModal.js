@@ -1,32 +1,62 @@
 import React from "react";
 import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
+import { useHistory } from "react-router-dom";
 
 const SurpinModal = () => {
+  const history = useHistory();
   return (
     <div className="surpinModal">
+      <button
+        className="surpinModal__back-btn"
+        onClick={() => history.goBack()}
+      >
+        {"<"}
+      </button>
       <section className="surpinModal__sidebar">
         <div className="sidebar__listinfo__thumbnail">
-          <div className="sidebar__listinfo__title">추천하는 디자인 블로그</div>
-          <div className="sidebar__listinfo__writer">{"jooing"}</div>
+          <div className="sidebar__listinfo__title">디자인 사이트 추천</div>
+          <div
+            className="sidebar__listinfo__writer"
+            onClick={() => history.push("/surpinlists")}
+          >
+            {"jooing"}
+          </div>
         </div>
         <input type="file" className="sidebar__thumbnail__input" />
         <div className="sidebar__description">
-          <div className="sidebar__description__title">설명</div>
-          <div className="sidebar__description__text">
-            좋은 글 추천드립니다~^^
-          </div>
+          <div className="description__title">설명</div>
+          <div className="description__text">좋은 글 추천드립니다~^^</div>
           {/* <textarea className="sidebar__description__text"></textarea> edit mode */}
         </div>
         <div className="sidebar__taglists">
-          <div className="sidebar__taglists__form">
-            <div className="taglists__form__text">태그</div>
-            <input type="text" className="taglists__form__input" />
-            <button className="taglists__form__btn">추가</button>
+          <div className="taglists__form__text">태그</div>
+          <div className="taglists__form">
+            <input
+              type="text"
+              className="taglists__form__input"
+              placeholder="태그 추가"
+            />
+            <button className="taglists__form__btn">+</button>
           </div>
-          <ul className="sidebar__taglists__show">
+          <ul className="taglists__show">
             <li className="taglists__show__tag">
-              <Tag></Tag>
+              <Tag tag={"design"}></Tag>
+            </li>
+            <li className="taglists__show__tag">
+              <Tag tag={"good"}></Tag>
+            </li>
+            <li className="taglists__show__tag">
+              <Tag tag={"mooyaho"}></Tag>
+            </li>
+            <li className="taglists__show__tag">
+              <Tag tag={"tag"}></Tag>
+            </li>
+            <li className="taglists__show__tag">
+              <Tag tag={"tags"}></Tag>
+            </li>
+            <li className="taglists__show__tag">
+              <Tag tag={"list"}></Tag>
             </li>
           </ul>
         </div>
@@ -45,18 +75,52 @@ const SurpinModal = () => {
             <div className="show-contents__url"></div>
           </div>
           <ul className="surpinModal__url-lists">
-            <li>
-              <UrlList></UrlList>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
+            </li>
+            <li className="surpinModal__url-list">
+              <UrlList urlName={"블로그"} url={"https://jooing.com"}></UrlList>
             </li>
           </ul>
         </div>
         <div className="surpinModal__input-contents">
-          <input type="text" className="input-content__urlname" />
-          <input type="text" className="input-content__url" />
-          <button className="input-content__btn"></button>
+          <input
+            type="text"
+            className="input-content__urlname"
+            placeholder="name"
+          />
+          <input type="text" className="input-content__url" placeholder="url" />
+          <button className="input-content__btn">+</button>
         </div>
         <div className="surpinModal__revise-btn__wrapper">
-          <button className="surpinModal__revise-btn"></button>
+          <button className="surpinModal__revise-btn">revise</button>
         </div>
       </section>
     </div>
