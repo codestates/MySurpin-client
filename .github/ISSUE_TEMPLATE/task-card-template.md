@@ -1,7 +1,7 @@
 ---
 name: Task Card Template
 about: Describe this issue template's purpose here.
-title: "[Client/Server] Type/Detail"
+title: "[Client] Type/Detail"
 labels: ''
 assignees: ''
 
@@ -10,9 +10,9 @@ assignees: ''
 Detail
 
 ### TODO
-1. [ ] 세부사항1
-2. [ ] 세부사항2
-3. [ ] 세부사항3
+1. [ ] 
+2. [ ] 
+3. [ ] 
 
 ### Type
 - Type: `create`, `update`, `delete`, `feature`, `refactoring`,
