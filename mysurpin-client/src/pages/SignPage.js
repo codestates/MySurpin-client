@@ -5,17 +5,17 @@ import SignUp from "../components/SignUp";
 const SignPage = () => {
   const [signIn, setSignIn] = useState(false);
 
-  const handleSignIn = () => {
+  const handlePageState = () => {
     setSignIn(!signIn);
   };
 
   return (
     <div className="signPage">
       <section className="signin-section">
-        <SignIn isSignInOn={signIn} handleSignIn={handleSignIn}></SignIn>
+        <SignIn isSignInOn={signIn} handlePageState={handlePageState}></SignIn>
       </section>
       <section className="signup-section">
-        <SignUp isSignInOn={signIn} handleSignIn={handleSignIn}></SignUp>
+        <SignUp isSignInOn={signIn} handlePageState={handlePageState}></SignUp>
       </section>
     </div>
   );

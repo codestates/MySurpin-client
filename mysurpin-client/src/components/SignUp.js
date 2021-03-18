@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 
-const SignUp = ({ isSignInOn, handleSignIn }) => {
+const SignUp = ({ isSignInOn, handlePageState }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ const SignUp = ({ isSignInOn, handleSignIn }) => {
         <div className="signup__formOff">
           <div className="signup__title">Sign Up Surpin</div>
           <div className="signup__ment">sign up and make your own surpin!</div>
-          <button className="signup__btn" onClick={() => handleSignIn()}>
+          <button className="signup__btn" onClick={() => handlePageState()}>
             signup
           </button>
         </div>

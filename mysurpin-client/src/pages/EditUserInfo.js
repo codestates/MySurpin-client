@@ -5,7 +5,7 @@ import Withdrawal from "../components/Withdrawal";
 const EditUserInfo = () => {
   const [editState, setEditState] = useState(true);
 
-  const handleEditUserInfo = () => {
+  const handlePageState = () => {
     setEditState(!editState);
   };
 
@@ -14,13 +14,13 @@ const EditUserInfo = () => {
       <section className="changeinfo-section">
         <ChangeInfo
           isChangeInfoFormOn={editState}
-          handleEditUserInfo={handleEditUserInfo}
+          handleEditUserInfo={handlePageState}
         ></ChangeInfo>
       </section>
       <section className="widthdrawal-section">
         <Withdrawal
           isChangeInfoFormOn={editState}
-          handleEditUserInfo={handleEditUserInfo}
+          handleEditUserInfo={handlePageState}
         ></Withdrawal>
       </section>
     </div>
