@@ -1,5 +1,6 @@
 $surpin: #40a8c438;
-
+$aqua: #40a8c4;
+$blue: #40a8c4;
 * {
   margin: 0;
   padding: 0;
@@ -9,14 +10,14 @@ $surpin: #40a8c438;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #555;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0);
   // border: 1px #555 solid;
 }
 button,
 li {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
 }
-
 // Component - Navbar
 .navbar {
   display: flex;
@@ -24,16 +25,14 @@ li {
   justify-content: space-between;
   position: fixed;
   // background-color: #fff;
-  width: 100vw;
+  width: 95vw;
   height: 10%;
   min-height: 60px;
-
   .navbar__logo-img {
     width: 20px;
     height: 20px;
     margin-left: 36px;
   }
-
   .navbar__searchbar {
     border: rgba(255, 255, 255, 0.7) 1px solid;
     width: 300px;
@@ -49,7 +48,6 @@ li {
       height: 20px;
     }
   }
-
   .navbar__btn {
     background-color: rgba(255, 255, 255, 0.7);
     font-size: 12px;
@@ -59,7 +57,6 @@ li {
     border-radius: 14px;
   }
 }
-
 .scroll-buttons {
   display: flex;
   flex-direction: column;
@@ -67,7 +64,6 @@ li {
   z-index: 100;
   left: 95%;
   top: 50%;
-
   button {
     width: 12px;
     height: 12px;
@@ -76,12 +72,13 @@ li {
     margin: 3px;
   }
 }
-
 // Component - MainpageSections
 .mainpage__sections {
   display: flex;
   flex-direction: column;
-
+  li {
+    cursor: auto;
+  }
   .mainSection {
     display: flex;
     flex-direction: column;
@@ -89,8 +86,8 @@ li {
     width: 100%;
     height: 100vh;
     background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
+    background-size: cover;
     box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
-
     .main__title {
       margin-left: 8%;
       width: 50%;
@@ -107,7 +104,6 @@ li {
       border-radius: 18px;
       margin-top: 20px;
       display: flex;
-
       input {
         background-color: rgba(0, 0, 0, 0);
         margin-left: 16px;
@@ -121,36 +117,37 @@ li {
   }
   .besttagsSection {
     height: 100vh;
-    background-color: #555;
     display: flex;
     .besttags__title {
-      margin-left: 48px;
-      margin-top: 48px;
-      font-size: 36px;
-      color: #fff;
-    }
-  }
-
-  .newListsSection {
-    height: 100vh;
-    background-color: #eee;
-    display: flex;
-    .newlists__title {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
       color: #555;
     }
   }
+  .newListsSection {
+    height: 100vh;
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    .newlists__title {
+      margin-left: 48px;
+      margin-top: 48px;
+      font-size: 36px;
+      color: #555;
+    }
+    .newlists__lists {
+      padding: 48px;
+    }
+  }
 }
-
 // Page - SearchPage
 .searchPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  border: 1px solid #555;
+  // border: 1px solid #555;
   .searchbar {
     margin-top: 10%;
     border: 1px solid #555;
@@ -164,7 +161,7 @@ li {
     }
   }
   .searchpage-best-results {
-    border: 1px solid #eee;
+    // border: 1px solid #eee;
     width: 85%;
     margin-top: 36px;
     .searchpage__best__title {
@@ -177,7 +174,7 @@ li {
     }
   }
   .searchpage-all-results {
-    border: 1px solid #eee;
+    // border: 1px solid #eee;
     width: 85%;
     margin-top: 36px;
     .searchpage__all__title {
@@ -199,7 +196,6 @@ li {
     }
   }
 }
-
 // Component - Surpin
 .surpin {
   border: 1px solid #555;
@@ -247,14 +243,12 @@ li {
     background-color: $surpin;
   }
 }
-
 // Component - Tag
 .tag {
   border: 1px solid #555;
   width: 30px;
   height: 12px;
 }
-
 // Component - SearchResult
 .searchResult {
   width: 90%;
@@ -284,18 +278,124 @@ li {
     width: 200px;
   }
 }
-
 // Page - SignPage
 .signPage {
   height: 100vh;
   display: flex;
   .signin-section {
-    background-color: $surpin;
+    background-color: $blue;
     width: 35%;
     height: 100vh;
   }
   .signup-section {
     width: 65%;
     height: 100vh;
+  }
+}
+// Component - SignIn
+.signIn {
+  display: flex;
+  flex-direction: column;
+  .signin-formOn {
+    color: #fff;
+  }
+  .signin-formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+// Component - SignUp
+.signUp {
+  .signup__formOff {
+  }
+  .signup__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+// Page - SurpinModal
+.surpinModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .surpinModal__sidebar {
+    border: 1px solid #eee;
+    width: 24vw;
+    height: 90vh;
+    .sidebar__listinfo__thumbnail {
+      .sidebar__listinfo__title {
+      }
+      .sidebar__listinfo__writer {
+      }
+    }
+  }
+  .surpinModal__main {
+    border: 1px solid #eee;
+    width: 60vw;
+    height: 90vh;
   }
 }
