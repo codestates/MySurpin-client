@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
-
 const SearchPage = () => {
   return (
     <>
@@ -69,5 +68,4 @@ const SearchPage = () => {
     </>
   );
 };
-
 export default SearchPage;
