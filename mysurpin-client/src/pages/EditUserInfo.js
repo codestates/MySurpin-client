@@ -1,6 +1,6 @@
-import React from 'react'
-import ChangeInfo from '../components/ChangeInfo'
-import Withdrawal from '../components/Withdrawal'
+import React from "react";
+import ChangeInfo from "../components/ChangeInfo";
+import Withdrawal from "../components/Withdrawal";
 
 const EditUserInfo = () => {
   return (
@@ -12,7 +12,7 @@ const EditUserInfo = () => {
         <Withdrawal></Withdrawal>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default EditUserInfo
+export default EditUserInfo;

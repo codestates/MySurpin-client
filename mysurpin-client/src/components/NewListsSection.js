@@ -1,5 +1,5 @@
-import React from 'react'
-import Surpin from '../components/Surpin'
+import React from "react";
+import Surpin from "../components/Surpin";
 
 const NewListsSection = () => {
   return (
@@ -11,7 +11,7 @@ const NewListsSection = () => {
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default NewListsSection
+export default NewListsSection;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const MainSection = () => {
   return (
@@ -13,7 +13,7 @@ const MainSection = () => {
         <button className="main__search-bar__btn"></button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MainSection
+export default MainSection;

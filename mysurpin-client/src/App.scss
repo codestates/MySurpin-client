@@ -1,59 +1,69 @@
 * {
-  box-sizing: border-box;
-  // border: 1px solid #555;
-  margin:0;
+  margin: 0;
   padding: 0;
   border: none;
   outline: none;
+  // border: 1px #555 solid;
 }
 
-// nav-bar
+button {
+  cursor: pointer;
+}
+
+// nav bar
 .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: fixed;
+  background-color: #fff;
   width: 100vw;
   height: 8%;
-  min-height: 50px;
-  z-index: 100;
-  display: flex;
-  justify-content: space-around;
+  min-height: 60px;
 
-  .navbar__logo-img {
-    cursor: pointer;
-    width: 120px;
+  .navbar__searchbar {
+    border: #555 1px solid;
   }
-  button {
+
+  .navbar__btn {
+    margin-right: 8%;
     width: 150px;
-    height: 60%;
+    height: 36px;
+    border-radius: 18px;
   }
 }
 
-// main-sections
+.scroll-buttons {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 100;
+  left: 95%;
+  top: 50%;
+  button {
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 6px;
+    margin: 3px;
+  }
+}
+
+// mainpage sections
 .mainpage__sections {
-  position: absolute;
   display: flex;
   flex-direction: column;
 
   .mainSection {
-    width: 100vw;
     height: 100vh;
-    background-color: rgb(241, 205, 192);
+    background-color: #eee;
   }
-
   .besttagsSection {
-    width: 100vw;
     height: 100vh;
-    background-color: antiquewhite;
+    background-color: #555;
   }
-
   .newListsSection {
-    width: 100vw;
     height: 100vh;
-    background-color: coral;
+    background-color: #eee;
   }
-
-}
-
-
-.hidden {
-  display: none;
 }
