@@ -19,18 +19,45 @@ const SearchPage = () => {
             <li className="searchpage-best-list">
               <Surpin></Surpin>
             </li>
+            <li className="searchpage-best-list">
+              <Surpin></Surpin>
+            </li>
+            <li className="searchpage-best-list">
+              <Surpin></Surpin>
+            </li>
+            <li className="searchpage-best-list">
+              <Surpin></Surpin>
+            </li>
+            <li className="searchpage-best-list">
+              <Surpin></Surpin>
+            </li>
+            <li className="searchpage-best-list">
+              <Surpin></Surpin>
+            </li>
           </ul>
         </div>
         <div className="searchpage-all-results">
           <div className="searchpage__all__title">All Surpins</div>
           <div className="searchpage__all__lists">
             <div className="searchpage__all__lists__topbar">
-              <div className="topbar__name"></div>
-              <div className="topbar__description"></div>
-              <div className="topbar__numbOfUrls"></div>
-              <div className="topbar__createdAt"></div>
+              <div className="topbar__name">Surpin 이름</div>
+              <div className="topbar__description">요약</div>
+              <div className="topbar__numbOfUrls">URL 개수</div>
+              <div className="topbar__createdAt">생성일</div>
             </div>
             <ul className="searchpage-all-results__lists">
+              <li className="searchpage-all-result__list">
+                <SearchResult></SearchResult>
+              </li>
+              <li className="searchpage-all-result__list">
+                <SearchResult></SearchResult>
+              </li>
+              <li className="searchpage-all-result__list">
+                <SearchResult></SearchResult>
+              </li>
+              <li className="searchpage-all-result__list">
+                <SearchResult></SearchResult>
+              </li>
               <li className="searchpage-all-result__list">
                 <SearchResult></SearchResult>
               </li>
