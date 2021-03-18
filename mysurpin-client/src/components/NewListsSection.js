@@ -4,7 +4,7 @@ import Surpin from "../components/Surpin";
 const NewListsSection = () => {
   return (
     <div className="newListsSection">
-      <div className="newlists__title"></div>
+      <div className="newlists__title">New Surpins</div>
       <ul className="newlists__lists">
         <li className="newlists__list">
           <Surpin></Surpin>
