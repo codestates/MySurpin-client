@@ -5,26 +5,18 @@ import SearchPage from "./pages/SearchPage";
 import SignPage from "./pages/SignPage";
 import EditUserInfo from "./pages/EditUserInfo";
 import SurpinModal from "./pages/SurpinModal";
+import SurpinLists from "./pages/SurpinLists";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <MainPage />
-        </Route>
-        <Route path="/searchpage">
-          <SearchPage />
-        </Route>
-        <Route path="/signpage">
-          <SignPage />
-        </Route>
-        <Route path="/edituserinfo">
-          <EditUserInfo />
-        </Route>
-        <Route path="/surpinmodal">
-          <SurpinModal />
-        </Route>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/searchpage" component={SearchPage} />
+        <Route path="/signpage" component={SignPage} />
+        <Route path="/edituserinfo" component={EditUserInfo} />
+        <Route path="/surpinmodal" component={SurpinModal} />
+        <Route path="/surpinlists" component={SurpinLists} />
       </Switch>
     </Router>
   );
