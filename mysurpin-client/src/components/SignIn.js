@@ -1,6 +1,15 @@
-import React from "react";
-
+import React, { useState } from "react";
 const SignIn = ({ isSignInOn, handleSignIn }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <div className="signIn">
       {isSignInOn ? (
@@ -14,10 +23,16 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
             <input
               className="signin-form__email__input"
               placeholder="Email"
+              value={email}
+              required
+              onChange={onChangeEmail}
             ></input>
             <input
               className="signin-form__password__input"
               placeholder="Password"
+              value={password}
+              required
+              onChange={onChangePassword}
             ></input>
           </div>
           <button className="signin__btn">sign in</button>
@@ -37,5 +52,4 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
     </div>
   );
 };
-
 export default SignIn;

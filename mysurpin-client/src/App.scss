@@ -1,7 +1,6 @@
 $surpin: #40a8c438;
 $aqua: #40a8c4;
 $blue: #40a8c4;
-
 * {
   margin: 0;
   padding: 0;
@@ -29,13 +28,11 @@ li {
   width: 95vw;
   height: 10%;
   min-height: 60px;
-
   .navbar__logo-img {
     width: 20px;
     height: 20px;
     margin-left: 36px;
   }
-
   .navbar__searchbar {
     border: rgba(255, 255, 255, 0.7) 1px solid;
     width: 300px;
@@ -51,7 +48,6 @@ li {
       height: 20px;
     }
   }
-
   .navbar__btn {
     background-color: rgba(255, 255, 255, 0.7);
     font-size: 12px;
@@ -61,7 +57,6 @@ li {
     border-radius: 14px;
   }
 }
-
 .scroll-buttons {
   display: flex;
   flex-direction: column;
@@ -69,7 +64,6 @@ li {
   z-index: 100;
   left: 95%;
   top: 50%;
-
   button {
     width: 12px;
     height: 12px;
@@ -78,7 +72,6 @@ li {
     margin: 3px;
   }
 }
-
 // Component - MainpageSections
 .mainpage__sections {
   display: flex;
@@ -95,7 +88,6 @@ li {
     background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
     background-size: cover;
     box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
-
     .main__title {
       margin-left: 8%;
       width: 50%;
@@ -112,7 +104,6 @@ li {
       border-radius: 18px;
       margin-top: 20px;
       display: flex;
-
       input {
         background-color: rgba(0, 0, 0, 0);
         margin-left: 16px;
@@ -134,7 +125,6 @@ li {
       color: #555;
     }
   }
-
   .newListsSection {
     height: 100vh;
     background-color: #eee;
@@ -151,7 +141,6 @@ li {
     }
   }
 }
-
 // Page - SearchPage
 .searchPage {
   display: flex;
@@ -207,7 +196,6 @@ li {
     }
   }
 }
-
 // Component - Surpin
 .surpin {
   border: 1px solid #555;
@@ -255,14 +243,12 @@ li {
     background-color: $surpin;
   }
 }
-
 // Component - Tag
 .tag {
   border: 1px solid #555;
   width: 30px;
   height: 12px;
 }
-
 // Component - SearchResult
 .searchResult {
   width: 90%;
@@ -292,7 +278,6 @@ li {
     width: 200px;
   }
 }
-
 // Page - SignPage
 .signPage {
   height: 100vh;
@@ -305,7 +290,6 @@ li {
     width: 50%;
   }
 }
-
 // Component - SignIn
 .signIn {
   transition: all 1s ease;
@@ -620,7 +604,6 @@ li {
     }
   }
 }
-
 // Page - SurpinModal
 .surpinModal {
   display: flex;

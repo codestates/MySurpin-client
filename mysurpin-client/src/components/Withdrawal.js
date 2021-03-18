@@ -1,6 +1,6 @@
 import React from "react";
 
-const Withdrawal = ({ isChangeInfoFormOn }) => {
+const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   return (
     <div className="withdrawal">
       {isChangeInfoFormOn ? (
@@ -9,7 +9,12 @@ const Withdrawal = ({ isChangeInfoFormOn }) => {
           <div className="withdrawal__ment">
             If you really want to leave, click button below
           </div>
-          <button className="withdrawal__btn">withdrawal</button>
+          <button
+            className="withdrawal__btn"
+            onClick={() => handleEditUserInfo()}
+          >
+            withdrawal
+          </button>
         </div>
       ) : (
         <div className="withdrawal_formOn">

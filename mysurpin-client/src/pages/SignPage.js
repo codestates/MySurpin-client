@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
+
 const SignPage = () => {
   const [signIn, setSignIn] = useState(false);
+
   const handleSignIn = () => {
     setSignIn(!signIn);
   };
+
   return (
     <div className="signPage">
       <section className="signin-section">

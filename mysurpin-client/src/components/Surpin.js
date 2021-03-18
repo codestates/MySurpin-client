@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const Surpin = (props) => {
   const { tags } = props;
+
   return (
     <Link to="/surpinmodal">
       <div className="surpin">
