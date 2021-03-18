@@ -478,3 +478,110 @@ li {
     height: 90vh;
   }
 }
+// Component - SignIn
+.signIn {
+  display: flex;
+  flex-direction: column;
+  .signin-formOn {
+    color: #fff;
+  }
+  .signin-formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+// Component - SignUp
+.signUp {
+  .signup__formOff {
+  }
+  .signup__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+// Page - SurpinModal
+.surpinModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .surpinModal__sidebar {
+    border: 1px solid #eee;
+    width: 24vw;
+    height: 90vh;
+    .sidebar__listinfo__thumbnail {
+      .sidebar__listinfo__title {
+      }
+      .sidebar__listinfo__writer {
+      }
+    }
+  }
+  .surpinModal__main {
+    border: 1px solid #eee;
+    width: 60vw;
+    height: 90vh;
+  }
+}
