@@ -283,13 +283,199 @@ li {
   height: 100vh;
   display: flex;
   .signin-section {
+    width: 50%;
     background-color: $blue;
-    width: 35%;
-    height: 100vh;
   }
   .signup-section {
-    width: 65%;
+    width: 50%;
+  }
+}
+// Component - SignIn
+.signIn {
+  transition: all 1s ease;
+  .signin-formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .google-login__logo {
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 4px;
+      }
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+  .signin-formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+// Component - SignUp
+.signUp {
+  .signup__formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .signup__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+// Page - EditUserInfo
+.editUserInfo {
+  height: 100vh;
+  display: flex;
+  .changeinfo-section {
+    width: 50%;
+    background-color: $blue;
+  }
+  .widthdrawal-section {
+    width: 50%;
+  }
+}
+// Page - SurpinModal
+.surpinModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .surpinModal__sidebar {
+    border: 1px solid #eee;
+    width: 24vw;
+    height: 90vh;
+    .sidebar__listinfo__thumbnail {
+      .sidebar__listinfo__title {
+      }
+      .sidebar__listinfo__writer {
+      }
+    }
+  }
+  .surpinModal__main {
+    border: 1px solid #eee;
+    width: 60vw;
+    height: 90vh;
   }
 }
 // Component - SignIn

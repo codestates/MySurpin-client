@@ -1,5 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 const SignIn = ({ isSignInOn, handleSignIn }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <div className="signIn">
       {isSignInOn ? (
@@ -10,8 +20,18 @@ const SignIn = ({ isSignInOn, handleSignIn }) => {
           </button>
           <div className="signin__ment"></div>
           <div className="signin-form">
-            <input className="signin-form__email__input"></input>
-            <input className="signin-form__password__input"></input>
+            <input
+              className="signin-form__email__input"
+              value={email}
+              required
+              onChange={onChangeEmail}
+            ></input>
+            <input
+              className="signin-form__password__input"
+              value={password}
+              required
+              onChange={onChangePassword}
+            ></input>
           </div>
           <button className="signin__btn">로그인 완료!</button>
         </div>

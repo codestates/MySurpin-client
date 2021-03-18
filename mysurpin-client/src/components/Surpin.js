@@ -2,6 +2,7 @@ import React from "react";
 
 const Surpin = (props) => {
   const { tags } = props;
+
   return (
     <div className="surpin">
       <div className="surpin__content">
