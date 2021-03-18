@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+  // border: 1px solid #555;
+  margin:0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+// nav-bar
+.navbar {
+  position: fixed;
+  width: 100vw;
+  height: 8%;
+  min-height: 50px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-around;
+
+  .navbar__logo-img {
+    cursor: pointer;
+    width: 120px;
+  }
+  button {
+    width: 150px;
+    height: 60%;
+  }
+}
+
+// main-sections
+.mainpage__sections {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  .mainSection {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(241, 205, 192);
+  }
+
+  .besttagsSection {
+    width: 100vw;
+    height: 100vh;
+    background-color: antiquewhite;
+  }
+
+  .newListsSection {
+    width: 100vw;
+    height: 100vh;
+    background-color: coral;
+  }
+
+}
+
+
+.hidden {
+  display: none;
+}
