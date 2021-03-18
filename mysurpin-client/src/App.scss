@@ -1,4 +1,6 @@
 $surpin: #40a8c438;
+$aqua: #40a8c4;
+$blue: #40a8c4;
 
 * {
   margin: 0;
@@ -9,14 +11,14 @@ $surpin: #40a8c438;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #555;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0);
   // border: 1px #555 solid;
 }
 button,
 li {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
 }
-
 // Component - Navbar
 .navbar {
   display: flex;
@@ -24,7 +26,7 @@ li {
   justify-content: space-between;
   position: fixed;
   // background-color: #fff;
-  width: 100vw;
+  width: 95vw;
   height: 10%;
   min-height: 60px;
 
@@ -81,7 +83,9 @@ li {
 .mainpage__sections {
   display: flex;
   flex-direction: column;
-
+  li {
+    cursor: auto;
+  }
   .mainSection {
     display: flex;
     flex-direction: column;
@@ -89,6 +93,7 @@ li {
     width: 100%;
     height: 100vh;
     background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
+    background-size: cover;
     box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
 
     .main__title {
@@ -121,13 +126,12 @@ li {
   }
   .besttagsSection {
     height: 100vh;
-    background-color: #555;
     display: flex;
     .besttags__title {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
-      color: #fff;
+      color: #555;
     }
   }
 
@@ -135,11 +139,15 @@ li {
     height: 100vh;
     background-color: #eee;
     display: flex;
+    flex-direction: column;
     .newlists__title {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
       color: #555;
+    }
+    .newlists__lists {
+      padding: 48px;
     }
   }
 }
@@ -150,7 +158,7 @@ li {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  border: 1px solid #555;
+  // border: 1px solid #555;
   .searchbar {
     margin-top: 10%;
     border: 1px solid #555;
@@ -164,7 +172,7 @@ li {
     }
   }
   .searchpage-best-results {
-    border: 1px solid #eee;
+    // border: 1px solid #eee;
     width: 85%;
     margin-top: 36px;
     .searchpage__best__title {
@@ -177,7 +185,7 @@ li {
     }
   }
   .searchpage-all-results {
-    border: 1px solid #eee;
+    // border: 1px solid #eee;
     width: 85%;
     margin-top: 36px;
     .searchpage__all__title {
@@ -290,12 +298,349 @@ li {
   height: 100vh;
   display: flex;
   .signin-section {
-    background-color: $surpin;
-    width: 35%;
-    height: 100vh;
+    width: 50%;
+    background-color: $blue;
   }
   .signup-section {
-    width: 65%;
+    width: 50%;
+  }
+}
+
+// Component - SignIn
+.signIn {
+  transition: all 1s ease;
+  .signin-formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .google-login__logo {
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 4px;
+      }
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+  .signin-formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+
+// Component - SignUp
+.signUp {
+  .signup__formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .signup__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Page - EditUserInfo
+.editUserInfo {
+  height: 100vh;
+  display: flex;
+  .changeinfo-section {
+    width: 50%;
+    background-color: $blue;
+  }
+  .widthdrawal-section {
+    width: 50%;
+  }
+}
+
+// Component - Changeinfo
+.changeInfo {
+  .changeinfo__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .changeinfo__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+      .changeinfo__title__text {
+        color: #fff;
+      }
+    }
+    .changeinfo__form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 4px;
+      }
+    }
+    .changeinfo__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+  .changeinfo__formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .changeinfo__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: #fff;
+    }
+    .changeinfo__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .changeinfo__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+
+// Component - Withdrawal
+.withdrawal {
+  .withdrawal_formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .withdrawal__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .withdrawal__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .withdrawal__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .withdrawal_formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .withdrawal__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+      margin-bottom: 36px;
+    }
+    .withdrawal__img {
+    }
+    .withdrawal-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .withdrawl__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Page - SurpinModal
+.surpinModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .surpinModal__sidebar {
+    border: 1px solid #eee;
+    width: 24vw;
+    height: 90vh;
+    .sidebar__listinfo__thumbnail {
+      .sidebar__listinfo__title {
+      }
+      .sidebar__listinfo__writer {
+      }
+    }
+  }
+  .surpinModal__main {
+    border: 1px solid #eee;
+    width: 60vw;
+    height: 90vh;
   }
 }

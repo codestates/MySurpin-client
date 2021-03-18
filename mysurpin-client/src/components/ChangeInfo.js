@@ -6,21 +6,31 @@ const ChangeInfo = ({ isChangeInfoFormOn }) => {
       {isChangeInfoFormOn ? (
         <div className="changeinfo__formOn">
           <div className="changeinfo__title">
-            <div className="changeinfo__title__text"></div>
+            <div className="changeinfo__title__text">Edit My Info</div>
             <img src="" alt="" />
           </div>
           <div className="changeinfo__form">
-            <input type="text" className="email__input" />
-            <input type="text" className="passwordnew__input" />
-            <input type="text" className="passwordcheck__input" />
+            <input type="text" className="email__input" placeholder="Email" />
+            <input
+              type="text"
+              className="passwordnew__input"
+              placeholder="NEW Password"
+            />
+            <input
+              type="text"
+              className="passwordcheck__input"
+              placeholder="Check Password"
+            />
           </div>
-          <button className="changeinfo__btn"></button>
+          <button className="changeinfo__btn">edit</button>
         </div>
       ) : (
         <div className="changeinfo__formOff">
-          <div className="changeinfo__title"></div>
-          <div className="changeinfo__ment"></div>
-          <button className="changeinfo__btn"></button>
+          <div className="changeinfo__title">Change your info!</div>
+          <div className="changeinfo__ment">
+            change your name or password maybe you find new surpin spot
+          </div>
+          <button className="changeinfo__btn">edit</button>
         </div>
       )}
     </div>

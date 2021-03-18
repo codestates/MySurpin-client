@@ -1,28 +1,33 @@
 import React from "react";
 import UrlList from "../components/UrlList";
+import Tag from "../components/Tag";
 
 const SurpinModal = () => {
   return (
     <div className="surpinModal">
       <section className="surpinModal__sidebar">
         <div className="sidebar__listinfo__thumbnail">
-          <div className="sidebar__listinfo__title"></div>
-          <div className="sidebar__listinfo__writer"></div>
+          <div className="sidebar__listinfo__title">추천하는 디자인 블로그</div>
+          <div className="sidebar__listinfo__writer">{"jooing"}</div>
         </div>
         <input type="file" className="sidebar__thumbnail__input" />
         <div className="sidebar__description">
-          <div className="sidebar__description__title"></div>
-          <div className="sidebar__description__text"></div>
+          <div className="sidebar__description__title">설명</div>
+          <div className="sidebar__description__text">
+            좋은 글 추천드립니다~^^
+          </div>
           {/* <textarea className="sidebar__description__text"></textarea> edit mode */}
         </div>
         <div className="sidebar__taglists">
           <div className="sidebar__taglists__form">
-            <div className="taglists__form__text"></div>
+            <div className="taglists__form__text">태그</div>
             <input type="text" className="taglists__form__input" />
-            <button className="taglists__form__btn"></button>
+            <button className="taglists__form__btn">추가</button>
           </div>
           <ul className="sidebar__taglists__show">
-            <li className="taglists__show__tag"></li>
+            <li className="taglists__show__tag">
+              <Tag></Tag>
+            </li>
           </ul>
         </div>
       </section>
@@ -31,6 +36,7 @@ const SurpinModal = () => {
         <div className="surpinModal__header">
           <button className="surpinModal__edit-btn">
             <img src="" alt="" />
+            🖋
           </button>
         </div>
         <div className="surpinModal__show-contents">
