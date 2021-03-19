@@ -15,7 +15,7 @@ const surpinReducer = (state = initialState, action) => {
 
     case GET_BEST_TAGS:
       return Object.assign({}, state, {
-        tags: "서버에서 받아온 값",
+        tags: action.payload.data,
       });
 
     case SHOW_USER_LISTS:

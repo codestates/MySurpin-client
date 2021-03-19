@@ -1,11 +1,21 @@
+/* eslint-disable */
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Surpin = (props) => {
-  const { tags } = props;
+  const {
+    surpinId,
+    title,
+    desc,
+    writer,
+    thumbnail,
+    created_At,
+    modified_At,
+    tags,
+  } = props;
 
   return (
-    <Link to="/surpinmodal">
+    <Link to={`/surpinmodal/:${surpinId}`}>
       <div className="surpin">
         <div className="surpin__content">
           <img
