@@ -12,6 +12,8 @@ export const SHOW_SURPIN = "SHOW_SURPIN";
 export const SEARCH_TAG_LISTS = "SEARCH_TAG_LISTS";
 // tag
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
+// main
+export const MAIN_PAGE_STATE = "MAIN_PAGE_STATE";
 
 // actions creator functions
 
@@ -80,9 +82,12 @@ export const getNewLists = (data) => {
   };
 };
 
-export const getBestTags = () => {
+export const getBestTags = (data) => {
   return {
     type: GET_BEST_TAGS,
+    payload: {
+      data,
+    },
   };
 };
 

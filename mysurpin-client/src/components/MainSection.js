@@ -1,42 +1,44 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { searchTagLists } from "../actions/index";
 
 const MainSection = () => {
-  const searchTagState = useSelector((state) => state.searchReducer);
   const dispatch = useDispatch();
-  const [searchTag, setSearchTag] = useState("");
+  const history = useHistory();
+
+  const [tag, setTag] = useState("");
   const onChangeSearchTag = (e) => {
-    setSearchTag(e.target.value);
+    setTag(e.target.value);
   };
 
   const handleSearchTag = () => {
-    fetch("http://localhost/4000", {
+    const payload = JSON.stringify({
+      pagenumber: 1,
+      tag: tag,
+    });
+    return fetch(`http://localhost:4000/surpin/searchlists`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        withCredentials: true,
+        credentials: "include",
       },
+      body: payload,
     })
-      .then((data) => data.json())
-      .then((res) => console.log(res));
-    // .then((res) => dispatch(searchTagLists(res)));
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        if (res.status === 500) {
+          history.push("/searchpage");
+        } else if (res.status === 200) {
+          dispatch(searchTagLists(res.json()));
+          history.push("/searchpage");
+        } else {
+          alert("오류 발생!");
+        }
+      })
+      .catch((err) => console.error(err));
   };
-  // const handleSearchTag = () => {
-  //   fetch("http://localhost/4000/searchlists", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       withCredentials: true,
-  //     },
-  //     body: {
-  //       tag: searchTag,
-  //     },
-  //   })
-  //     .then((data) => data.json())
-  //     .then((res) => console.log(res));
-  //   // .then((res) => dispatch(searchTagLists(res)));
-  // };
 
   return (
     <div className="mainSection">
@@ -50,13 +52,11 @@ const MainSection = () => {
           className="main__search-bar__input"
           placeholder="Which Surpin do you want to search?"
           onChange={onChangeSearchTag}
-          value={searchTag}
+          value={tag}
         ></input>
-        {/* <Link to="/searchpage"> */}
         <button className="main__search-bar__btn" onClick={handleSearchTag}>
           검색
         </button>
-        {/* </Link> */}
       </div>
     </div>
   );
