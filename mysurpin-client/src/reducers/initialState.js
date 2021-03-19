@@ -4,11 +4,14 @@ export const initialState = {
     email: "guest",
     nickname: "guest",
   },
+  // MainPage-NewLists
   newLists: {},
+  // MainPage-BestTags
   tags: [],
-  showSurpin: null,
-  showUserLists: null,
-  showUserTags: null,
+  showSurpin: {}, // urls 배열 [{urlName, url}]
+  showUserLists: {},
+  showUserTags: {},
+  // MainPage & NavBar SearchTagsLists
   searchTagLists: {},
   mainPage: {},
 };

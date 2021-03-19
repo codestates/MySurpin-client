@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 const MainPage = () => {
   const mainPageState = useSelector((state) => state.surpinReducer);
-  console.log(mainPageState);
   const { tags, newLists } = mainPageState;
   const dispatch = useDispatch();
 

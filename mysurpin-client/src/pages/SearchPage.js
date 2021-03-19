@@ -15,7 +15,7 @@ const SearchPage = () => {
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">
-          <input className="sarchbar__input" placeholder="search for"></input>
+          <input className="searchbar__input" placeholder="search for"></input>
           <button className="sarchbar__button">
             <img src="../../public/images/search.png"></img>
           </button>
