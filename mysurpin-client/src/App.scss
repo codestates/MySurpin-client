@@ -602,6 +602,8 @@ li {
 
 // Page - SurpinLists
 .surpinLists {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 60px;
   left: 60px;
@@ -639,6 +641,12 @@ li {
     }
   }
   .surpinlists__btn {
+    align-self: flex-end;
+    border: 1px solid #555;
+    width: 160px;
+    height: 60px;
+    margin-right: 160px;
+    margin-bottom: 60px;
   }
 }
 
