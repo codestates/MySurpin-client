@@ -69,11 +69,11 @@ export const withdrawal = (email, password) => {
 };
 
 // surpin action
-export const getNewLists = (pageNumber) => {
+export const getNewLists = (data) => {
   return {
     type: GET_NEW_LISTS,
     payload: {
-      pageNumber,
+      data,
     },
   };
 };
