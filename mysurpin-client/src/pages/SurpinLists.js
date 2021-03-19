@@ -1,14 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import Tag from "../components/Tag";
 
 const SurpinLists = () => {
+  const { nickname } = useParams();
+  const userState = useSelector((state) => state.userReducer);
+  const { user } = userState;
+
   return (
     <>
       <Navbar></Navbar>
       <div className="surpinLists">
-        My Surpin Lists
+        {nickname}'s Surpin Lists
         <div className="surpinlists__tags">
           <div className="surpinlists__tags__title">태그별로 보기</div>
           <ul className="surpinlists__tags__tags">
@@ -58,7 +64,18 @@ const SurpinLists = () => {
             </li>
           </ul>
         </div>
-        <button className="surpinlists__btn"></button>
+        {user.nickname === nickname ? (
+          <button
+            className="surpinlists__btn"
+            onClick={() => {
+              // history.push(`/surpinmodal`);
+            }}
+          >
+            Supin 추가하기
+          </button>
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );

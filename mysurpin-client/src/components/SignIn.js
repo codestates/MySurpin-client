@@ -34,7 +34,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       .then((body) => {
         if (body.accessToken) {
           console.log(body);
-          dispatch(signIn(body.accessToken, email, "nickname"));
+          dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/edituserinfo");
         } else {
           alert("Bad Request");
@@ -61,10 +61,12 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
               onChange={onChangeEmail}
             ></input>
             <input
+              type="password"
               className="signin-form__password__input"
               placeholder="Password"
               value={password}
               required
+              type="password"
               onChange={onChangePassword}
             ></input>
           </div>

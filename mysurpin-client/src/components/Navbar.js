@@ -1,8 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const Navbar = (props) => {
-  const { isFirstPage, isLogin } = props;
+const Navbar = () => {
+  const userState = useSelector((state) => state.userReducer);
+  const {
+    user: { token, nickname },
+  } = userState;
+  const history = useHistory();
+
+  const handleMySurpinBtn = () => {
+    history.push(`/surpinlists/${nickname}`);
+  };
 
   return (
     <div className="navbar">
@@ -13,8 +23,8 @@ const Navbar = (props) => {
           alt=""
         />
       </Link>
-      {isFirstPage ? (
-        <div className="navbar__searchbar hidden"></div>
+      {history.location.pathname !== "/" ? (
+        <div className="hidden"></div>
       ) : (
         <div className="navbar__searchbar">
           <input className="navbar__searchbar__input"></input>
@@ -25,15 +35,16 @@ const Navbar = (props) => {
           </Link>
         </div>
       )}
-      {isLogin ? (
-        <button className="navbar__btn">LOG OUT</button>
+      {token ? (
+        <button className="navbar__btn" onClick={handleMySurpinBtn}>
+          My Surpin
+        </button>
       ) : (
-        <Link to="/signpage">
+        <Link to="/signpage/">
           <button className="navbar__btn">LOG IN / SIGN UP</button>
         </Link>
       )}
     </div>
   );
 };
-
 export default Navbar;
