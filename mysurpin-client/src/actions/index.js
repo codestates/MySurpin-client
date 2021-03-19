@@ -1,46 +1,3 @@
-import axios from "axios";
-
-export const INCREMENT = "INCREMENT";
-export const increment = () => {
-  return {
-    type: INCREMENT,
-  };
-};
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // action types
 // user
 export const SIGN_IN = "SIGN_IN";
@@ -51,20 +8,30 @@ export const GET_NEW_LISTS = "GET_NEW_LISTS";
 export const GET_BEST_TAGS = "GET_BEST_TAGS";
 export const SHOW_USER_LISTS = "SHOW_USER_LISTS";
 export const SHOW_SURPIN = "SHOW_SURPIN";
+export const SEARCH_TAG_LISTS = "SEARCH_TAG_LISTS";
 // tag
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
-// actions creator functions
 
+// actions creator functions
 // user action
 
-export const signIn = async (email, password) => {
-  const data = await axios.get("https://api.mysurpin.com/user/userinfo", {
-    email: email,
-    password: password,
-  });
+export const fetchData = (api, action) => (dispatch) => {
+  return fetch(api)
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch(action(data));
+    })
+    .catch((err) => console.log(err));
+};
+
+export const signIn = (token, email, nickname) => {
   return {
     type: SIGN_IN,
-    token: data.accessToken,
+    payload: {
+      token,
+      email,
+      nickname,
+    },
   };
 };
 
@@ -91,11 +58,11 @@ export const userEdit = (token, email, password, nickname) => {
 };
 
 // surpin action
-export const getNewLists = (pageNumber) => {
+export const getNewLists = (data) => {
   return {
     type: GET_NEW_LISTS,
     payload: {
-      pageNumber,
+      data,
     },
   };
 };
@@ -126,6 +93,15 @@ export const showSurpin = (token, listId, email) => {
       token,
       listId,
       email,
+    },
+  };
+};
+
+export const searchTagLists = (data) => {
+  return {
+    type: SEARCH_TAG_LISTS,
+    payload: {
+      data,
     },
   };
 };

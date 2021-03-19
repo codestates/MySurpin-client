@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const MainSection = () => {
+  const [searchTag, setSearchTag] = useState("");
+  const onChangeSearchTag = (e) => {
+    setSearchTag(e.target.value);
+  };
+
+  const handleSearchTag = () => {
+    fetch("https://api.mysurpin.com/surpin/searchlists", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        tag: searchTag,
+      },
+    });
+  };
+
   return (
     <div className="mainSection">
       <div className="main__title">
@@ -12,8 +30,12 @@ const MainSection = () => {
         <input
           className="main__search-bar__input"
           placeholder="Which Surpin do you want to search?"
+          onChange={onChangeSearchTag}
+          value={searchTag}
         ></input>
-        <button className="main__search-bar__btn"></button>
+        <Link to="/searchpage">
+          <button className="main__search-bar__btn">검색</button>
+        </Link>
       </div>
     </div>
   );
