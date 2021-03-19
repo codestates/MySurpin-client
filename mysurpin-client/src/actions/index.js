@@ -14,6 +14,15 @@ export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
 // actions creator functions
 // user action
 
+export const fetchData = (api, action) => (dispatch) => {
+  return fetch(api)
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch(action(data));
+    })
+    .catch((err) => console.log(err));
+};
+
 export const signIn = (token, email, nickname) => {
   return {
     type: SIGN_IN,
@@ -48,11 +57,11 @@ export const userEdit = (token, email, password, nickname) => {
 };
 
 // surpin action
-export const getNewLists = (pageNumber) => {
+export const getNewLists = (data) => {
   return {
     type: GET_NEW_LISTS,
     payload: {
-      pageNumber,
+      data,
     },
   };
 };
