@@ -1,8 +1,15 @@
+/* eslint-disable */
 import React from "react";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
+// import { useSelector, useDispatch } from "react-redux";
+
 const SearchPage = () => {
+  // const searchTagState = useSelector((state) => state.searchReducer);
+  // const { searchTagLists } = searchTagState;
+  // console.log(searchTagState);
+
   return (
     <>
       <Navbar></Navbar>

@@ -6,7 +6,7 @@ import {
 } from "../actions/index";
 import { initialState } from "./initialState";
 
-const createMySurpin = (state = initialState, action) => {
+const surpinReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_NEW_LISTS:
       return Object.assign({}, state, {
@@ -15,7 +15,7 @@ const createMySurpin = (state = initialState, action) => {
 
     case GET_BEST_TAGS:
       return Object.assign({}, state, {
-        tags: "서버에서 받아온 값",
+        tags: action.payload.data,
       });
 
     case SHOW_USER_LISTS:
@@ -33,4 +33,4 @@ const createMySurpin = (state = initialState, action) => {
   }
 };
 
-export default createMySurpin;
+export default surpinReducer;

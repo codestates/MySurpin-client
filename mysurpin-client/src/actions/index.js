@@ -9,8 +9,11 @@ export const GET_NEW_LISTS = "GET_NEW_LISTS";
 export const GET_BEST_TAGS = "GET_BEST_TAGS";
 export const SHOW_USER_LISTS = "SHOW_USER_LISTS";
 export const SHOW_SURPIN = "SHOW_SURPIN";
+export const SEARCH_TAG_LISTS = "SEARCH_TAG_LISTS";
 // tag
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
+// main
+export const MAIN_PAGE_STATE = "MAIN_PAGE_STATE";
 
 // actions creator functions
 
@@ -79,17 +82,21 @@ export const getNewLists = (data) => {
   };
 };
 
-export const getBestTags = () => {
+export const getBestTags = (data) => {
   return {
     type: GET_BEST_TAGS,
+    payload: {
+      data,
+    },
   };
 };
 
-export const showUserLists = (token, nickname, tag, pageNumber) => {
+export const showUserLists = (token, email, nickname, tag, pageNumber) => {
   return {
     type: SHOW_USER_LISTS,
     payload: {
       token,
+      email,
       nickname,
       tag,
       pageNumber,
@@ -104,6 +111,15 @@ export const showSurpin = (token, listId, email) => {
       token,
       listId,
       email,
+    },
+  };
+};
+
+export const searchTagLists = (data) => {
+  return {
+    type: SEARCH_TAG_LISTS,
+    payload: {
+      data,
     },
   };
 };

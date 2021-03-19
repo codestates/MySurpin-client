@@ -66,6 +66,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
               placeholder="Password"
               value={password}
               required
+              type="password"
               onChange={onChangePassword}
             ></input>
           </div>

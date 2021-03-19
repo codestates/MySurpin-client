@@ -4,9 +4,11 @@ export const initialState = {
     email: "guest",
     nickname: "guest",
   },
-  newLists: null,
-  tags: null,
+  newLists: {},
+  tags: [],
   showSurpin: null,
   showUserLists: null,
   showUserTags: null,
+  searchTagLists: {},
+  mainPage: {},
 };
