@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { signIn } from "../actions/index";
 
 const SignIn = ({ isSignInOn, handlePageState }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,7 +18,27 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
   };
 
   const handleSignIn = () => {
-    history.push("/surpinlists");
+    const payload = JSON.stringify({
+      email,
+      password,
+    });
+    return fetch(`https://api.mysurpin.com/user/signin 여기로`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: payload,
+    })
+      .then((res) => {
+        if (res.body.accessToken) {
+          dispatch(signIn(res.body.accessToken, email, res.boby.nickname));
+          history.push("/surpinlists");
+        } else {
+          alert("Bad Request");
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (

@@ -3,6 +3,7 @@
 export const SIGN_IN = "SIGN_IN";
 export const SIGN_OUT = "SIGN_OUT";
 export const USER_EDIT = "USER_EDIT";
+export const WITHDRAWAL = "WITHDRAWAL";
 // surpin
 export const GET_NEW_LISTS = "GET_NEW_LISTS";
 export const GET_BEST_TAGS = "GET_BEST_TAGS";
@@ -12,8 +13,8 @@ export const SHOW_SURPIN = "SHOW_SURPIN";
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
 
 // actions creator functions
-// user action
 
+// fetch data
 export const fetchData = (api, action) => (dispatch) => {
   return fetch(api)
     .then((res) => res.json())
@@ -23,6 +24,7 @@ export const fetchData = (api, action) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+// user action
 export const signIn = (token, email, nickname) => {
   return {
     type: SIGN_IN,
@@ -52,6 +54,16 @@ export const userEdit = (token, email, password, nickname) => {
       email,
       password,
       nickname,
+    },
+  };
+};
+
+export const withdrawal = (email, password) => {
+  return {
+    type: WITHDRAWAL,
+    payload: {
+      email,
+      password,
     },
   };
 };

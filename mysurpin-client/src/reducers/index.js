@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
+import userReducer from "./userReducer";
 import surpinReducer from "./surpinReducer";
 import tagsReducer from "./tagsReducer";
-import userReducer from "./userReducer";
 
 const rootReducer = combineReducers({
+  userReducer,
   surpinReducer,
   tagsReducer,
-  userReducer,
 });
 
 export default rootReducer;

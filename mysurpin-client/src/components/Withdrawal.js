@@ -1,6 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
+  const history = useHistory();
+  const userState = useSelector((state) => state.userReducer);
+  const {
+    user: { token, email },
+  } = userState;
+  const [password, setPassword] = useState("");
+
+  const onChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleWithdrawal = () => {
+    const payload = JSON.stringify({
+      email,
+      password,
+    });
+    return fetch(`https://api.mysurpin.com/user/withdrawal 여기로`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: payload,
+    })
+      .then((res) => {
+        if (res.body.message === "Successfully processed") {
+          alert("탈퇴가 완료되었습니다.");
+          history.push("/");
+        } else {
+          alert("정보를 다시 입력하세요.");
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="withdrawal">
       {isChangeInfoFormOn ? (
@@ -23,11 +61,16 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
           <div className="withdrawal-form">
             <input
               className="withdrawal-form__password__input"
-              type="text"
+              type="password"
+              value={password}
+              required
               placeholder="Password"
+              onChange={onChangePassword}
             />
           </div>
-          <button className="withdrawl__btn">leave</button>
+          <button className="withdrawl__btn" onClick={handleWithdrawal}>
+            leave
+          </button>
         </div>
       )}
     </div>
