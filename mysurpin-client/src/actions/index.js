@@ -27,6 +27,7 @@ export const fetchData = (api, action) => (dispatch) => {
 
 // user action
 export const signIn = (token, email, nickname) => {
+  console.log(token, email, nickname);
   return {
     type: SIGN_IN,
     payload: {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { userEdit } from "../actions/index";
 
 const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
-  const history = useHistory();
+  // const history = useHistory();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
@@ -28,14 +28,16 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   };
 
   const handleChangeInfo = () => {
+    console.log(user);
     if (user.email === email && password === checkpassword) {
+      console.log("good");
       const payload = JSON.stringify({
         email,
         password,
         nickname,
       });
-      return fetch(`https://api.mysurpin.com/user/useredit 여기로`, {
-        method: "PUT",
+      fetch(`http://localhost:4000/user/useredit`, {
+        method: "PATCH",
         headers: {
           authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
@@ -43,9 +45,10 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
         },
         body: payload,
       })
-        .then((res) => {
-          if (res.body.accessToken) {
-            dispatch(userEdit(res.body.accessToken, email, password, nickname));
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.accessToken) {
+            dispatch(userEdit(body.accessToken, email, password, nickname));
             alert("정보가 변경되었습니다.");
           } else {
             alert("Bad Request");
@@ -74,7 +77,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
             <input
               type="text"
               className="nickname__input"
-              placeholder={"닉네임"}
+              placeholder={user.nickname}
               value={nickname}
               onChange={onChangeNickname}
             />
