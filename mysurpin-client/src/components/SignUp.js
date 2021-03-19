@@ -8,7 +8,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
   const [passwordcheck, setPasswordCheck] = useState("");
   const [message, setMessage] = useState(false);
@@ -37,7 +36,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       setMessage("이름을 입력해주세요.");
       return;
     }
-
     if (email === "") {
       setMessage("이메일을 입력해주세요.");
       return;
@@ -45,7 +43,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       setMessage("유효하지 않는 이메일 입니다.");
       return;
     }
-
     if (password === "") {
       setMessage("비밀번호를 입력해주세요.");
     } else if (checkPassword(password)) {
@@ -110,6 +107,34 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleSignUp = () => {
+    if (password === passwordcheck) {
+      const payload = JSON.stringify({
+        nickname: name,
+        email,
+        password,
+      });
+      console.log("good");
+      fetch(`http://localhost:4000/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: payload,
+      })
+        .then((res) => {
+          if (res.body.message === "Successfully processed") {
+            setMessage("회원가입이 완료되었습니다.");
+            history.push("/");
+          } else {
+            setMessage("잘못된 요청입니다.");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
