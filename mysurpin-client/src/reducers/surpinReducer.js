@@ -3,6 +3,7 @@ import {
   GET_BEST_TAGS,
   SHOW_USER_LISTS,
   SHOW_SURPIN,
+  SEARCH_TAG_LISTS,
 } from "../actions/index";
 import { initialState } from "./initialState";
 
@@ -28,6 +29,10 @@ const surpinReducer = (state = initialState, action) => {
         showSurpin: "서버에서 받아온 값",
       });
 
+    case SEARCH_TAG_LISTS:
+      return Object.assign({}, state, {
+        searchTagLists: action.payload.data,
+      });
     default:
       return state;
   }

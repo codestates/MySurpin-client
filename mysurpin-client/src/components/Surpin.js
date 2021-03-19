@@ -15,7 +15,7 @@ const Surpin = ({ surpin }) => {
   } = surpin;
 
   return (
-    <Link to={`/surpinmodal/${surpinId}`}>
+    <Link to={{ pathname: `/surpinmodal/${surpinId}`, surpin }}>
       <div className="surpin">
         <div className="surpin__content">
           <img
@@ -26,11 +26,13 @@ const Surpin = ({ surpin }) => {
           <div className="surpin-title">{title}</div>
           <div className="surpin-username">{writer}</div>
           <ul className="list__tags">
-            <li className="list__tag">{tags}#태그</li>
-            <li className="list__tag">{tags}#블로깅</li>
-            <li className="list__tag">{tags}#추천</li>
-            <li className="list__tag">{tags}#추천</li>
-            <li className="list__tag">{tags}#코드스테이츠</li>
+            {tags.map((tag, idx) => {
+              return (
+                <li className="list__tag" key={idx}>
+                  {tag}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
