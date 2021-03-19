@@ -5,6 +5,8 @@ const ScrollBtn = () => {
   const [scrollToBestTags, setScorllToBestTags] = useState(0);
   const [scrollToNewLists, setScrollToNewLists] = useState(0);
 
+  // alert("Current scroll from the top: " + window.pageYOffset);
+
   const handleToMain = () => {
     setScrollToMain(window.scrollTo(0, 0));
   };
@@ -14,7 +16,7 @@ const ScrollBtn = () => {
   };
 
   const handleToNew = () => {
-    setScrollToNewLists(window.scrollTo(0, 1551));
+    setScrollToNewLists(window.scrollTo(0, 1528));
   };
 
   return (
