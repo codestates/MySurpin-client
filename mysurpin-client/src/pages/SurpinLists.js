@@ -1,17 +1,9 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { showUserLists } from "../actions";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import Tag from "../components/Tag";
 
 const SurpinLists = () => {
-  const dispatch = useDispatch();
-
-  const handleSurpin = (showSurpin) => {
-    dispatch(showUserLists(showSurpin));
-  };
-
   return (
     <>
       <Navbar></Navbar>
