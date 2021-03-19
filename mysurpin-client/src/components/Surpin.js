@@ -16,11 +16,11 @@ const Surpin = (props) => {
           <div className="surpin-title">첫번째 서핀리스트</div>
           <div className="surpin-username">beDev</div>
           <ul className="list__tags">
-            <li className="list__tag">#태그</li>
-            <li className="list__tag">#블로깅</li>
-            <li className="list__tag">#추천</li>
-            <li className="list__tag">#추천</li>
-            <li className="list__tag">#코드스테이츠</li>
+            <li className="list__tag">{tags}#태그</li>
+            <li className="list__tag">{tags}#블로깅</li>
+            <li className="list__tag">{tags}#추천</li>
+            <li className="list__tag">{tags}#추천</li>
+            <li className="list__tag">{tags}#코드스테이츠</li>
           </ul>
         </div>
       </div>

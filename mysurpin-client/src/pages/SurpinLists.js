@@ -58,7 +58,7 @@ const SurpinLists = () => {
             </li>
           </ul>
         </div>
-        <button className="surpinlists__btn"></button>
+        <button className="surpinlists__btn">Create MY SURPIN</button>
       </div>
     </>
   );

@@ -87,27 +87,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       return false;
     } else return true;
   };
-  const handleSignUp = () => {
-    if (password === passwordcheck) {
-    }
-    return fetch(`https://api.mysurpin.com/users/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: [name, email, password],
-    })
-      .then((res) => {
-        if (res.body.accessToken) {
-          setMessage("회원가입이 완료되었습니다.");
-          history.push("/");
-        } else {
-          setMessage("잘못된 요청입니다.");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
 
   const handleSignUp = () => {
     if (password === passwordcheck) {
