@@ -9,14 +9,5 @@ export const initialState = {
   showSurpin: null,
   showUserLists: null,
   showUserTags: null,
+  searchTagLists: [],
 };
-
-export const practice = {
-  codeStates: [],
-};
-
-export const surpinState = {
-  newLists: {},
-};
-
-export const searchTagLists = {};

@@ -2,7 +2,13 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
+import { useSelector, useDispatch } from "react-redux";
+
 const SearchPage = () => {
+  const searchState = useSelector((state) => state.searchReducer);
+  const { searchTagLists } = searchState;
+  console.log(searchTagLists);
+
   return (
     <>
       <Navbar></Navbar>
