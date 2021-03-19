@@ -99,7 +99,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         "Content-Type": "application/json",
         credentials: "include",
       },
-      body: [name, email, password],
+      body: { name, email, password },
     })
       .then((res) => {
         if (res.body.accessToken) {
