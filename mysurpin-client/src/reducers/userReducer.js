@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, USER_EDIT } from "../actions/index";
+import { SIGN_IN, SIGN_OUT, USER_EDIT, WITHDRAWAL } from "../actions/index";
 import { initialState } from "./initialState";
 
 const userReducer = (state = initialState, action) => {
@@ -23,6 +23,15 @@ const userReducer = (state = initialState, action) => {
           token: action.payload.token,
           email: action.payload.email,
           nickname: action.payload.nickname,
+        },
+      });
+
+    case WITHDRAWAL:
+      return Object.assign({}, state, {
+        user: {
+          token: null,
+          email: null,
+          nickname: "guest",
         },
       });
 

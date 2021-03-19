@@ -61,6 +61,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
             ></input>
             <input
               className="signup-form__password__input"
+              type="password"
               value={password}
               required
               placeholder="Password"
