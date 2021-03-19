@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Surpin = (props) => {
+const Surpin = ({ surpin }) => {
   const {
     surpinId,
     title,
@@ -12,10 +12,10 @@ const Surpin = (props) => {
     created_At,
     modified_At,
     tags,
-  } = props;
+  } = surpin;
 
   return (
-    <Link to={`/surpinmodal/:${surpinId}`}>
+    <Link to={`/surpinmodal/${surpinId}`}>
       <div className="surpin">
         <div className="surpin__content">
           <img
@@ -23,8 +23,8 @@ const Surpin = (props) => {
             src="https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512"
             alt="thumbnail"
           />
-          <div className="surpin-title">첫번째 서핀리스트</div>
-          <div className="surpin-username">beDev</div>
+          <div className="surpin-title">{title}</div>
+          <div className="surpin-username">{writer}</div>
           <ul className="list__tags">
             <li className="list__tag">#태그</li>
             <li className="list__tag">#블로깅</li>
