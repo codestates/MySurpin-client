@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 
 const SignUp = ({ isSignInOn, handlePageState }) => {
   const history = useHistory();
@@ -9,20 +8,14 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
   const [passwordcheck, setPasswordCheck] = useState("");
-  const [errmessage, setErrMessage] = useState(false);
-
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    history.push("/");
-  };
+  const [message, setMessage] = useState(false);
 
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
-      setErrMessage(e.target.value !== password);
+      setMessage(e.target.value !== password);
     },
     [password]
   );
@@ -40,28 +33,26 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
 
   const handleClick = () => {
     if (name === "") {
-      setErrMessage("이름을 입력해주세요.");
+      setMessage("이름을 입력해주세요.");
       return;
     }
-
     if (email === "") {
-      setErrMessage("이메일을 입력해주세요.");
+      setMessage("이메일을 입력해주세요.");
       return;
     } else if (!ValidateEmail(email)) {
-      setErrMessage("유효하지 않는 이메일 입니다.");
+      setMessage("유효하지 않는 이메일 입니다.");
       return;
     }
-
     if (password === "") {
-      setErrMessage("비밀번호를 입력해주세요.");
+      setMessage("비밀번호를 입력해주세요.");
     } else if (checkPassword(password)) {
       if (passwordcheck === "") {
-        setErrMessage("비밀번호를 다시 입력해주세요.");
+        setMessage("비밀번호를 다시 입력해주세요.");
         return;
       } else if (password === passwordcheck) {
-        setErrMessage("");
+        setMessage("");
       } else {
-        setErrMessage("비밀번호를 정확하게 입력해주세요.");
+        setMessage("비밀번호를 정확하게 입력해주세요.");
         return;
       }
     }
@@ -80,7 +71,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
 
   const checkPassword = (upw) => {
     if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
-      setErrMessage(
+      setMessage(
         "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
       );
       return false;
@@ -88,13 +79,41 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
     var chk_num = upw.search(/[0-9]/g);
     var chk_eng = upw.search(/[a-z]/gi);
     if (chk_num < 0 || chk_eng < 0) {
-      setErrMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+      setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
       return false;
     }
     if (/(\w)\1\1\1/.test(upw)) {
-      setErrMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
+      setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
       return false;
     } else return true;
+  };
+
+  const handleSignUp = () => {
+    if (password === passwordcheck) {
+      const payload = JSON.stringify({
+        nickname: name,
+        email,
+        password,
+      });
+      console.log("good");
+      fetch(`http://localhost:4000/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: payload,
+      })
+        .then((res) => {
+          if (res.body.message === "Successfully processed") {
+            setMessage("회원가입이 완료되었습니다.");
+            history.push("/");
+          } else {
+            setMessage("잘못된 요청입니다.");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -149,7 +168,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
             <button className="signup__btn" onClick={() => handleClick()}>
               sign up
             </button>
-            <span>{errmessage}</span>
+            <span>{message}</span>
           </div>
         </form>
       )}

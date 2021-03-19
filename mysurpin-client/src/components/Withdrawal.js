@@ -19,7 +19,7 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
       email,
       password,
     });
-    return fetch(`https://api.mysurpin.com/user/withdrawal 여기로`, {
+    return fetch(`http://localhost:4000/user/withdrawal`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${token}`,
@@ -28,8 +28,9 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
       },
       body: payload,
     })
-      .then((res) => {
-        if (res.body.message === "Successfully processed") {
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.message === "Successfully processed") {
           alert("탈퇴가 완료되었습니다.");
           history.push("/");
         } else {

@@ -22,7 +22,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       email,
       password,
     });
-    return fetch(`https://api.mysurpin.com/user/signin 여기로`, {
+    return fetch(`http://localhost:4000/user/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,10 +30,12 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       },
       body: payload,
     })
-      .then((res) => {
-        if (res.body.accessToken) {
-          dispatch(signIn(res.body.accessToken, email, res.boby.nickname));
-          history.push("/surpinlists");
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.accessToken) {
+          console.log(body);
+          dispatch(signIn(body.accessToken, email, "nickname"));
+          history.push("/edituserinfo");
         } else {
           alert("Bad Request");
         }
