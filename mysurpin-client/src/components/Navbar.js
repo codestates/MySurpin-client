@@ -6,14 +6,12 @@ import { useHistory } from "react-router-dom";
 const Navbar = () => {
   const userState = useSelector((state) => state.userReducer);
   const {
-    user: { token },
+    user: { token, nickname },
   } = userState;
-
   const history = useHistory();
-  console.log(history.location.pathname);
 
   const handleMySurpinBtn = () => {
-    history.push("/surpinlists");
+    history.push(`/surpinlists/${nickname}`);
   };
 
   return (
@@ -42,7 +40,7 @@ const Navbar = () => {
           My Surpin
         </button>
       ) : (
-        <Link to="/signpage">
+        <Link to="/signpage/">
           <button className="navbar__btn">LOG IN / SIGN UP</button>
         </Link>
       )}

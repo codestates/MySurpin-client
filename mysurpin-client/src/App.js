@@ -15,8 +15,8 @@ function App() {
         <Route path="/searchpage" component={SearchPage} />
         <Route path="/signpage" component={SignPage} />
         <Route path="/edituserinfo" component={EditUserInfo} />
-        <Route path="/surpinmodal" component={SurpinModal} />
-        <Route path="/surpinlists" component={SurpinLists} />
+        <Route path="/surpinmodal/:listId" component={SurpinModal} />
+        <Route path="/surpinlists/:nickname" component={SurpinLists} />
       </Switch>
     </Router>
   );
