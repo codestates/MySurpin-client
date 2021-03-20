@@ -26,13 +26,11 @@ const Surpin = ({ surpin }) => {
           <div className="surpin-title">{title}</div>
           <div className="surpin-username">{writer}</div>
           <ul className="list__tags">
-            {tags.map((tag, idx) => {
-              return (
-                <li className="list__tag" key={idx}>
-                  {tag}
-                </li>
-              );
-            })}
+            {tags ? (
+              tags.map((tag) => <li className="list__tag">{`#${tag}`}</li>)
+            ) : (
+              <li />
+            )}
           </ul>
         </div>
       </div>
