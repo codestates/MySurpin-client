@@ -10,12 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 const MainPage = () => {
   const mainPageState = useSelector((state) => state.surpinReducer);
-  console.log(mainPageState);
   const { tags, newLists } = mainPageState;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("=== useEffect, BestTags ===");
     fetch(`http://localhost:4000/surpin/bestTags`)
       .then((res) => res.json())
       .then((data) => dispatch(getBestTags(data)))
@@ -23,8 +21,8 @@ const MainPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 본래 사용해야 하는 함수 + 추후에 api 요청 주소 변경
   useEffect(() => {
-    console.log("=== useEffect, NewLists ===");
     fetch(`http://localhost:4000/surpin/newlists`, {
       method: "POST",
       headers: {
@@ -38,8 +36,6 @@ const MainPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("newLists의 상태", newLists);
-  console.log("tags의 상태", tags);
   return (
     <div className="mainPage">
       <Navbar></Navbar>

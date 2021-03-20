@@ -104,13 +104,11 @@ export const showUserLists = (token, email, nickname, tag, pageNumber) => {
   };
 };
 
-export const showSurpin = (token, listId, email) => {
+export const showSurpin = (data) => {
   return {
     type: SHOW_SURPIN,
     payload: {
-      token,
-      listId,
-      email,
+      data,
     },
   };
 };

@@ -138,6 +138,12 @@ li {
     }
     .newlists__lists {
       padding: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: scroll;
+    }
+    .newlists__list {
+      margin-bottom: 16px;
     }
   }
 }
