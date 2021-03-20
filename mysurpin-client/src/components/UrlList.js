@@ -8,10 +8,6 @@ const UrlList = (props) => {
       <input className="urlList__checkbox" type="checkbox" checked />
       <div className="urlList__urlName">{urlName}</div>
       <div className="urlList__url">{url}</div>
-      <button className="urlList__delete-btn">
-        X
-        <img className="urlList__delete-btn-img" src="" alt="" />
-      </button>
     </div>
   );
 };

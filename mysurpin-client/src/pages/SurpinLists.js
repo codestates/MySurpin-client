@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -9,6 +9,8 @@ const SurpinLists = () => {
   const { nickname } = useParams();
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
+
+  // usdEffect({}, []);
 
   return (
     <>

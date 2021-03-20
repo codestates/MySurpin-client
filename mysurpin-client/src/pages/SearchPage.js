@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
   const { searchTagLists } = searchTagState;
-  console.log(searchTagLists);
 
   return (
     <>
@@ -16,7 +15,7 @@ const SearchPage = () => {
       <div className="searchPage">
         <div className="searchbar">
           <input className="searchbar__input" placeholder="search for"></input>
-          <button className="searchbar__button">
+          <button className="sarchbar__button">
             <img src="../../public/images/search.png"></img>
           </button>
         </div>
