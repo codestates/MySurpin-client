@@ -8,15 +8,21 @@ const ScrollBtn = () => {
   // alert("Current scroll from the top: " + window.pageYOffset);
 
   const handleToMain = () => {
-    setScrollToMain(window.scrollTo(0, 0));
+    setScrollToMain(window.scrollTo({ behavior: "smooth", top: "location" }));
   };
 
   const handleToBest = () => {
-    setScorllToBestTags(window.scrollTo(0, 764));
+    setScorllToBestTags(
+      document
+        .querySelector(".scroll-buttons__bestTags")
+        .scrollIntoView({ behavior: "smooth" })
+    );
   };
 
   const handleToNew = () => {
-    setScrollToNewLists(window.scrollTo(0, 1528));
+    setScrollToNewLists(
+      window.scrollTo({ top: 2500, left: 0, behavior: "smooth" })
+    );
   };
 
   return (

@@ -35,7 +35,6 @@ const BesttagsSection = () => {
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
-
       <div className="besttags__chart"></div>
       <Line data={data} options={options} />
     </div>
