@@ -3,8 +3,30 @@ import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
 import { useHistory } from "react-router-dom";
 
-const SurpinModal = () => {
+const SurpinModal = ({ location }) => {
   const history = useHistory();
+  const {
+    surpinId,
+    title,
+    desc,
+    writer,
+    thumbnail,
+    created_At,
+    modified_At,
+    tags,
+  } = location.surpin;
+
+  console.log(
+    surpinId,
+    title,
+    desc,
+    writer,
+    thumbnail,
+    created_At,
+    modified_At,
+    tags
+  );
+
   return (
     <div className="surpinModal">
       <button
@@ -15,18 +37,18 @@ const SurpinModal = () => {
       </button>
       <section className="surpinModal__sidebar">
         <div className="sidebar__listinfo__thumbnail">
-          <div className="sidebar__listinfo__title">디자인 사이트 추천</div>
+          <div className="sidebar__listinfo__title">{title}</div>
           <div
             className="sidebar__listinfo__writer"
             onClick={() => history.push("/surpinlists")}
           >
-            {"jooing"}
+            {writer}
           </div>
         </div>
         <input type="file" className="sidebar__thumbnail__input" />
         <div className="sidebar__description">
           <div className="description__title">설명</div>
-          <div className="description__text">좋은 글 추천드립니다~^^</div>
+          <div className="description__text">{desc}</div>
           {/* <textarea className="sidebar__description__text"></textarea> edit mode */}
         </div>
         <div className="sidebar__taglists">

@@ -29,36 +29,36 @@ const Navbar = () => {
   };
 
   // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
-  // const handleSearchBtn = () => {
-  //   dispatch(searchTagLists(fakeData));
-  // };
+  const handleSearchBtn = () => {
+    dispatch(searchTagLists(fakeData));
+  };
   // 지워야 함 (끝)
 
   // 요청 함수만 구현 작동 안됨 ㅠㅠ
-  const handleSearchBtn = () => {
-    const payload = JSON.stringify({
-      pagenumber: 1,
-      tag: tag,
-    });
-    fetch(`http://localhost:4000/surpin/searchlists`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: payload,
-    })
-      .then((res) => res.json())
-      .then((body) => {
-        if (body.message) {
-          console.log(body);
-          dispatch(searchTagLists(body));
-        } else {
-          alert("Bad Request");
-        }
-      })
-      .catch((err) => console.error(err));
-  };
+  // const handleSearchBtn = () => {
+  //   const payload = JSON.stringify({
+  //     pagenumber: 1,
+  //     tag: tag,
+  //   });
+  //   fetch(`http://localhost:4000/surpin/searchlists`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       credentials: "include",
+  //     },
+  //     body: payload,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((body) => {
+  //       if (body.message) {
+  //         console.log(body);
+  //         dispatch(searchTagLists(body));
+  //       } else {
+  //         alert("Bad Request");
+  //       }
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
   return (
     <div className="navbar">
