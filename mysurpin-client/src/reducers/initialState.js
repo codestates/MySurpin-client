@@ -29,7 +29,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 1],
+      tags: ["다들", "힘내세요", "1"],
     },
     {
       surpinId: 2,
@@ -40,7 +40,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 2],
+      tags: ["다들", "힘내세요", "2"],
     },
     {
       surpinId: 3,
@@ -51,7 +51,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 3],
+      tags: ["다들", "힘내세요", "3"],
     },
     {
       surpinId: 4,
@@ -62,7 +62,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 4],
+      tags: ["다들", "힘내세요", "4"],
     },
     {
       surpinId: 5,
@@ -73,7 +73,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 5],
+      tags: ["다들", "힘내세요", "5"],
     },
     {
       surpinId: 6,
@@ -84,7 +84,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 6],
+      tags: ["다들", "힘내세요", "6"],
     },
     {
       surpinId: 7,
@@ -95,7 +95,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 7],
+      tags: ["다들", "힘내세요", "7"],
     },
     {
       surpinId: 8,
@@ -106,7 +106,7 @@ export const fakeData = {
         "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
       created_At: "21-03-10 12:00:00",
       modified_At: "21-03-10 12:00:00",
-      tags: ["다들", "힘내세요", 8],
+      tags: ["다들", "힘내세요", "8"],
     },
   ],
   top: [

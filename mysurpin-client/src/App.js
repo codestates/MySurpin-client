@@ -16,7 +16,7 @@ function App() {
         <Route path="/signpage" component={SignPage} />
         <Route path="/edituserinfo" component={EditUserInfo} />
         <Route path="/surpinmodal/:listId" component={SurpinModal} />
-        <Route path="/surpinlists/:nickname" component={SurpinLists} />
+        <Route path="/surpinlists/:writer" component={SurpinLists} />
       </Switch>
     </Router>
   );
