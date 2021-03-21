@@ -80,7 +80,7 @@ const NewListsSection = () => {
         surpinId: 7,
         title: "일곱번째 서핀리스트",
         desc: "beDev",
-        writer: "주혜",
+        writer: "jooing",
         thumbnail:
           "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
         created_At: "21-03-10 12:00:00",
@@ -181,7 +181,7 @@ const NewListsSection = () => {
         surpinId: 7,
         title: "일곱번째 서핀리스트",
         desc: "beDev",
-        writer: "주혜",
+        writer: "jooing",
         thumbnail:
           "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
         created_At: "21-03-10 12:00:00",

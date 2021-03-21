@@ -5,7 +5,7 @@ const UrlList = (props) => {
 
   return (
     <div className="urlList">
-      <input className="urlList__checkbox" type="checkbox" checked />
+      <input className="urlList__checkbox" type="checkbox" />
       <div className="urlList__urlName">{urlName}</div>
       <div className="urlList__url">{url}</div>
     </div>

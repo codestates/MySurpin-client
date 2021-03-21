@@ -104,7 +104,7 @@ export const showUserLists = (token, email, nickname, tag, pageNumber) => {
   };
 };
 
-export const showSurpin = (data) => {
+export const getShowSurpin = (data) => {
   return {
     type: SHOW_SURPIN,
     payload: {
