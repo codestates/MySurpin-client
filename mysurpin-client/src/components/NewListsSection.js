@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Surpin from "../components/Surpin";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getNewLists } from "../actions/index";
 
 const NewListsSection = () => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.surpinReducer);
   const { newLists } = state;
+  const [pagenumber, setPagenumber] = useState("");
+
+  const handleNewLists = () => {
+    const payload = JSON.stringify({
+      pagenumber,
+    });
+    return fetch(`http://localhost:4000/surpin/newlists`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: payload,
+    })
+      .then((res) => res.json())
+      .then(() => dispatch(getNewLists(pagenumber)))
+      .catch((err) => console.error(err));
+  };
 
   let fakeData = {
     surpinCount: 1,
