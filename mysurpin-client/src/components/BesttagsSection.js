@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
 
-const BesttagsSection = ({ chartdata }) => {
+const BesttagsSection = ({
+  animatedItem,
+  useScrollEventListener,
+  chartdata,
+  handleChartdata,
+}) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
-  console.log("tags의 상태", tags);
-
   let data = {
     labels: chartdata,
     datasets: [
@@ -35,7 +38,7 @@ const BesttagsSection = ({ chartdata }) => {
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
-      <div className="besttags__chart">
+      <div {...animatedItem} className="besttags__chart">
         <Line data={data} options={options} />
       </div>
     </div>
