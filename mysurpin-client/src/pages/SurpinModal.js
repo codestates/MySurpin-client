@@ -37,12 +37,51 @@ const SurpinModal = ({ location }) => {
   const [newDesc, setNewDesc] = useState(desc);
   const [newTags, setNewTags] = useState(tags);
   const [newUrls, setNewUrls] = useState(showSurpin);
+  const [newExistTags, setNewExistTags] = useState([
+    {
+      name: "태그를 입력해주세요",
+      contentsCount: 5,
+    },
+  ]);
 
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState("");
   const [inputUrl, setInputUrl] = useState("");
+
+  useEffect(() => {
+    // fetch(`http://localhost:4000/tag/showexiststags/?inputText=${inputTag}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     credentials: "include",
+    //   },
+    // })
+    // .then((res) => res.json())
+    // .then((data) => {
+    //   setNewExistTags(data.tags);
+    // })
+    // .catch((err) => console.log(err));
+
+    // fakedata instead
+    setNewExistTags({
+      tags: [
+        {
+          name: "tag1",
+          contentsCount: 5,
+        },
+        {
+          name: "tag2",
+          contentsCount: 5,
+        },
+        {
+          name: "tag5",
+          contentsCount: 5,
+        },
+      ],
+    });
+  }, [inputTag.length === 1]);
 
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/showsurpinlist/?listId=${surpinId}`, {
@@ -207,7 +246,13 @@ const SurpinModal = ({ location }) => {
                 placeholder="태그 추가"
                 onChange={(e) => setInputTag(e.target.value)}
                 value={inputTag}
+                list="existTagsList"
               />
+              <datalist id="existTagsList">
+                {newExistTags.tags.map((existTag) => {
+                  return <option value={existTag.name}> </option>;
+                })}
+              </datalist>
               <button
                 className="taglists__form__btn"
                 onClick={handleInputTagBtn}
@@ -246,13 +291,19 @@ const SurpinModal = ({ location }) => {
         <div className="surpinModal__header">
           {writer === nickname ? (
             // 내 서핀일때 - 기존 서핀 편집
-            <button className="surpinModal__edit-btn">
+            <button
+              className="surpinModal__edit-btn"
+              onClick={() => setEditMode(!editmode)}
+            >
               <img src="" alt="" />
               내서핀 편집
             </button>
           ) : (
             // 남의 서핀일때 - 새로운 서핀 생성
-            <button className="surpinModal__edit-btn">
+            <button
+              className="surpinModal__edit-btn"
+              onClick={() => setEditMode(!editmode)}
+            >
               <img src="" alt="" />
               서핀 퍼가기
             </button>
