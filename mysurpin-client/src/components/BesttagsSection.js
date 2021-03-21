@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
 
-const BesttagsSection = () => {
+const BesttagsSection = ({
+  animatedItem,
+  useScrollEventListener,
+  chartdata,
+  handleChartdata,
+}) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
-  console.log("tags의 상태", tags);
-
-  const data = {
-    labels: ["1", "2", "3", "4", "5", "6"],
+  let data = {
+    labels: chartdata,
     datasets: [
       {
         label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
+        data: chartdata,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgb(255, 99, 132, 0)",
         borderColor: "rgba(255, 99, 132, 0.2)",
       },
     ],
@@ -35,8 +38,9 @@ const BesttagsSection = () => {
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
-      <div className="besttags__chart"></div>
-      <Line data={data} options={options} />
+      <div {...animatedItem} className="besttags__chart">
+        <Line data={data} options={options} />
+      </div>
     </div>
   );
 };

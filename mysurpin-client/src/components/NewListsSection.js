@@ -3,7 +3,7 @@ import Surpin from "../components/Surpin";
 import { useSelector, useDispatch } from "react-redux";
 import { getNewLists } from "../actions/index";
 
-const NewListsSection = () => {
+const NewListsSection = ({ animatedItem }) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.surpinReducer);
   const { newLists } = state;
@@ -215,7 +215,7 @@ const NewListsSection = () => {
   return (
     <div className="newListsSection">
       <div className="newlists__title">New Surpins</div>
-      <ul className="newlists__lists">
+      <ul className="newlists__lists" {...animatedItem}>
         {!newLists.surpins || newLists.surpins.length === 0 ? (
           <li className="newlists__list">Loading...</li>
         ) : (
