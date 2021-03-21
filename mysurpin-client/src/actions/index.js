@@ -119,11 +119,11 @@ export const getTagLists = (data) => {
 
 // tags
 
-export const showUserTags = (nickname) => {
+export const showUserTags = (data) => {
   return {
     type: SHOW_USER_TAGS,
     payload: {
-      nickname,
+      data,
     },
   };
 };
