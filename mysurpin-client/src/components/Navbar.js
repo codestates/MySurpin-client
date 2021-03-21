@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { searchTagLists } from "../actions/index";
+import { getTagLists } from "../actions/index";
 
 // fakeData 나중에 꼭 지우기 (여기부터)
 import { fakeData } from "../reducers/initialState";
@@ -30,7 +30,7 @@ const Navbar = () => {
 
   // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
   const handleSearchBtn = () => {
-    dispatch(searchTagLists(fakeData));
+    dispatch(getTagLists(fakeData));
   };
   // 지워야 함 (끝)
 
@@ -52,7 +52,7 @@ const Navbar = () => {
   //     .then((body) => {
   //       if (body.message) {
   //         console.log(body);
-  //         dispatch(searchTagLists(body));
+  //         dispatch(getTagLists(body));
   //       } else {
   //         alert("Bad Request");
   //       }

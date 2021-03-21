@@ -9,7 +9,7 @@ export const GET_NEW_LISTS = "GET_NEW_LISTS";
 export const GET_BEST_TAGS = "GET_BEST_TAGS";
 export const SHOW_USER_LISTS = "SHOW_USER_LISTS";
 export const SHOW_SURPIN = "SHOW_SURPIN";
-export const SEARCH_TAG_LISTS = "SEARCH_TAG_LISTS";
+export const GET_TAG_LISTS = "GET_TAG_LISTS";
 // tag
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
 // main
@@ -113,9 +113,9 @@ export const showSurpin = (data) => {
   };
 };
 
-export const searchTagLists = (data) => {
+export const getTagLists = (data) => {
   return {
-    type: SEARCH_TAG_LISTS,
+    type: GET_TAG_LISTS,
     payload: {
       data,
     },

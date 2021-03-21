@@ -1,21 +1,66 @@
 /* eslint-disable */
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getTagLists } from "../actions/index";
+
+// 실험용 데이터
+import { fakeData2 } from "../reducers/initialState";
+// 여기까지
 
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
   const { searchTagLists } = searchTagState;
+  const dispatch = useDispatch();
+  const [tag, setTag] = useState("");
+
+  const onChangeSearchTag = (e) => {
+    setTag(e.target.value);
+  };
+
+  const handleSearchBtn = () => {
+    if (tag.length === 0) {
+      alert("검색어를 입력하세요");
+    } else {
+      dispatch(getTagLists(fakeData2));
+    }
+  };
+
+  // const handleSearchBtn = () => {
+  //   if (tag.length === 0) {
+  //     alert("검색어를 입력하세요");
+  //   } else {
+  //     const payload = JSON.stringify({
+  //       pagenumber: 1,
+  //       tag: tag,
+  //     });
+  //     fetch(`http://localhost:4000/surpin/searchlists`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         credentials: "include",
+  //       },
+  //       body: payload,
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => dispatch(getTagLists(data)));
+  //   }
+  // };
 
   return (
     <>
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">
-          <input className="searchbar__input" placeholder="search for"></input>
-          <button className="sarchbar__button">
+          <input
+            className="searchbar__input"
+            placeholder="search for"
+            value={tag}
+            onChange={onChangeSearchTag}
+          ></input>
+          <button className="sarchbar__button" onClick={handleSearchBtn}>
             <img src="../../public/images/search.png"></img>
           </button>
         </div>
