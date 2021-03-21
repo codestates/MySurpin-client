@@ -1,22 +1,44 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import Tag from "../components/Tag";
+import { showUserLists } from "../actions/index";
+
+// get fakedata
+import { fakeData } from "../reducers/initialState";
 
 const SurpinLists = () => {
-  const { nickname } = useParams();
+  const { writer } = useParams();
+  const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
-  const { user } = userState;
+  const { user, token, email } = userState;
 
-  // usdEffect({}, []);
+  const [newShowUserLists, setNewShowUserLists] = useState(fakeData);
+
+  useEffect(() => {
+    fetch(`http://localhost:4000/surpin/showuserlists/${writer}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+        authentication: token,
+      },
+      body: { email },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(showUserLists(data));
+        setNewShowUserLists(data);
+      });
+  }, []);
 
   return (
     <>
       <Navbar></Navbar>
       <div className="surpinLists">
-        {nickname}'s Surpin Lists
+        {writer}'s Surpin Lists
         <div className="surpinlists__tags">
           <div className="surpinlists__tags__title">태그별로 보기</div>
           <ul className="surpinlists__tags__tags">
@@ -43,31 +65,17 @@ const SurpinLists = () => {
         <div className="surpinlists__lists">
           <div className="surpinlists__lists__title">Surpins</div>
           <ul className="surpinlists__lists__lists">
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
-            <li className="surpinlists__lists__list">
-              <Surpin></Surpin>
-            </li>
+            {newShowUserLists.surpins.map((surpin) => {
+              return (
+                <li className="surpinlists__lists__list">
+                  <Surpin surpin={surpin}></Surpin>
+                </li>
+              );
+            })}
           </ul>
         </div>
-        {user.nickname === nickname ? (
-          <Link to={{ pathname: `/surpinmodal/${nickname}` }}>
+        {user.nickname === writer ? (
+          <Link to={{ pathname: `/surpinmodal/${writer}` }}>
             <button className="surpinlists__btn" onClick={() => {}}>
               Supin 추가하기
             </button>
