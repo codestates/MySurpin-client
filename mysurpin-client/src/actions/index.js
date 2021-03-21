@@ -90,15 +90,11 @@ export const getBestTags = (data) => {
   };
 };
 
-export const showUserLists = (token, email, nickname, tag, pageNumber) => {
+export const showUserLists = (data) => {
   return {
     type: SHOW_USER_LISTS,
     payload: {
-      token,
-      email,
-      nickname,
-      tag,
-      pageNumber,
+      data,
     },
   };
 };
@@ -123,11 +119,11 @@ export const getTagLists = (data) => {
 
 // tags
 
-export const showUserTags = (nickname) => {
+export const showUserTags = (data) => {
   return {
     type: SHOW_USER_TAGS,
     payload: {
-      nickname,
+      data,
     },
   };
 };

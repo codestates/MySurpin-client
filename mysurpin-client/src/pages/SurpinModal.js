@@ -51,6 +51,8 @@ const SurpinModal = ({ location }) => {
   const [inputUrl, setInputUrl] = useState("");
 
   useEffect(() => {
+    // server API 구현되면 지울 것
+    dispatch(getShowSurpin(showSurpin));
     // fetch(`http://localhost:4000/tag/showexiststags/?inputText=${inputTag}`, {
     //   method: "GET",
     //   headers: {
