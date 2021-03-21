@@ -9,23 +9,6 @@ const NewListsSection = ({ animatedItem }) => {
   const { newLists } = state;
   const [pagenumber, setPagenumber] = useState("");
 
-  const handleNewLists = () => {
-    const payload = JSON.stringify({
-      pagenumber,
-    });
-    return fetch(`http://localhost:4000/surpin/newlists`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: payload,
-    })
-      .then((res) => res.json())
-      .then(() => dispatch(getNewLists(pagenumber)))
-      .catch((err) => console.error(err));
-  };
-
   let fakeData = {
     surpinCount: 1,
     surpinCountPerPage: 10,

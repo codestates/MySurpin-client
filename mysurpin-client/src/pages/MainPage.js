@@ -4,8 +4,8 @@ import MainSection from "../components/MainSection";
 import BestTagsSection from "../components/BesttagsSection";
 import NewListsSection from "../components/NewListsSection";
 import ScrollBtn from "../components/ScrollBtn";
-import useScrollFadeIn from "../pages/useScrollFadeIn";
-import useScrollEventListener from "../pages/useScrollEvnetListener";
+import useScrollFadeIn from "../hooks/useScrollFadeIn";
+import useScrollEventListener from "../hooks/useScrollEventListener";
 import { getBestTags, getNewLists } from "../actions/index";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -61,7 +61,7 @@ const MainPage = () => {
       <ul className="mainpage__sections">
         <MainSection></MainSection>
         <BestTagsSection
-          animatedItem={useScrollEventListener(handleChartdata)}
+          animatedItem={useScrollEventListener(handleChartdata, 0.7)}
           chartdata={chartdata}
         ></BestTagsSection>
         <NewListsSection
