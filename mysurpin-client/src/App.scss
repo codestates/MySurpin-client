@@ -33,10 +33,12 @@ li {
     margin-left: 36px;
   }
   .navbar__searchbar {
-    border: rgba(255, 255, 255, 0.7) 1px solid;
+    // border: rgba(255, 255, 255, 0.7) 1px solid;
+    border: $blue 1px solid;
     width: 300px;
     height: 28px;
     border-radius: 14px;
+    transition: 1s all ease;
     input {
       width: 80%;
       margin-left: 20px;
@@ -168,6 +170,7 @@ li {
     height: 36px;
     border-radius: 18px;
     display: flex;
+    z-index: 100;
     input {
       margin-left: 16px;
       width: 85%;
@@ -863,4 +866,10 @@ li {
   border: 1px solid #555;
   padding: 3px 6px;
   border-radius: 16px;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s all ease;
 }

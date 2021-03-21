@@ -8,7 +8,7 @@ import { getTagLists } from "../actions/index";
 import { fakeData } from "../reducers/initialState";
 // fakeData 나중에 꼭 지우기 (여기까지)
 
-const Navbar = () => {
+const Navbar = ({ navBarState }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
     user: { token, nickname },
@@ -72,7 +72,7 @@ const Navbar = () => {
       {history.location.pathname !== "/" ? (
         <div className="hidden"></div>
       ) : (
-        <div className="navbar__searchbar">
+        <div className={`navbar__searchbar ${navBarState}`}>
           <input
             className="navbar__searchbar__input"
             onChange={onChangeSearchTag}

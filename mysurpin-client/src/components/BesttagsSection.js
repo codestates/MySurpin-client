@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
-
 const BesttagsSection = ({ animatedItem, chartdata }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
@@ -48,5 +47,4 @@ const BesttagsSection = ({ animatedItem, chartdata }) => {
     </div>
   );
 };
-
 export default BesttagsSection;
