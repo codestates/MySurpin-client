@@ -93,7 +93,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         email,
         password,
       });
-      console.log("good");
       fetch(`http://localhost:4000/user/signup`, {
         method: "POST",
         headers: {

@@ -29,7 +29,6 @@ export const fetchData = (api, action) => (dispatch) => {
 
 // user action
 export const signIn = (token, email, nickname) => {
-  console.log(token, email, nickname);
   return {
     type: SIGN_IN,
     payload: {
@@ -104,7 +103,7 @@ export const showUserLists = (token, email, nickname, tag, pageNumber) => {
   };
 };
 
-export const showSurpin = (data) => {
+export const getShowSurpin = (data) => {
   return {
     type: SHOW_SURPIN,
     payload: {
