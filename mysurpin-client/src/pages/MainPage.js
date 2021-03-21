@@ -17,6 +17,7 @@ const MainPage = () => {
   const mainPageState = useSelector((state) => state.surpinReducer);
   const dispatch = useDispatch();
   const { tags, newLists } = mainPageState;
+  const [navBarState, setNavBarState] = useState("hidden");
 
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/bestTags`)
@@ -54,14 +55,29 @@ const MainPage = () => {
     setChartdata([12, 19, 3, 5, 2, 3]);
   };
 
+  useEffect(() => {
+    window.addEventListener("scroll", getCurrentScroll);
+    return () => window.removeEventListener("scroll", getCurrentScroll);
+  });
+
+  const getCurrentScroll = () => {
+    if ((window.scrollY / document.body.clientHeight) * 100 < 33) {
+      console.log("navbar__searchbar hidden");
+      setNavBarState("hidden");
+    } else if ((window.scrollY / document.body.clientHeight) * 100 > 33) {
+      console.log("navbar__searchbar");
+      setNavBarState("");
+    }
+  };
+
   return (
     <div className="mainPage">
-      <Navbar></Navbar>
+      <Navbar navBarState={navBarState}></Navbar>
       <ScrollBtn></ScrollBtn>
       <ul className="mainpage__sections">
         <MainSection></MainSection>
         <BestTagsSection
-          animatedItem={useScrollEventListener(handleChartdata, 0.7)}
+          animatedItem={useScrollEventListener(handleChartdata)}
           chartdata={chartdata}
         ></BestTagsSection>
         <NewListsSection
