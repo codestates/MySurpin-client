@@ -13,9 +13,9 @@ const BesttagsSection = () => {
       {
         label: "# of Votes",
         data: [12, 19, 3, 5, 2, 3],
-        fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        fill: true,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)",
       },
     ],
   };
