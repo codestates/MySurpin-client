@@ -3,7 +3,7 @@ import {
   GET_BEST_TAGS,
   SHOW_USER_LISTS,
   SHOW_SURPIN,
-  SEARCH_TAG_LISTS,
+  GET_TAG_LISTS,
 } from "../actions/index";
 import { initialState } from "./initialState";
 
@@ -29,7 +29,7 @@ const surpinReducer = (state = initialState, action) => {
         showSurpin: action.payload.data,
       });
 
-    case SEARCH_TAG_LISTS:
+    case GET_TAG_LISTS:
       return Object.assign({}, state, {
         searchTagLists: action.payload.data,
       });

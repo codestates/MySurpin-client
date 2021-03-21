@@ -211,17 +211,22 @@ const NewListsSection = () => {
     ],
   };
 
+  // 추후에 새 리스트가 없을 경우 페이지 만들기
   return (
     <div className="newListsSection">
       <div className="newlists__title">New Surpins</div>
       <ul className="newlists__lists">
-        {fakeData.surpins.map((surpin) => {
-          return (
-            <li className="newlists__list">
-              <Surpin surpin={surpin}></Surpin>
-            </li>
-          );
-        })}
+        {!newLists.surpins || newLists.surpins.length === 0 ? (
+          <li className="newlists__list">Loading...</li>
+        ) : (
+          newLists.surpins.map((surpin) => {
+            return (
+              <li className="newlists__list" key={surpin.surpinId}>
+                <Surpin surpin={surpin} key={surpin.surpinId}></Surpin>
+              </li>
+            );
+          })
+        )}
       </ul>
     </div>
   );
