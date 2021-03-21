@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback } from "react";
 
-const useScrollEventListener = (func, threshold) => {
+const useScrollEventListener = (func, threshold, style) => {
   const dom = useRef();
 
   const handleScroll = useCallback(([entry]) => {
