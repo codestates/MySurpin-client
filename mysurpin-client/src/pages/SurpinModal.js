@@ -67,22 +67,70 @@ const SurpinModal = ({ location }) => {
     setNewUrls([...newUrls, { urlName: inputUrlname, url: inputUrl }]);
   };
 
+  // PATCH editsurpin
   const editSurpin = () => {
     setEditMode(!editmode);
-    // POST editsurpin
+    const newSurpinState = {
+      thumbnail: "thumbnail",
+      desc: newDesc,
+      tags: newTags,
+      urls: newUrls,
+      listname: newListname,
+    };
+
+    fetch(`http://localhost:4000/surpin/editmysurpin`, {
+      method: "PATCH",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
+    })
+      .then((res) => {
+        if (res.body.message === "edit done!") {
+          alert("수정 완료");
+        } else {
+          alert("정보 부족");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
+  // POST createsurpin
   const createSurpin = () => {
     setEditMode(!editmode);
-    // POST createsurpin
+    const newSurpinState = {
+      thumbnail: "thumbnail",
+      desc: newDesc,
+      tags: newTags,
+      urls: newUrls,
+      listname: newListname,
+    };
+    fetch(`http://localhost:4000/surpin/createmysurpin`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ ...newSurpinState, email }),
+    })
+      .then((res) => {
+        if (res.body.message === "done") {
+          alert("생성 완료");
+        } else {
+          alert("생성 실패");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleSaveSurpin = () => {
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
-    // Redux에 현재 상태 저장 - 요청 전 단계 dispatch()
-    // 이후 요청 분기
+    writer === nickname || !location.surpin ? editSurpin() : createSurpin();
   };
 
   const handleDeleteTag = (e) => {
@@ -198,13 +246,13 @@ const SurpinModal = ({ location }) => {
         <div className="surpinModal__header">
           {writer === nickname ? (
             // 내 서핀일때 - 기존 서핀 편집
-            <button className="surpinModal__edit-btn" onClick={editSurpin}>
+            <button className="surpinModal__edit-btn">
               <img src="" alt="" />
               내서핀 편집
             </button>
           ) : (
             // 남의 서핀일때 - 새로운 서핀 생성
-            <button className="surpinModal__edit-btn" onClick={createSurpin}>
+            <button className="surpinModal__edit-btn">
               <img src="" alt="" />
               서핀 퍼가기
             </button>
@@ -259,12 +307,21 @@ const SurpinModal = ({ location }) => {
           </button>
         </div>
         <div className="surpinModal__revise-btn__wrapper">
-          <button
-            className="surpinModal__revise-btn"
-            onClick={handleSaveSurpin}
-          >
-            저장
-          </button>
+          {writer === nickname ? (
+            <button
+              className="surpinModal__revise-btn"
+              onClick={handleSaveSurpin}
+            >
+              편집
+            </button>
+          ) : (
+            <button
+              className="surpinModal__revise-btn"
+              onClick={handleSaveSurpin}
+            >
+              퍼가기
+            </button>
+          )}
         </div>
       </section>
     </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import Tag from "../components/Tag";
@@ -67,14 +67,11 @@ const SurpinLists = () => {
           </ul>
         </div>
         {user.nickname === nickname ? (
-          <button
-            className="surpinlists__btn"
-            onClick={() => {
-              // history.push(`/surpinmodal`);
-            }}
-          >
-            Supin 추가하기
-          </button>
+          <Link to={{ pathname: `/surpinmodal/${nickname}` }}>
+            <button className="surpinlists__btn" onClick={() => {}}>
+              Supin 추가하기
+            </button>
+          </Link>
         ) : (
           <div></div>
         )}
