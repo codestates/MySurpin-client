@@ -118,11 +118,18 @@ li {
   .besttagsSection {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     .besttags__title {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
       color: #555;
+    }
+    .besttags__chart {
+      justify-self: center;
+      align-self: center;
+      width: 70vw;
+      height: 70vh;
     }
   }
   .newListsSection {
