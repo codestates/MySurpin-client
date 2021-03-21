@@ -46,7 +46,7 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
         <div className="withdrawal_formOff">
           <div className="withdrawal__title">You want to leave?</div>
           <div className="withdrawal__ment">
-            If you really want to leave, click button below
+            If you really want to leave, click button bellow
           </div>
           <button
             className="withdrawal__btn"

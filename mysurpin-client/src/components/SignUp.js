@@ -1,10 +1,8 @@
 import React, { useState, useCallback } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 const SignUp = ({ isSignInOn, handlePageState }) => {
   const history = useHistory();
-  useSelector((state) => state.userReducer);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -95,7 +93,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         email,
         password,
       });
-      console.log("good");
       fetch(`http://localhost:4000/user/signup`, {
         method: "POST",
         headers: {
