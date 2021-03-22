@@ -279,7 +279,7 @@ const SurpinModal = ({ location }) => {
           )}
 
           <ul className="taglists__show">
-            {newTags.length > 1
+            {newTags.length > 0
               ? newTags.map((tag) => {
                   return (
                     <li className="taglists__show__tag">
@@ -335,7 +335,7 @@ const SurpinModal = ({ location }) => {
             <div className="show-contents__url"></div>
           </div>
           <ul className="surpinModal__url-lists">
-            {newUrls.length > 1
+            {newUrls.length > 0
               ? newUrls.map((urlinfo) => {
                   return (
                     <li className="surpinModal__url-list">

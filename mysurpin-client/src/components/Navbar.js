@@ -57,24 +57,33 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 
   // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
   const handleSearchBtn = () => {
+    const payload = JSON.stringify({
+      pagenumber: 1,
+      tag: tag,
+    });
     fetch(`http://localhost:4000/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         credentials: "include",
       },
-      body: JSON.stringify({
-        pagenumber: 1,
-        tag,
-      }),
+      body: payload,
     })
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
       .then((res) => res.json())
-      .then((data) => {
-        if (data.surpins) {
-          dispatch(getTagLists(data));
+      .then((body) => {
+        console.log(body.message);
+        if (body.message === "Unsufficient info") {
+          alert("검색어 입력 하세요. (궁서체)");
+        } else if (body.message === "No surpin with request tag") {
+          dispatch(getTagLists({}));
           history.push("/searchpage");
         } else {
-          alert("Bad Request");
+          dispatch(getTagLists(body));
+          history.push("/searchpage");
         }
       })
       .catch((err) => console.error(err));
