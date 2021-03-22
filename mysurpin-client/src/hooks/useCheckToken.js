@@ -1,9 +1,14 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { signOut } from "../actions/index";
+import { useHistory } from "react-router-dom";
 
 const useCheckToken = (param = []) => {
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     console.log("정보 잘 담고있는지 확인 11111111", user);
     if (user.token && user.email) {
@@ -26,6 +31,8 @@ const useCheckToken = (param = []) => {
         .then((status) => {
           if (Number(status) !== 200) {
             alert("로그인 창으로 이도오오오오옹~!");
+            dispatch(signOut());
+            history.push("/signpage");
           } else {
             alert("오우오우 토큰 유지~~~!");
           }

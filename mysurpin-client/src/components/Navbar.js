@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
 
+// fakeData 나중에 꼭 지우기 (여기부터)
+import { fakeData } from "../reducers/initialState";
+// fakeData 나중에 꼭 지우기 (여기까지)
+
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
-    user: { token, nickname },
+    user: { token, nickname, email },
   } = userState;
 
   const [tag, setTag] = useState("");
@@ -24,7 +28,21 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 
   const handleLogOutBtn = () => {
     dispatch(signOut());
-    history.push("/");
+    const payload = JSON.stringify({
+      email,
+    });
+    return fetch(`http://localhost:4000/user/signout`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: payload,
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
   };
 
   const onChangeSearchTag = (e) => {

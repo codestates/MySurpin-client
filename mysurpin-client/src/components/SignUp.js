@@ -191,7 +191,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 onKeyPress={onKeyPress}
               ></input>
             </div>
-            <button className="signup__btn" onClick={() => handleClick()}>
+            <button className="signup__btn" onClick={() => handleSignUp()}>
               sign up
             </button>
             <span>{message}</span>
