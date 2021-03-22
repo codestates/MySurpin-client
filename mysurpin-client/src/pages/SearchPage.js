@@ -88,16 +88,20 @@ const SearchPage = () => {
         <div className="searchpage-best-results">
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">
-            {searchTagLists.top.map((searchTagList) => {
-              return (
-                <li
-                  className="searchpage-best-list"
-                  key={searchTagList.surpinId}
-                >
-                  <Surpin surpin={searchTagList}></Surpin>
-                </li>
-              );
-            })}
+            {searchTagLists.top ? (
+              searchTagLists.top.map((searchTagList) => {
+                return (
+                  <li
+                    className="searchpage-best-list"
+                    key={searchTagList.surpinId}
+                  >
+                    <Surpin surpin={searchTagList}></Surpin>
+                  </li>
+                );
+              })
+            ) : (
+              <li className="searchpage-best-list">검색어 결과가 없습니닷!</li>
+            )}
           </ul>
         </div>
         <div className="searchpage-all-results">
@@ -110,16 +114,22 @@ const SearchPage = () => {
               <div className="topbar__createdAt">생성일</div>
             </div>
             <ul className="searchpage-all-results__lists">
-              {mergedData.map((surpin) => {
-                return (
-                  <li
-                    className="searchpage-all-result__list"
-                    key={surpin.surpinId}
-                  >
-                    <SearchResult surpin={surpin}></SearchResult>
-                  </li>
-                );
-              })}
+              {mergedData ? (
+                mergedData.map((surpin) => {
+                  return (
+                    <li
+                      className="searchpage-all-result__list"
+                      key={surpin.surpinId}
+                    >
+                      <SearchResult surpin={surpin}></SearchResult>
+                    </li>
+                  );
+                })
+              ) : (
+                <li className="searchpage-all-result__list">
+                  검색 결과가 없습니닷!
+                </li>
+              )}
             </ul>
           </div>
         </div>
