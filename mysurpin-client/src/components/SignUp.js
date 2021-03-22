@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
 const SignUp = ({ isSignInOn, handlePageState }) => {
@@ -9,6 +9,10 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
   const [password, setPassword] = useState("");
   const [passwordcheck, setPasswordCheck] = useState("");
   const [message, setMessage] = useState(false);
+
+  const moveToEmail = useRef();
+  const moveToPassword = useRef();
+  const moveToCheckPassword = useRef();
 
   const onChangePasswordCheck = useCallback(
     (e) => {
@@ -21,6 +25,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
   const onChangeName = (e) => {
     setName(e.target.value);
   };
+
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -29,7 +34,28 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
     setPassword(e.target.value);
   };
 
-  const onKeyPress = (e) => {
+  const onKeyPressMoveToEmail = (e) => {
+    if (e.key === "Enter") {
+      moveToEmail.current.focus();
+      handleClick();
+    }
+  };
+
+  const onKeyPressMoveToPassword = (e) => {
+    if (e.key === "Enter") {
+      moveToPassword.current.focus();
+      handleClick();
+    }
+  };
+
+  const onKeyPressMoveToPasswordCheck = (e) => {
+    if (e.key === "Enter") {
+      moveToCheckPassword.current.focus();
+      handleClick();
+    }
+  };
+
+  const onKeyPressSignUp = (e) => {
     if (e.key === "Enter") {
       handleClick();
     }
@@ -162,7 +188,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Name"
                 onChange={onChangeName}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToEmail}
               ></input>
               <input
                 className="signup-form__email__input"
@@ -170,7 +196,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Email"
                 onChange={onChangeEmail}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToPassword}
+                ref={moveToEmail}
               ></input>
               <input
                 className="signup-form__password__input"
@@ -179,7 +206,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Password"
                 onChange={onChangePassword}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToPasswordCheck}
+                ref={moveToPassword}
               ></input>
               <input
                 className="signup-form__password__check__input"
@@ -188,7 +216,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="PasswordCheck"
                 onChange={onChangePasswordCheck}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressSignUp}
+                ref={moveToCheckPassword}
               ></input>
             </div>
             <button className="signup__btn" onClick={() => handleClick()}>
