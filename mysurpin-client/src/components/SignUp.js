@@ -124,7 +124,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSignUp}>
+        <form>
           <div className="signup__formOn">
             <div className="signup__title">Sign Up Surpin</div>
             <div className="signup__ment">
@@ -162,7 +162,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 onChange={onChangePasswordCheck}
               ></input>
             </div>
-            <button className="signup__btn" onClick={() => handleClick()}>
+            <button className="signup__btn" onClick={() => handleSignUp()}>
               sign up
             </button>
             <span>{message}</span>

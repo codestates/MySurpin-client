@@ -4,6 +4,7 @@ import Tag from "../components/Tag";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
+import useCheckToken from "../hooks/useCheckToken";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
@@ -50,6 +51,8 @@ const SurpinModal = ({ location }) => {
   console.log(newExistTags);
   console.log(inputTag.length);
 
+  useCheckToken([editmode]);
+
   useEffect(() => {
     console.log("찾아라!", inputTag.length);
     if (inputTag.length > 0) {
@@ -82,7 +85,7 @@ const SurpinModal = ({ location }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setNewUrls(data.urls);
+        setNewUrls([...data.urls]);
         dispatch(getShowSurpin(data.urls));
       })
       .catch((err) => console.log(err));
