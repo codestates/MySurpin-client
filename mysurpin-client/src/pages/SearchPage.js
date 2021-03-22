@@ -5,6 +5,7 @@ import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
 import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 // 실험용 데이터
 import { fakeData2 } from "../reducers/initialState";
@@ -15,7 +16,6 @@ const SearchPage = () => {
   const { searchTagLists } = searchTagState;
   const dispatch = useDispatch();
   const [tag, setTag] = useState("");
-  const [fetching, setFetching] = useState(false); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
   const [pagenumber, setPagenumber] = useState(1);
 
   const fetchMoreLists = () => {
@@ -43,25 +43,11 @@ const SearchPage = () => {
     setPagenumber((pagenumber) => pagenumber + 1);
   };
 
-  // 스크롤 이벤트 핸들러
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight && fetching === false) {
-      // 페이지 끝에 도달하면 추가 데이터를 받아온다
-      fetchMoreLists();
-    }
-  };
+  const [fetching, setFetching] = useInfiniteScroll(fetchMoreLists); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
 
   useEffect(() => {
-    // scroll event listener 등록
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      // scroll event listener 해제
-      window.removeEventListener("scroll", handleScroll);
-    };
-  });
+    fetchMoreLists();
+  }, []);
 
   const onChangeSearchTag = (e) => {
     setTag(e.target.value);
