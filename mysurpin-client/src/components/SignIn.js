@@ -36,12 +36,15 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       },
       body: payload,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log("어떻게 오니??", res.status);
+        return res.json();
+      })
       .then((body) => {
         if (body.accessToken) {
           console.log(body);
           dispatch(signIn(body.accessToken, email, body.nickname));
-          history.push("/edituserinfo");
+          history.push("/");
         } else {
           alert("Bad Request");
         }

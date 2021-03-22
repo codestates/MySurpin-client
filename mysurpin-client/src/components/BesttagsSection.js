@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
-const BesttagsSection = ({ animatedItem, chartdata }) => {
+const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
   const [gradient, setGradient] = useState("");
@@ -19,7 +19,7 @@ const BesttagsSection = ({ animatedItem, chartdata }) => {
         <Line
           id="myChart"
           data={{
-            labels: chartdata,
+            labels: chartlabel,
             datasets: [
               {
                 backgroundColor: gradient,

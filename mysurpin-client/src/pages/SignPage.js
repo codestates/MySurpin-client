@@ -4,7 +4,7 @@ import SignUp from "../components/SignUp";
 import Navbar from "../components/Navbar";
 
 const SignPage = () => {
-  const [signIn, setSignIn] = useState(false);
+  const [signIn, setSignIn] = useState(true);
 
   const handlePageState = () => {
     setSignIn(!signIn);
@@ -12,7 +12,7 @@ const SignPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isSignPage={"hidden"} />
       <div className="signPage">
         <section className="signin-section">
           <SignIn
