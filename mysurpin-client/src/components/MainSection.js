@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getTagLists } from "../actions/index";
+import { useHistory } from "react-router-dom";
 
 const MainSection = () => {
   const [tag, setTag] = useState("");
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const onChangeSearchTag = (e) => {
     setTag(e.target.value);
   };
@@ -30,7 +36,19 @@ const MainSection = () => {
         return res;
       })
       .then((res) => res.json())
-      .then((data) => console.log(data.message));
+      .then((body) => {
+        console.log(body.message);
+        if (body.message === "Unsufficient info") {
+          alert("검색어 입력 하세요. (궁서체)");
+        } else if (body.message === "No surpin with request tag") {
+          dispatch(getTagLists({}));
+          history.push("/searchpage");
+        } else {
+          dispatch(getTagLists(body));
+          history.push("/searchpage");
+        }
+      })
+      .catch((err) => console.error(err));
   };
   // 미구현 (끝)
 
