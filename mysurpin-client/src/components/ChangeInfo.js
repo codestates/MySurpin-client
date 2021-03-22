@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { useHistory } from "react-router-dom";
 import { userEdit } from "../actions/index";
+import { useHistory } from "react-router-dom";
 
 const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
-  // const history = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
@@ -13,6 +14,9 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [checkpassword, setCheckPassword] = useState("");
+
+  const MoveToNewPassword = useRef();
+  const MoveToNewCheckPassword = useRef();
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -25,6 +29,18 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   };
   const onChangeCheckPassword = (e) => {
     setCheckPassword(e.target.value);
+  };
+
+  const onKeyPressMoveToNewPassword = (e) => {
+    if (e.key === "Enter") {
+      MoveToNewPassword.current.focus();
+    }
+  };
+
+  const onKeyPressMoveToNewCheckPassword = (e) => {
+    if (e.key === "Enter") {
+      MoveToNewCheckPassword.current.focus();
+    }
   };
 
   const onKeyPress = (e) => {
@@ -56,6 +72,8 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
           if (body.accessToken) {
             dispatch(userEdit(body.accessToken, email, password, nickname));
             alert("정보가 변경되었습니다.");
+            history.push("/");
+            // 리다이렉트 필요. userinfo로 이동해야함. 아마 에러 있는듯.
           } else {
             alert("Bad Request");
           }
@@ -79,7 +97,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder="Email 본인확인을 위해 입력해주세요 (변경불가)"
               value={email}
               onChange={onChangeEmail}
-              onKeyPress={onKeyPress}
+              onKeyPress={onKeyPressMoveToNewPassword}
             />
             <input
               type="text"
@@ -95,7 +113,8 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder={"NEW Password"}
               value={password}
               onChange={onChangePassword}
-              onKeyPress={onKeyPress}
+              onKeyPress={onKeyPressMoveToNewCheckPassword}
+              ref={MoveToNewPassword}
             />
             <input
               type="password"
@@ -104,6 +123,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               value={checkpassword}
               onChange={onChangeCheckPassword}
               onKeyPress={onKeyPress}
+              ref={MoveToNewCheckPassword}
             />
           </div>
           <button className="changeinfo__btn" onClick={handleChangeInfo}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signIn } from "../actions/index";
@@ -10,6 +10,8 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const moveToPassword = useRef();
+
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -19,11 +21,18 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
+      moveToPassword.current.focus();
       handleSignIn();
     }
   };
 
   const handleSignIn = () => {
+    if (email === "") {
+      return;
+    }
+    if (password === "") {
+      return;
+    }
     const payload = JSON.stringify({
       email,
       password,
@@ -75,6 +84,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
               required
               onChange={onChangePassword}
               onKeyPress={onKeyPress}
+              ref={moveToPassword}
             ></input>
           </div>
           <button className="signin__btn" onClick={handleSignIn}>
