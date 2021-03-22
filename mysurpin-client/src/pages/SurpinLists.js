@@ -7,9 +7,8 @@ import Tag from "../components/Tag";
 import { showUserLists, showUserTags } from "../actions/index";
 
 // get fakedata
-import { fakeData } from "../reducers/initialState";
-
-const fakeTags = ["다들", "힘내세요", "1", "2", "3", "4", "5", "6", "7", "8"];
+// import { fakeData } from "../reducers/initialState";
+// const fakeTags = ["다들", "힘내세요", "1", "2", "3", "4", "5", "6", "7", "8"];
 
 const SurpinLists = () => {
   const { writer } = useParams();
@@ -18,20 +17,22 @@ const SurpinLists = () => {
   const userState = useSelector((state) => state.userReducer);
   const { user, token, email } = userState;
 
-  const [newShowUserLists, setNewShowUserLists] = useState(fakeData.surpins);
-  const [filteredUserLists, setFilteredUserLists] = useState(fakeData.surpins);
-  const [newShowUserTags, setNewShowUserTags] = useState(fakeTags);
-
+  const [newShowUserLists, setNewShowUserLists] = useState([]);
+  const [filteredUserLists, setFilteredUserLists] = useState([]);
+  const [newShowUserTags, setNewShowUserTags] = useState([]);
+  // console.log(newShowUserTags);
+  // console.log(filteredUserLists)
   const handleCreateSurpin = () => {
     history.push("/surpinmodal/");
   };
 
   const handleFilterTags = (targetTag) => {
+    console.log(targetTag, filteredUserLists);
     if (targetTag === "all") {
       setFilteredUserLists(newShowUserLists);
     } else {
       setFilteredUserLists(
-        fakeData.surpins.filter((list) => {
+        newShowUserLists.filter((list) => {
           return list.tags.includes(targetTag);
         })
       );
@@ -39,32 +40,36 @@ const SurpinLists = () => {
   };
 
   useEffect(() => {
-    // server API 구현되면 지울 것
-    dispatch(showUserLists(fakeData));
-    dispatch(showUserTags(fakeTags));
-    fetch(`http://localhost:4000/surpin/showuserlists/?nickname=${writer}`, {
+    fetch(`http://localhost:4000/surpin/showuserlists?nickname=${writer}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         credentials: "include",
         authentication: token,
       },
-      body: { email },
+      body: JSON.stringify({ email }),
     })
       .then((res) => res.json())
       .then((data) => {
         dispatch(showUserLists(data));
-        setNewShowUserLists(data);
+        setNewShowUserLists(data.surpins);
+        setFilteredUserLists(data.surpins);
       });
 
-    fetch(`http://localhost:4000/tag/showusertags/?nickname=${writer}`, {
+    fetch(`http://localhost:4000/tag/showusertags?nickname=${writer}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         credentials: "include",
         authentication: token,
       },
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log("tags", data);
+        dispatch(showUserTags(data));
+        setNewShowUserTags(data.tags);
+      });
   }, []);
 
   return (
@@ -85,9 +90,9 @@ const SurpinLists = () => {
               return (
                 <li
                   className="surpinlist__tags__tag"
-                  onClick={() => handleFilterTags(tag)}
+                  onClick={() => handleFilterTags(tag.tagName)}
                 >
-                  <Tag tag={tag}></Tag>
+                  <Tag tag={tag.tagName}></Tag>
                 </li>
               );
             })}

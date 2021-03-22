@@ -21,7 +21,7 @@ const surpinReducer = (state = initialState, action) => {
 
     case SHOW_USER_LISTS:
       return Object.assign({}, state, {
-        showUserLists: "서버에서 받아온 값",
+        showUserLists: action.payload.data,
       });
 
     case SHOW_SURPIN:
