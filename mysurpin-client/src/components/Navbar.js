@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { getTagLists } from "../actions/index";
+import { signOut, getTagLists } from "../actions/index";
 
 // fakeData 나중에 꼭 지우기 (여기부터)
 import { fakeData } from "../reducers/initialState";
@@ -22,6 +22,11 @@ const Navbar = ({ navBarState }) => {
 
   const handleMySurpinBtn = () => {
     history.push(`/surpinlists/${nickname}`);
+  };
+
+  const handleLogOutBtn = () => {
+    dispatch(signOut());
+    history.push("/");
   };
 
   const onChangeSearchTag = (e) => {
@@ -89,9 +94,14 @@ const Navbar = ({ navBarState }) => {
         </div>
       )}
       {token ? (
-        <button className="navbar__btn" onClick={handleMySurpinBtn}>
-          My Surpin
-        </button>
+        <div className="navbar__btns">
+          <button className="navbar__btn" onClick={handleMySurpinBtn}>
+            My Surpin
+          </button>
+          <button className="navbar__btn" onClick={handleLogOutBtn}>
+            LOG OUT
+          </button>
+        </div>
       ) : (
         <Link to="/signpage/">
           <button className="navbar__btn">LOG IN / SIGN UP</button>

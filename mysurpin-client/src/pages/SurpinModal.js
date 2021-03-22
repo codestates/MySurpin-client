@@ -21,6 +21,7 @@ const SurpinModal = ({ location }) => {
     { urlName: "ybblog", url: "https://jooing.com" },
     { urlName: "ytblog", url: "https://jooing.com" },
   ];
+
   const {
     surpinId,
     title,
@@ -30,7 +31,16 @@ const SurpinModal = ({ location }) => {
     thumbnail,
     created_At,
     modified_At,
-  } = location.surpin;
+  } = location.surpin || {
+    surpinId: 0,
+    title: "일단은 오류 안생기게",
+    writer: "복잡하네요..",
+    desc: "주륵",
+    tags: [],
+    thumbnail: "?",
+    created_At: 200,
+    modified_At: 200,
+  };
 
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
