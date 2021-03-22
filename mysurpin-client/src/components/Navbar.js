@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // fakeData 나중에 꼭 지우기 (여기부터)
 import { fakeData } from "../reducers/initialState";
 // fakeData 나중에 꼭 지우기 (여기까지)
@@ -13,6 +14,9 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 =======
 const Navbar = ({ navBarState }) => {
 >>>>>>> 18ba3bfa462f9dac4c29aa7d6ca658da5d8d10a9
+=======
+const Navbar = ({ navBarState, isSignPage = "" }) => {
+>>>>>>> f11bc5aaca639aa9d2fe5be0169e714b04c820f8
   const userState = useSelector((state) => state.userReducer);
   const {
     user: { token, nickname },
