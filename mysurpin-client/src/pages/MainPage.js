@@ -5,19 +5,19 @@ import BestTagsSection from "../components/BesttagsSection";
 import NewListsSection from "../components/NewListsSection";
 import ScrollBtn from "../components/ScrollBtn";
 import useScrollFadeIn from "../hooks/useScrollFadeIn";
-import useScrollEventListener from "../hooks/useScrollEventListener";
+import useScrollEventListener from "../hooks/useScrollEventListener.js.js";
 import { getBestTags, getNewLists } from "../actions/index";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const MainPage = () => {
-  const mainPageState = useSelector((state) => state.surpinReducer);
   const dispatch = useDispatch();
-  const { tags, newLists } = mainPageState;
   const [navBarState, setNavBarState] = useState("hidden");
   const [chartlabel, setChartlabel] = useState([]);
   const [chartdata, setChartdata] = useState([]);
   let newChartlabel = [];
   let newChartdata = [];
+
+  // besttag
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/bestTags`)
       .then((res) => res.json())
@@ -34,7 +34,7 @@ const MainPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 본래 사용해야 하는 함수 + 추후에 api 요청 주소 변경
+  // newlists
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/newlists`, {
       method: "POST",

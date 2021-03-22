@@ -24,49 +24,65 @@ const SurpinModal = ({ location }) => {
     thumbnail,
     created_At,
     modified_At,
-  } = location.surpin;
+  } = location.surpin || {
+    surpinId: 0,
+    title: "New Surpin",
+    writer: nickname,
+    desc: "no description",
+    tags: [],
+    thumbnail: "thumbnail",
+    created_At: "",
+    modified_At: "",
+  };
 
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
   const [newDesc, setNewDesc] = useState(desc);
-  const [newTags, setNewTags] = useState(tags);
+  const [newTags, setNewTags] = useState([]);
   const [newUrls, setNewUrls] = useState([]);
-  const [newExistTags, setNewExistTags] = useState([]);
+  const [newExistTags, setNewExistTags] = useState(["tag"]);
 
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState("");
   const [inputUrl, setInputUrl] = useState("");
+  console.log(newExistTags);
+  console.log(inputTag.length);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/tag/showexiststags/?inputText=${inputTag}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setNewExistTags(data.tags);
+    console.log("찾아라!", inputTag.length);
+    if (inputTag.length > 0) {
+      fetch(`http://localhost:4000/tag/showexiststags?inputText=${inputTag}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
       })
-      .catch((err) => console.log(err));
-  }, [inputTag.length === 1]);
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("existtag", data);
+          setNewExistTags(data.tags);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [inputTag]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/surpin/showsurpinlist/?listId=${surpinId}`, {
+    fetch(`http://localhost:4000/surpin/showsurpin?listId=${surpinId}`, {
       method: "POST",
+      mode: "cors",
       headers: {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         credentials: "include",
       },
-      body: { email: JSON.stringify(email) },
+      body: JSON.stringify({ email }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setNewUrls(data.urls);
         dispatch(getShowSurpin(data.urls));
       })
       .catch((err) => console.log(err));
@@ -79,40 +95,7 @@ const SurpinModal = ({ location }) => {
   const handleInputUrlBtn = () => {
     setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
   };
-  console.log(newUrls);
 
-  // PATCH editsurpin
-  const editSurpin = () => {
-    setEditMode(!editmode);
-    const newSurpinState = {
-      thumbnail: "thumbnail",
-      desc: newDesc,
-      tags: newTags,
-      urls: newUrls,
-      listname: newListname,
-    };
-
-    fetch(`http://localhost:4000/surpin/editmysurpin`, {
-      method: "PATCH",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
-    })
-      .then((res) => res.json())
-      .then((body) => {
-        if (body.message === "edit done!") {
-          alert("수정 완료");
-        } else {
-          alert("정보 부족");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  // POST createsurpin
   const createSurpin = () => {
     setEditMode(!editmode);
     const newSurpinState = {
@@ -137,6 +120,37 @@ const SurpinModal = ({ location }) => {
           alert("생성 완료");
         } else {
           alert("생성 실패");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const editSurpin = (desc, listname) => {
+    setEditMode(!editmode);
+
+    const newSurpinState = {
+      thumbnail: "thumbnail",
+      listname,
+      desc,
+      tags: newTags,
+      urls: newUrls,
+    };
+
+    fetch(`http://localhost:4000/surpin/editmysurpin`, {
+      method: "PATCH",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.message === "edit done!") {
+          alert("수정 완료");
+        } else {
+          alert("정보 부족");
         }
       })
       .catch((err) => console.log(err));
@@ -168,7 +182,8 @@ const SurpinModal = ({ location }) => {
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
-    writer === nickname || !location.surpin ? editSurpin() : createSurpin();
+    if (!location.surpin || writer !== nickname) createSurpin();
+    else editSurpin(inputDesc, inputListname);
   };
 
   const handleDeleteTag = (e) => {
@@ -190,10 +205,7 @@ const SurpinModal = ({ location }) => {
 
   return (
     <div className="surpinModal">
-      <button
-        className="surpinModal__back-btn"
-        onClick={() => history.goBack()}
-      >
+      <button className="surpinModal__back-btn" onClick={() => history.go(-2)}>
         {"<"}
       </button>
       <section className="surpinModal__sidebar">
@@ -247,11 +259,11 @@ const SurpinModal = ({ location }) => {
                 value={inputTag}
                 list="existTagsList"
               />
-              {/* <datalist id="existTagsList">
+              <datalist id="existTagsList">
                 {newExistTags.map((existTag) => {
                   return <option value={existTag.name}> </option>;
                 })}
-              </datalist> */}
+              </datalist>
               <button
                 className="taglists__form__btn"
                 onClick={handleInputTagBtn}
@@ -331,11 +343,6 @@ const SurpinModal = ({ location }) => {
                           onClick={handleDeleteUrl}
                         >
                           X
-                          <img
-                            className="urlList__delete-btn-img"
-                            src=""
-                            alt=""
-                          />
                         </button>
                       ) : (
                         <></>
@@ -371,19 +378,19 @@ const SurpinModal = ({ location }) => {
         )}
 
         <div className="surpinModal__revise-btn__wrapper">
-          {writer === nickname ? (
+          {writer === nickname && editmode ? (
             <button
               className="surpinModal__revise-btn"
               onClick={handleSaveSurpin}
             >
-              편집
+              편집완료
             </button>
           ) : (
             <button
               className="surpinModal__revise-btn"
               onClick={handleSaveSurpin}
             >
-              퍼가기
+              새로만들기
             </button>
           )}
         </div>
