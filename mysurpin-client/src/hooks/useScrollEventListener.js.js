@@ -5,7 +5,6 @@ const useScrollEventListener = (func, threshold, style) => {
 
   const handleScroll = useCallback(([entry]) => {
     const { current } = dom;
-
     if (entry.isIntersecting) {
       func();
     }
@@ -14,19 +13,15 @@ const useScrollEventListener = (func, threshold, style) => {
   useEffect(() => {
     let observer;
     const { current } = dom;
-
     if (current) {
       observer = new IntersectionObserver(handleScroll, { threshold });
       observer.observe(current);
-
       return () => observer && observer.disconnect();
     }
   }, [handleScroll]);
-
   return {
     ref: dom,
     style,
   };
 };
-
 export default useScrollEventListener;

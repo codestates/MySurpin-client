@@ -27,6 +27,12 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
     setCheckPassword(e.target.value);
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleChangeInfo();
+    }
+  };
+
   const handleChangeInfo = () => {
     console.log(user);
     if (user.email === email && password === checkpassword) {
@@ -73,6 +79,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder="Email 본인확인을 위해 입력해주세요 (변경불가)"
               value={email}
               onChange={onChangeEmail}
+              onKeyPress={onKeyPress}
             />
             <input
               type="text"
@@ -80,6 +87,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder={user.nickname}
               value={nickname}
               onChange={onChangeNickname}
+              onKeyPress={onKeyPress}
             />
             <input
               type="password"
@@ -87,6 +95,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder={"NEW Password"}
               value={password}
               onChange={onChangePassword}
+              onKeyPress={onKeyPress}
             />
             <input
               type="password"
@@ -94,6 +103,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder="Check Password"
               value={checkpassword}
               onChange={onChangeCheckPassword}
+              onKeyPress={onKeyPress}
             />
           </div>
           <button className="changeinfo__btn" onClick={handleChangeInfo}>

@@ -13,14 +13,7 @@ const SurpinModal = ({ location }) => {
   const {
     user: { nickname, token, email },
   } = userState;
-  // const { showSurpin } = surpinState;
-  // fakedata instead
-  const showSurpin = [
-    { urlName: "jhblog", url: "https://jooing.com" },
-    { urlName: "jwblog", url: "https://jooing.com" },
-    { urlName: "ybblog", url: "https://jooing.com" },
-    { urlName: "ytblog", url: "https://jooing.com" },
-  ];
+  const { showSurpin } = surpinState;
 
   const {
     surpinId,
@@ -33,80 +26,65 @@ const SurpinModal = ({ location }) => {
     modified_At,
   } = location.surpin || {
     surpinId: 0,
-    title: "일단은 오류 안생기게",
-    writer: "복잡하네요..",
-    desc: "주륵",
+    title: "New Surpin",
+    writer: nickname,
+    desc: "no description",
     tags: [],
-    thumbnail: "?",
-    created_At: 200,
-    modified_At: 200,
+    thumbnail: "thumbnail",
+    created_At: "",
+    modified_At: "",
   };
 
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
   const [newDesc, setNewDesc] = useState(desc);
-  const [newTags, setNewTags] = useState(tags);
-  const [newUrls, setNewUrls] = useState(showSurpin);
-  const [newExistTags, setNewExistTags] = useState([
-    {
-      name: "태그를 입력해주세요",
-      contentsCount: 5,
-    },
-  ]);
+  const [newTags, setNewTags] = useState([]);
+  const [newUrls, setNewUrls] = useState([]);
+  const [newExistTags, setNewExistTags] = useState(["tag"]);
 
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState("");
   const [inputUrl, setInputUrl] = useState("");
+  console.log(newExistTags);
+  console.log(inputTag.length);
 
   useEffect(() => {
-    // server API 구현되면 지울 것
-    dispatch(getShowSurpin(showSurpin));
-    // fetch(`http://localhost:4000/tag/showexiststags/?inputText=${inputTag}`, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     credentials: "include",
-    //   },
-    // })
-    // .then((res) => res.json())
-    // .then((data) => {
-    //   setNewExistTags(data.tags);
-    // })
-    // .catch((err) => console.log(err));
-
-    // fakedata instead
-    setNewExistTags({
-      tags: [
-        {
-          name: "tag1",
-          contentsCount: 5,
+    console.log("찾아라!", inputTag.length);
+    if (inputTag.length > 0) {
+      fetch(`http://localhost:4000/tag/showexiststags?inputText=${inputTag}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
         },
-        {
-          name: "tag2",
-          contentsCount: 5,
-        },
-        {
-          name: "tag5",
-          contentsCount: 5,
-        },
-      ],
-    });
-  }, [inputTag.length === 1]);
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("existtag", data);
+          setNewExistTags(data.tags);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [inputTag]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/surpin/showsurpinlist/?listId=${surpinId}`, {
+    fetch(`http://localhost:4000/surpin/showsurpin?listId=${surpinId}`, {
       method: "POST",
+      mode: "cors",
       headers: {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         credentials: "include",
       },
-      body: { email: JSON.stringify(email) },
+      body: JSON.stringify({ email }),
     })
       .then((res) => res.json())
-      .then((data) => dispatch(getShowSurpin(data.urls)))
+      .then((data) => {
+        setNewUrls(data.urls);
+        dispatch(getShowSurpin(data.urls));
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -115,40 +93,9 @@ const SurpinModal = ({ location }) => {
   };
 
   const handleInputUrlBtn = () => {
-    setNewUrls([...newUrls, { urlName: inputUrlname, url: inputUrl }]);
+    setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
   };
 
-  // PATCH editsurpin
-  const editSurpin = () => {
-    setEditMode(!editmode);
-    const newSurpinState = {
-      thumbnail: "thumbnail",
-      desc: newDesc,
-      tags: newTags,
-      urls: newUrls,
-      listname: newListname,
-    };
-
-    fetch(`http://localhost:4000/surpin/editmysurpin`, {
-      method: "PATCH",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
-    })
-      .then((res) => {
-        if (res.body.message === "edit done!") {
-          alert("수정 완료");
-        } else {
-          alert("정보 부족");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  // POST createsurpin
   const createSurpin = () => {
     setEditMode(!editmode);
     const newSurpinState = {
@@ -167,11 +114,65 @@ const SurpinModal = ({ location }) => {
       },
       body: JSON.stringify({ ...newSurpinState, email }),
     })
-      .then((res) => {
-        if (res.body.message === "done") {
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.message === "done") {
           alert("생성 완료");
         } else {
           alert("생성 실패");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const editSurpin = (desc, listname) => {
+    setEditMode(!editmode);
+
+    const newSurpinState = {
+      thumbnail: "thumbnail",
+      listname,
+      desc,
+      tags: newTags,
+      urls: newUrls,
+    };
+
+    fetch(`http://localhost:4000/surpin/editmysurpin`, {
+      method: "PATCH",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.message === "edit done!") {
+          alert("수정 완료");
+        } else {
+          alert("정보 부족");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleRemoveSurpin = () => {
+    fetch(`http://localhost:4000/surpin/removemysurpin`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ listId: surpinId, email }),
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.message === "Successfully processed") {
+          alert("삭제 완료");
+          history.goBack();
+        } else {
+          alert("삭제 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -181,7 +182,8 @@ const SurpinModal = ({ location }) => {
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
-    writer === nickname || !location.surpin ? editSurpin() : createSurpin();
+    if (!location.surpin || writer !== nickname) createSurpin();
+    else editSurpin(inputDesc, inputListname);
   };
 
   const handleDeleteTag = (e) => {
@@ -196,17 +198,14 @@ const SurpinModal = ({ location }) => {
     setNewUrls(
       newUrls.filter(
         (url) =>
-          url.urlName + url.url !== e.target.parentNode.textContent.slice(0, -1)
+          url.name + url.url !== e.target.parentNode.textContent.slice(0, -1)
       )
     );
   };
 
   return (
     <div className="surpinModal">
-      <button
-        className="surpinModal__back-btn"
-        onClick={() => history.goBack()}
-      >
+      <button className="surpinModal__back-btn" onClick={() => history.go(-2)}>
         {"<"}
       </button>
       <section className="surpinModal__sidebar">
@@ -261,7 +260,7 @@ const SurpinModal = ({ location }) => {
                 list="existTagsList"
               />
               <datalist id="existTagsList">
-                {newExistTags.tags.map((existTag) => {
+                {newExistTags.map((existTag) => {
                   return <option value={existTag.name}> </option>;
                 })}
               </datalist>
@@ -277,24 +276,30 @@ const SurpinModal = ({ location }) => {
           )}
 
           <ul className="taglists__show">
-            {newTags.map((tag) => {
-              return (
-                <li className="taglists__show__tag">
-                  <Tag tag={tag}></Tag>
-                  {editmode ? (
-                    <button
-                      className="tagaList__delete-btn"
-                      onClick={handleDeleteTag}
-                    >
-                      X
-                      <img className="tagList__delete-btn-img" src="" alt="" />
-                    </button>
-                  ) : (
-                    <></>
-                  )}
-                </li>
-              );
-            })}
+            {newTags.length > 1
+              ? newTags.map((tag) => {
+                  return (
+                    <li className="taglists__show__tag">
+                      <Tag tag={tag}></Tag>
+                      {editmode ? (
+                        <button
+                          className="tagaList__delete-btn"
+                          onClick={handleDeleteTag}
+                        >
+                          X
+                          <img
+                            className="tagList__delete-btn-img"
+                            src=""
+                            alt=""
+                          />
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </li>
+                  );
+                })
+              : console.log("no tags")}
           </ul>
         </div>
       </section>
@@ -327,63 +332,79 @@ const SurpinModal = ({ location }) => {
             <div className="show-contents__url"></div>
           </div>
           <ul className="surpinModal__url-lists">
-            {newUrls.map((urlinfo) => {
-              return (
-                <li className="surpinModal__url-list">
-                  <UrlList
-                    urlName={urlinfo.urlName}
-                    url={urlinfo.url}
-                  ></UrlList>
-                  {editmode ? (
-                    <button
-                      className="urlList__delete-btn"
-                      onClick={handleDeleteUrl}
-                    >
-                      X
-                      <img className="urlList__delete-btn-img" src="" alt="" />
-                    </button>
-                  ) : (
-                    <></>
-                  )}
-                </li>
-              );
-            })}
+            {newUrls.length > 1
+              ? newUrls.map((urlinfo) => {
+                  return (
+                    <li className="surpinModal__url-list">
+                      <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
+                      {editmode ? (
+                        <button
+                          className="urlList__delete-btn"
+                          onClick={handleDeleteUrl}
+                        >
+                          X
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </li>
+                  );
+                })
+              : console.log("no urls")}
           </ul>
         </div>
-        <div className="surpinModal__input-contents">
-          <input
-            type="text"
-            className="input-content__urlname"
-            placeholder="name"
-            onChange={(e) => setInputUrlname(e.target.value)}
-            value={inputUrlname}
-          />
-          <input
-            type="text"
-            className="input-content__url"
-            placeholder="url"
-            onChange={(e) => setInputUrl(e.target.value)}
-            value={inputUrl}
-          />
-          <button className="input-content__btn" onClick={handleInputUrlBtn}>
-            +
-          </button>
-        </div>
+        {editmode ? (
+          <div className="surpinModal__input-contents">
+            <input
+              type="text"
+              className="input-content__urlname"
+              placeholder="name"
+              onChange={(e) => setInputUrlname(e.target.value)}
+              value={inputUrlname}
+            />
+            <input
+              type="text"
+              className="input-content__url"
+              placeholder="url"
+              onChange={(e) => setInputUrl(e.target.value)}
+              value={inputUrl}
+            />
+            <button className="input-content__btn" onClick={handleInputUrlBtn}>
+              +
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="surpinModal__revise-btn__wrapper">
-          {writer === nickname ? (
+          {writer === nickname && editmode ? (
             <button
               className="surpinModal__revise-btn"
               onClick={handleSaveSurpin}
             >
-              편집
+              편집완료
             </button>
           ) : (
             <button
               className="surpinModal__revise-btn"
               onClick={handleSaveSurpin}
             >
-              퍼가기
+              새로만들기
             </button>
+          )}
+        </div>
+
+        <div className="surpinModal__revise-btn__wrapper">
+          {writer === nickname ? (
+            <button
+              className="surpinModal__revise-btn"
+              onClick={handleRemoveSurpin}
+            >
+              삭제
+            </button>
+          ) : (
+            <></>
           )}
         </div>
       </section>

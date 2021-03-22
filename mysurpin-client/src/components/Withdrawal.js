@@ -14,6 +14,12 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
     setPassword(e.target.value);
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleWithdrawal();
+    }
+  };
+
   const handleWithdrawal = () => {
     const payload = JSON.stringify({
       email,
@@ -67,6 +73,7 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               required
               placeholder="Password"
               onChange={onChangePassword}
+              onKeyPress={onKeyPress}
             />
           </div>
           <button className="withdrawl__btn" onClick={handleWithdrawal}>
