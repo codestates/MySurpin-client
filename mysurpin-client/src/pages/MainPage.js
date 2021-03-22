@@ -62,10 +62,10 @@ const MainPage = () => {
 
   const getCurrentScroll = () => {
     if ((window.scrollY / document.body.clientHeight) * 100 < 33) {
-      console.log("navbar__searchbar hidden");
+      // console.log("navbar__searchbar hidden");
       setNavBarState("hidden");
     } else if ((window.scrollY / document.body.clientHeight) * 100 > 33) {
-      console.log("navbar__searchbar");
+      // console.log("navbar__searchbar");
       setNavBarState("");
     }
   };

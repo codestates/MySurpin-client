@@ -39,13 +39,9 @@ export const signIn = (token, email, nickname) => {
   };
 };
 
-export const signOut = (token, email) => {
+export const signOut = () => {
   return {
     type: SIGN_OUT,
-    payload: {
-      token,
-      email,
-    },
   };
 };
 
