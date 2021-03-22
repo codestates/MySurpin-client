@@ -35,7 +35,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
         if (body.accessToken) {
           console.log(body);
           dispatch(signIn(body.accessToken, email, body.nickname));
-          history.push("/edituserinfo");
+          history.push("/");
         } else {
           alert("Bad Request");
         }

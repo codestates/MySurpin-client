@@ -8,7 +8,7 @@ import { signOut, getTagLists } from "../actions/index";
 import { fakeData } from "../reducers/initialState";
 // fakeData 나중에 꼭 지우기 (여기까지)
 
-const Navbar = ({ navBarState }) => {
+const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
     user: { token, nickname },
@@ -22,6 +22,10 @@ const Navbar = ({ navBarState }) => {
 
   const handleMySurpinBtn = () => {
     history.push(`/surpinlists/${nickname}`);
+  };
+
+  const handleEditProfileBtn = () => {
+    history.push("/edituserinfo");
   };
 
   const handleLogOutBtn = () => {
@@ -95,16 +99,30 @@ const Navbar = ({ navBarState }) => {
       )}
       {token ? (
         <div className="navbar__btns">
-          <button className="navbar__btn" onClick={handleMySurpinBtn}>
+          <button
+            className={`navbar__btn ${isSignPage}`}
+            onClick={handleMySurpinBtn}
+          >
             My Surpin
           </button>
-          <button className="navbar__btn" onClick={handleLogOutBtn}>
+          <button
+            className={`navbar__btn ${isSignPage}`}
+            onClick={handleEditProfileBtn}
+          >
+            Edit Profile
+          </button>
+          <button
+            className={`navbar__btn ${isSignPage}`}
+            onClick={handleLogOutBtn}
+          >
             LOG OUT
           </button>
         </div>
       ) : (
         <Link to="/signpage/">
-          <button className="navbar__btn">LOG IN / SIGN UP</button>
+          <button className={`navbar__btn ${isSignPage}`}>
+            LOG IN / SIGN UP
+          </button>
         </Link>
       )}
     </div>

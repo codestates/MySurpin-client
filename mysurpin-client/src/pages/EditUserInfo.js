@@ -12,7 +12,7 @@ const EditUserInfo = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isSignPage={"hidden"} />
       <div className="editUserInfo">
         <section className="changeinfo-section">
           <ChangeInfo
