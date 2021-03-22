@@ -31,7 +31,35 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSignUp();
+      handleClick();
+    }
+  };
+
+  const handleSignUp = () => {
+    if (password === passwordcheck) {
+      const payload = JSON.stringify({
+        nickname: name,
+        email,
+        password,
+      });
+      fetch(`http://localhost:4000/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: payload,
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message === "Successfully processed") {
+            setMessage("회원가입이 완료되었습니다.");
+            history.push("/");
+          } else {
+            setMessage("잘못된 요청입니다.");
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -110,34 +138,6 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
     } else return true;
   };
 
-  const handleSignUp = () => {
-    if (password === passwordcheck) {
-      const payload = JSON.stringify({
-        nickname: name,
-        email,
-        password,
-      });
-      fetch(`http://localhost:4000/user/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: payload,
-      })
-        .then((res) => res.json())
-        .then((body) => {
-          if (body.message === "Successfully processed") {
-            setMessage("회원가입이 완료되었습니다.");
-            history.push("/");
-          } else {
-            setMessage("잘못된 요청입니다.");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  };
-
   return (
     <div className="signUp">
       {isSignInOn ? (
@@ -191,7 +191,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 onKeyPress={onKeyPress}
               ></input>
             </div>
-            <button className="signup__btn" onClick={() => handleSignUp()}>
+            <button className="signup__btn" onClick={() => handleClick()}>
               sign up
             </button>
             <span>{message}</span>
