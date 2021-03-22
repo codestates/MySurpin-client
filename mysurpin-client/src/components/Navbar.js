@@ -119,10 +119,8 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           </button>
         </div>
       ) : (
-        <Link to="/signpage/">
-          <button className={`navbar__btn ${isSignPage}`}>
-            LOG IN / SIGN UP
-          </button>
+        <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
+          <button>LOG IN / SIGN UP</button>
         </Link>
       )}
     </div>

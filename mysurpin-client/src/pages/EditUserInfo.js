@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ChangeInfo from "../components/ChangeInfo";
 import Withdrawal from "../components/Withdrawal";
 import Navbar from "../components/Navbar";
+import useCheckToken from "../hooks/useCheckToken";
 
 const EditUserInfo = () => {
   const [editState, setEditState] = useState(true);
@@ -10,6 +11,7 @@ const EditUserInfo = () => {
     setEditState(!editState);
   };
 
+  useCheckToken([editState]);
   return (
     <>
       <Navbar isSignPage={"hidden"} />
