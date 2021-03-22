@@ -29,6 +29,12 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
     setPassword(e.target.value);
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSignUp();
+    }
+  };
+
   const handleClick = () => {
     if (name === "") {
       setMessage("이름을 입력해주세요.");
@@ -49,10 +55,28 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         return;
       } else if (password === passwordcheck) {
         setMessage("");
+        setName("");
+        setEmail("");
+        setPassword("");
       } else {
         setMessage("비밀번호를 정확하게 입력해주세요.");
         return;
       }
+    } else {
+      if (email === "") {
+        setMessage("이메일을 입력해주세요");
+        return;
+      } else if (!ValidateEmail(email)) {
+        setMessage("유효하지 않는 이메일 입니다.");
+        return;
+      } else setMessage("");
+    }
+    if (password === "") {
+      setMessage("비밀번호를 입력해주세요.");
+      return;
+    } else if (checkPassword(password)) {
+      handleSignUp(email, password);
+      return;
     }
   };
 
@@ -101,8 +125,9 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         },
         body: payload,
       })
-        .then((res) => {
-          if (res.body.message === "Successfully processed") {
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message === "Successfully processed") {
             setMessage("회원가입이 완료되었습니다.");
             history.push("/");
           } else {
@@ -124,7 +149,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSignUp}>
+        <div>
           <div className="signup__formOn">
             <div className="signup__title">Sign Up Surpin</div>
             <div className="signup__ment">
@@ -137,6 +162,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Name"
                 onChange={onChangeName}
+                onKeyPress={onKeyPress}
               ></input>
               <input
                 className="signup-form__email__input"
@@ -144,6 +170,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Email"
                 onChange={onChangeEmail}
+                onKeyPress={onKeyPress}
               ></input>
               <input
                 className="signup-form__password__input"
@@ -152,6 +179,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Password"
                 onChange={onChangePassword}
+                onKeyPress={onKeyPress}
               ></input>
               <input
                 className="signup-form__password__check__input"
@@ -160,6 +188,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="PasswordCheck"
                 onChange={onChangePasswordCheck}
+                onKeyPress={onKeyPress}
               ></input>
             </div>
             <button className="signup__btn" onClick={() => handleClick()}>
@@ -167,7 +196,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
             </button>
             <span>{message}</span>
           </div>
-        </form>
+        </div>
       )}
     </div>
   );
