@@ -8,7 +8,7 @@ export const initialState = {
   newLists: {},
   // MainPage-BestTags
   tags: [],
-  showSurpin: {}, // urls 배열 [{urlName, url}]
+  showSurpin: {}, // urls 배열 [{name, url}]
   showUserLists: {},
   showUserTags: {},
   // MainPage & NavBar SearchTagsLists
