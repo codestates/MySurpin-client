@@ -14,11 +14,11 @@ function App() {
       <Route
         render={({ location }) => {
           return (
-            <TransitionGroup>
+            <TransitionGroup className="transition-group">
               <CSSTransition
+                key={location.key}
                 timeout={{ enter: 300, exit: 300 }}
                 classNames="fade"
-                key={location.key}
               >
                 <Switch location={location}>
                   <Route exact path="/" component={MainPage} />

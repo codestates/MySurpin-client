@@ -11,6 +11,12 @@ const MainSection = () => {
   const onChangeSearchTag = (e) => {
     setTag(e.target.value);
   };
+
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearchTag();
+    }
+  };
   // 미 구현 (시작)
   const handleSearchTag = () => {
     const payload = JSON.stringify({
@@ -58,6 +64,7 @@ const MainSection = () => {
           className="main__search-bar__input"
           placeholder="Which Surpin do you want to search?"
           onChange={onChangeSearchTag}
+          onKeyPress={onKeyPress}
           value={tag}
         ></input>
         <button className="main__search-bar__btn" onClick={handleSearchTag}>

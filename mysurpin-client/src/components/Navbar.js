@@ -49,6 +49,13 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
     setTag(e.target.value);
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearchBtn();
+    }
+  };
+
+  // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
   const handleSearchBtn = () => {
     const payload = JSON.stringify({
       pagenumber: 1,
@@ -98,6 +105,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           <input
             className="navbar__searchbar__input"
             onChange={onChangeSearchTag}
+            onKeyPress={onKeyPress}
             value={tag}
           ></input>
 

@@ -47,6 +47,12 @@ const SearchPage = () => {
     setTag(e.target.value);
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearchBtn();
+    }
+  };
+
   const handleSearchBtn = () => {
     if (tag.length === 0) {
       alert("검색어를 입력하세요");
@@ -79,6 +85,7 @@ const SearchPage = () => {
             className="searchbar__input"
             placeholder="search for"
             value={tag}
+            onKeyPress={onKeyPress}
             onChange={onChangeSearchTag}
           ></input>
           <button className="sarchbar__button" onClick={handleSearchBtn}>
