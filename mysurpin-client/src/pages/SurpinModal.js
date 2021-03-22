@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
+  const { listId } = useParams();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const surpinState = useSelector((state) => state.surpinReducer);
@@ -47,11 +48,15 @@ const SurpinModal = ({ location }) => {
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState("");
   const [inputUrl, setInputUrl] = useState("");
-  console.log(newExistTags);
-  console.log(inputTag.length);
 
   useEffect(() => {
-    console.log("찾아라!", inputTag.length);
+    if (listId === nickname) {
+      setEditMode(true);
+    }
+  });
+
+  // showexiststag
+  useEffect(() => {
     if (inputTag.length > 0) {
       fetch(`http://localhost:4000/tag/showexiststags?inputText=${inputTag}`, {
         method: "GET",
@@ -62,13 +67,13 @@ const SurpinModal = ({ location }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("existtag", data);
           setNewExistTags(data.tags);
         })
         .catch((err) => console.log(err));
     }
   }, [inputTag]);
 
+  // showsurpin/listid
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/showsurpin?listId=${surpinId}`, {
       method: "POST",
@@ -225,7 +230,7 @@ const SurpinModal = ({ location }) => {
             className="sidebar__listinfo__writer"
             onClick={() => history.push(`/surpinlists/${writer}`)}
           >
-            {writer}
+            {editmode ? nickname : writer}
           </div>
         </div>
         {editmode ? (
@@ -276,30 +281,32 @@ const SurpinModal = ({ location }) => {
           )}
 
           <ul className="taglists__show">
-            {newTags.length > 1
-              ? newTags.map((tag) => {
-                  return (
-                    <li className="taglists__show__tag">
-                      <Tag tag={tag}></Tag>
-                      {editmode ? (
-                        <button
-                          className="tagaList__delete-btn"
-                          onClick={handleDeleteTag}
-                        >
-                          X
-                          <img
-                            className="tagList__delete-btn-img"
-                            src=""
-                            alt=""
-                          />
-                        </button>
-                      ) : (
-                        <></>
-                      )}
-                    </li>
-                  );
-                })
-              : console.log("no tags")}
+            {newTags.length > 0 ? (
+              newTags.map((tag) => {
+                return (
+                  <li className="taglists__show__tag">
+                    <Tag tag={tag}></Tag>
+                    {editmode ? (
+                      <button
+                        className="tagaList__delete-btn"
+                        onClick={handleDeleteTag}
+                      >
+                        X
+                        <img
+                          className="tagList__delete-btn-img"
+                          src=""
+                          alt=""
+                        />
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                  </li>
+                );
+              })
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
       </section>
@@ -332,7 +339,7 @@ const SurpinModal = ({ location }) => {
             <div className="show-contents__url"></div>
           </div>
           <ul className="surpinModal__url-lists">
-            {newUrls.length > 1
+            {newUrls.length > 0
               ? newUrls.map((urlinfo) => {
                   return (
                     <li className="surpinModal__url-list">
@@ -376,37 +383,41 @@ const SurpinModal = ({ location }) => {
         ) : (
           <></>
         )}
-
-        <div className="surpinModal__revise-btn__wrapper">
-          {writer === nickname && editmode ? (
-            <button
-              className="surpinModal__revise-btn"
-              onClick={handleSaveSurpin}
-            >
-              편집완료
-            </button>
-          ) : (
-            <button
-              className="surpinModal__revise-btn"
-              onClick={handleSaveSurpin}
-            >
-              새로만들기
-            </button>
-          )}
-        </div>
-
-        <div className="surpinModal__revise-btn__wrapper">
-          {writer === nickname ? (
-            <button
-              className="surpinModal__revise-btn"
-              onClick={handleRemoveSurpin}
-            >
-              삭제
-            </button>
-          ) : (
-            <></>
-          )}
-        </div>
+        {editmode ? (
+          <>
+            <div className="surpinModal__revise-btn__wrapper">
+              {writer === nickname ? (
+                <button
+                  className="surpinModal__revise-btn"
+                  onClick={handleSaveSurpin}
+                >
+                  편집완료
+                </button>
+              ) : (
+                <button
+                  className="surpinModal__revise-btn"
+                  onClick={handleSaveSurpin}
+                >
+                  내 서핀에 추가
+                </button>
+              )}
+            </div>
+            <div className="surpinModal__revise-btn__wrapper">
+              {writer === nickname ? (
+                <button
+                  className="surpinModal__revise-btn"
+                  onClick={handleRemoveSurpin}
+                >
+                  삭제
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </section>
     </div>
   );

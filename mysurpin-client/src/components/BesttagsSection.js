@@ -23,7 +23,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
             datasets: [
               {
                 backgroundColor: gradient,
-                label: "# of Votes",
+                label: false,
                 data: chartdata,
                 fill: true,
               },

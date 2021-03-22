@@ -27,7 +27,6 @@ const SurpinLists = () => {
   };
 
   const handleFilterTags = (targetTag) => {
-    console.log(targetTag, filteredUserLists);
     if (targetTag === "all") {
       setFilteredUserLists(newShowUserLists);
     } else {
@@ -66,7 +65,6 @@ const SurpinLists = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log("tags", data);
         dispatch(showUserTags(data));
         setNewShowUserTags(data.tags);
       });
