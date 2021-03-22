@@ -5,7 +5,7 @@ import BestTagsSection from "../components/BesttagsSection";
 import NewListsSection from "../components/NewListsSection";
 import ScrollBtn from "../components/ScrollBtn";
 import useScrollFadeIn from "../hooks/useScrollFadeIn";
-import useScrollEventListener from "../hooks/useScrollEventListener";
+import useScrollEventListener from "../hooks/useScrollEventListener.js.js";
 import { getBestTags, getNewLists } from "../actions/index";
 import { useSelector, useDispatch } from "react-redux";
 
