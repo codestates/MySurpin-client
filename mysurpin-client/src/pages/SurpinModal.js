@@ -4,6 +4,7 @@ import Tag from "../components/Tag";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
+import utils from "../modules/utils";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
@@ -98,7 +99,17 @@ const SurpinModal = ({ location }) => {
   };
 
   const handleInputUrlBtn = () => {
-    setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
+    if (!utils.isValidUrl(inputUrl)) {
+      setNewUrls([...newUrls, { name: inputUrl.split(".")[1], url: inputUrl }]);
+    } else {
+      utils.getUrlTitle(inputUrl, (err, title) => {
+        if (err) {
+          console.log(err);
+        } else {
+          setNewUrls([...newUrls, { name: title, url: inputUrl }]);
+        }
+      });
+    }
   };
 
   const createSurpin = () => {
