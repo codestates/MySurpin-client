@@ -7,47 +7,41 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
-// 실험용 데이터
-import { fakeData2 } from "../reducers/initialState";
-// 여기까지
-
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
   const { searchTagLists } = searchTagState;
   const dispatch = useDispatch();
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState([]);
   const [pagenumber, setPagenumber] = useState(1);
+  const [mergedData, setMergedData] = useState(searchTagLists.surpins);
 
   const fetchMoreLists = () => {
-    // 추가 데이터를 로드하는 상태로 전환
     setFetching(true);
-
-    const payload = JSON.stringify(tag, pagenumber);
-
-    // API로부터 받아온 페이징 데이터를 이용해 다음 데이터를 로드
     fetch(`http://localhost:4000/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         credentials: "include",
       },
-      body: payload,
-    }).then((response) => {
-      const fetchedData = response.data.data; // 피드 데이터 부분
-      // 기존 데이터 배열과 새로 받아온 데이터 배열을 합쳐 새 배열을 만들고 state에 저장한다.
-      const mergedData = tag.concat(...fetchedData);
-      setTag(mergedData);
-    });
-    // 추가 데이터 로드 끝
+      body: JSON.stringify({
+        pagenumber: pagenumber,
+        tag: tag,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(pagenumber, data);
+        setMergedData(mergedData.concat(data.surpins));
+      });
     setFetching(false);
     setPagenumber((pagenumber) => pagenumber + 1);
   };
 
-  const [fetching, setFetching] = useInfiniteScroll(fetchMoreLists); // 추가 데이터를 로드하는지 아닌지를 담기위한 state
-
   useEffect(() => {
     fetchMoreLists();
   }, []);
+
+  const [fetching, setFetching] = useInfiniteScroll(fetchMoreLists);
 
   const onChangeSearchTag = (e) => {
     setTag(e.target.value);
@@ -57,30 +51,24 @@ const SearchPage = () => {
     if (tag.length === 0) {
       alert("검색어를 입력하세요");
     } else {
-      dispatch(getTagLists(fakeData2));
+      fetch(`http://localhost:4000/surpin/searchlists`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({
+          pagenumber: 1,
+          tag: tag,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPagenumber(2);
+          dispatch(getTagLists(data));
+        });
     }
   };
-
-  // const handleSearchBtn = () => {
-  //   if (tag.length === 0) {
-  //     alert("검색어를 입력하세요");
-  //   } else {
-  //     const payload = JSON.stringify({
-  //       pagenumber: 1,
-  //       tag: tag,
-  //     });
-  //     fetch(`http://localhost:4000/surpin/searchlists`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         credentials: "include",
-  //       },
-  //       body: payload,
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => dispatch(getTagLists(data)));
-  //   }
-  // };
 
   return (
     <>
@@ -98,7 +86,7 @@ const SearchPage = () => {
           </button>
         </div>
         <div className="searchpage-best-results">
-          <div className="searchpage__best__title">Best Surpins</div>
+          <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">
             {searchTagLists.top.map((searchTagList) => {
               return (
@@ -122,7 +110,7 @@ const SearchPage = () => {
               <div className="topbar__createdAt">생성일</div>
             </div>
             <ul className="searchpage-all-results__lists">
-              {searchTagLists.surpins.map((surpin) => {
+              {mergedData.map((surpin) => {
                 return (
                   <li
                     className="searchpage-all-result__list"

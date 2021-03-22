@@ -4,17 +4,11 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
 
-// fakeData 나중에 꼭 지우기 (여기부터)
-import { fakeData } from "../reducers/initialState";
-// fakeData 나중에 꼭 지우기 (여기까지)
-
 const Navbar = ({ navBarState }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
     user: { token, nickname },
   } = userState;
-  // const searchTagState = useSelector((state) => state.surpinReducer);
-  // const { searchTagLists } = searchTagState;
 
   const [tag, setTag] = useState("");
   const history = useHistory();
@@ -33,37 +27,29 @@ const Navbar = ({ navBarState }) => {
     setTag(e.target.value);
   };
 
-  // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
   const handleSearchBtn = () => {
-    dispatch(getTagLists(fakeData));
+    fetch(`http://localhost:4000/surpin/searchlists`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({
+        pagenumber: 1,
+        tag,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.surpins) {
+          dispatch(getTagLists(data));
+          history.push("/searchpage");
+        } else {
+          alert("Bad Request");
+        }
+      })
+      .catch((err) => console.error(err));
   };
-  // 지워야 함 (끝)
-
-  // 요청 함수만 구현 작동 안됨 ㅠㅠ
-  // const handleSearchBtn = () => {
-  //   const payload = JSON.stringify({
-  //     pagenumber: 1,
-  //     tag: tag,
-  //   });
-  //   fetch(`http://localhost:4000/surpin/searchlists`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       credentials: "include",
-  //     },
-  //     body: payload,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((body) => {
-  //       if (body.message) {
-  //         console.log(body);
-  //         dispatch(getTagLists(body));
-  //       } else {
-  //         alert("Bad Request");
-  //       }
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
 
   return (
     <div className="navbar">
@@ -83,14 +69,10 @@ const Navbar = ({ navBarState }) => {
             onChange={onChangeSearchTag}
             value={tag}
           ></input>
-          <Link to="/searchpage">
-            <button
-              className="navbar__searchbar__btn"
-              onClick={handleSearchBtn}
-            >
-              <img src="../../public/images/loupe.png" alt="" />
-            </button>
-          </Link>
+
+          <button className="navbar__searchbar__btn" onClick={handleSearchBtn}>
+            <img src="../../public/images/loupe.png" alt="" />
+          </button>
         </div>
       )}
       {token ? (
