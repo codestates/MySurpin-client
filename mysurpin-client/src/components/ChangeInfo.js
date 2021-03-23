@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import { useHistory } from "react-router-dom";
 import { userEdit } from "../actions/index";
+import AlertModal from "./AlertModal";
 
 const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   // const history = useHistory();
@@ -13,6 +14,12 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [checkpassword, setCheckPassword] = useState("");
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -55,9 +62,13 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
         .then((body) => {
           if (body.accessToken) {
             dispatch(userEdit(body.accessToken, email, password, nickname));
-            alert("정보가 변경되었습니다.");
+            // alert("정보가 변경되었습니다.");
+            setAlertModalOpen(true);
+            setAlertModalComment("회원 정보가 변경되었습니다.");
           } else {
-            alert("Bad Request");
+            // alert("Bad Request");
+            setAlertModalOpen(true);
+            setAlertModalComment("입력하신 정보가 올바르지 않습니다.");
           }
         })
         .catch((err) => console.error(err));
@@ -66,6 +77,11 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
 
   return (
     <div className="changeInfo">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isChangeInfoFormOn ? (
         <div className="changeinfo__formOn">
           <div className="changeinfo__title">

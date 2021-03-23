@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import AlertModal from "../components/AlertModal";
 
 const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const history = useHistory();
@@ -9,6 +10,12 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
     user: { token, email },
   } = userState;
   const [password, setPassword] = useState("");
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
   const onChangePassword = (e) => {
     setPassword(e.target.value);
@@ -37,10 +44,14 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          alert("탈퇴가 완료되었습니다.");
+          // alert("탈퇴가 완료되었습니다.");
+          setAlertModalOpen(true);
+          setAlertModalComment("탈퇴가 완료되었습니다.");
           history.push("/");
         } else {
-          alert("정보를 다시 입력하세요.");
+          // alert("정보를 다시 입력하세요.");
+          setAlertModalOpen(true);
+          setAlertModalComment("정보를 다시 입력하세요.");
         }
       })
       .catch((err) => console.error(err));
@@ -48,6 +59,11 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
 
   return (
     <div className="withdrawal">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isChangeInfoFormOn ? (
         <div className="withdrawal_formOff">
           <div className="withdrawal__title">You want to leave?</div>

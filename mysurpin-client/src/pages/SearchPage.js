@@ -6,6 +6,7 @@ import SearchResult from "../components/SearchResult";
 import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import AlertModal from "../components/AlertModal";
 
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
@@ -14,6 +15,12 @@ const SearchPage = () => {
   const [tag, setTag] = useState([]);
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
   const fetchMoreLists = () => {
     setFetching(true);
@@ -55,7 +62,8 @@ const SearchPage = () => {
 
   const handleSearchBtn = () => {
     if (tag.length === 0) {
-      alert("검색어를 입력하세요");
+      setAlertModalOpen(true);
+      setAlertModalComment("검색어를 입력하세요.");
     } else {
       fetch(`http://localhost:4000/surpin/searchlists`, {
         method: "POST",
@@ -78,6 +86,11 @@ const SearchPage = () => {
 
   return (
     <>
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
+import AlertModal from "../components/AlertModal";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
@@ -50,6 +51,13 @@ const SurpinModal = ({ location }) => {
   const [inputUrl, setInputUrl] = useState("");
   console.log(newExistTags);
   console.log(inputTag.length);
+
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
   useCheckToken([editmode]);
 
@@ -120,9 +128,12 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "done") {
-          alert("생성 완료");
+          setAlertModalOpen(true);
+          setAlertModalComment("생성 완료");
+          // alert("생성 완료");
         } else {
-          alert("생성 실패");
+          setAlertModalOpen(true);
+          setAlertModalComment("생성 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -151,9 +162,13 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "edit done!") {
-          alert("수정 완료");
+          setAlertModalOpen(true);
+          setAlertModalComment("수정 완료");
+          // alert("수정 완료");
         } else {
-          alert("정보 부족");
+          // alert("정보 부족");
+          setAlertModalOpen(true);
+          setAlertModalComment("정보 부족");
         }
       })
       .catch((err) => console.log(err));
@@ -172,10 +187,14 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          alert("삭제 완료");
+          // alert("삭제 완료");
+          setAlertModalOpen(true);
+          setAlertModalComment("삭제 완료");
           history.goBack();
         } else {
-          alert("삭제 실패");
+          // alert("삭제 실패");
+          setAlertModalOpen(true);
+          setAlertModalComment("삭제 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -208,6 +227,11 @@ const SurpinModal = ({ location }) => {
 
   return (
     <div className="surpinModal">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <button className="surpinModal__back-btn" onClick={() => history.go(-2)}>
         {"<"}
       </button>
