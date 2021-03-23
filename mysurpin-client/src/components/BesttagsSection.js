@@ -10,9 +10,9 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   useEffect(() => {
     var ctx = document.getElementById("myChart").getContext("2d");
     var gradient = ctx.createLinearGradient(0, 25, 0, 300);
-    gradient.addColorStop(0, "rgba(149, 76, 233, 0.5)");
-    gradient.addColorStop(0.35, "rgba(149, 76, 233, 0.25)");
-    gradient.addColorStop(1, "rgba(149, 76, 233, 0)");
+    gradient.addColorStop(0, "rgba(40,175,250, 0.5)");
+    gradient.addColorStop(0.35, "rgba(40,175,250, 0.25)");
+    gradient.addColorStop(1, "rgba(40,175,250, 0)");
     setGradient(gradient);
   }, []);
 
@@ -27,8 +27,8 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
             datasets: [
               {
                 backgroundColor: gradient,
-                pointBackgroundColor: "rgba(149, 76, 233, 1)",
-                borderColor: "rgba(149, 76, 233, 1)",
+                pointBackgroundColor: "rgba(40,175,250, 1)",
+                borderColor: "rgba(40,175,250, 1)",
                 label: "# of Surpins",
                 data: chartdata,
                 fill: true,
