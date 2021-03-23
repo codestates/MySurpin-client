@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
 import AlertModal from "./AlertModal";
-
+// import "/images/";
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
@@ -108,11 +108,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
         comment={alertModalComment}
       />
       <Link to="/">
-        <img
-          className="navbar__logo-img"
-          src="../../public/images/loupe.png"
-          alt=""
-        />
+        <img className="navbar__logo-img" src="/images/loupe.png" alt="" />
       </Link>
       {history.location.pathname !== "/" ? (
         <div className="hidden"></div>
