@@ -1,18 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@800&family=Poppins:wght@400&display=swap");
+
 $surpin: #40a8c438;
 $aqua: #40a8c4;
 $blue: #40a8c4;
+$dark: #242830;
+$main: #67a1ac;
+html,
+body {
+  height: 100%;
+}
+html {
+  overflow: auto;
+}
 * {
   margin: 0;
   padding: 0;
   border: none;
   outline: none;
   list-style: none;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  color: #555;
+  font-family: "Poppins", sans-serif;
+  color: $main;
   text-decoration: none;
   background-color: rgba(0, 0, 0, 0);
 }
+
+body {
+  background-color: $dark;
+}
+
+/* react transition group */
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+div.transition-group {
+  position: relative;
+}
+
+section.route-section {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
 button,
 li {
   cursor: pointer;
@@ -33,8 +79,7 @@ li {
     margin-left: 36px;
   }
   .navbar__searchbar {
-    // border: rgba(255, 255, 255, 0.7) 1px solid;
-    border: $blue 1px solid;
+    border: $main 1px solid;
     width: 300px;
     height: 28px;
     border-radius: 14px;
@@ -56,7 +101,7 @@ li {
     background-color: rgba(255, 255, 255, 0.7);
     font-size: 12px;
     margin-right: 8%;
-    width: 80px;
+    width: 120px;
     height: 28px;
     border-radius: 14px;
   }
@@ -92,8 +137,9 @@ li {
     height: 100vh;
     background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
     background-size: cover;
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
+      font-weight: 800;
       margin-left: 8%;
       width: 50%;
       .main__title__text {
@@ -128,7 +174,7 @@ li {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
-      color: #555;
+      color: $main;
     }
     .besttags__chart {
       justify-self: center;
@@ -139,14 +185,14 @@ li {
   }
   .newListsSection {
     height: 100vh;
-    background-color: #eee;
+    background-color: $dark;
     display: flex;
     flex-direction: column;
     .newlists__title {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
-      color: #555;
+      color: $main;
     }
     .newlists__lists {
       padding: 48px;
@@ -217,7 +263,7 @@ li {
 }
 // Component - Surpin
 .surpin {
-  border: 1px solid #555;
+  border: 1px solid $main;
   width: 220px;
   height: 270px;
   margin-right: 16px;
@@ -298,7 +344,7 @@ li {
   display: flex;
   .signin-section {
     width: 50%;
-    background-color: $blue;
+    background-color: $main;
   }
   .signup-section {
     width: 50%;
@@ -349,7 +395,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -379,7 +425,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -396,22 +442,22 @@ li {
     .signup__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
     }
     .signup__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
     }
     .signup__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -444,15 +490,15 @@ li {
       }
     }
     .signup__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -465,7 +511,7 @@ li {
   display: flex;
   .changeinfo-section {
     width: 50%;
-    background-color: $blue;
+    background-color: $main;
   }
   .widthdrawal-section {
     width: 50%;
@@ -483,7 +529,7 @@ li {
     .changeinfo__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
       .changeinfo__title__text {
         color: #fff;
       }
@@ -510,7 +556,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -540,7 +586,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -557,17 +603,17 @@ li {
     .withdrawal__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
     }
     .withdrawal__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
     }
     .withdrawal__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
@@ -586,7 +632,7 @@ li {
     .withdrawal__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
       margin-bottom: 36px;
     }
     .withdrawal__img {
@@ -604,15 +650,15 @@ li {
       }
     }
     .withdrawl__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -639,7 +685,7 @@ li {
         margin-right: 6px;
         &:hover {
           border: 1px solid rgba(0, 0, 0, 0);
-          background-color: $blue;
+          background-color: $main;
           color: #fff;
         }
       }
@@ -680,19 +726,19 @@ li {
     align-self: flex-start;
     margin: 48px 24px 0 0;
     &:hover {
-      color: $blue;
+      color: $main;
     }
   }
   .surpinModal__sidebar {
     display: flex;
     flex-direction: column;
-    border: 1px solid #eee;
+    border: 1px solid $main;
     width: 16vw;
     height: 90vh;
     padding: 0 24px;
     .sidebar__listinfo__thumbnail {
       display: flex;
-      border: 1px solid #eee;
+      border: 1px solid $main;
       margin-top: 36px;
       height: 35%;
       .sidebar__listinfo__title {
@@ -805,7 +851,7 @@ li {
       button {
         width: 48px;
         height: 48px;
-        background-color: $blue;
+        background-color: $main;
         color: #fff;
       }
     }
@@ -817,15 +863,15 @@ li {
       .surpinModal__revise-btn {
         align-self: flex-end;
         margin-right: 24px;
-        border: 1px solid $blue;
-        color: $blue;
+        border: 1px solid $main;
+        color: $main;
         width: 180px;
         height: 48px;
         border-radius: 24px;
         transition: all 0.5s ease;
         &:hover {
           color: #fff;
-          background-color: $blue;
+          background-color: $main;
         }
       }
     }

@@ -17,6 +17,12 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
     setPassword(e.target.value);
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSignIn();
+    }
+  };
+
   const handleSignIn = () => {
     const payload = JSON.stringify({
       email,
@@ -35,7 +41,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
         if (body.accessToken) {
           console.log(body);
           dispatch(signIn(body.accessToken, email, body.nickname));
-          history.push("/edituserinfo");
+          history.push("/");
         } else {
           alert("Bad Request");
         }
@@ -59,6 +65,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
               value={email}
               required
               onChange={onChangeEmail}
+              onKeyPress={onKeyPress}
             ></input>
             <input
               type="password"
@@ -67,6 +74,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
               value={password}
               required
               onChange={onChangePassword}
+              onKeyPress={onKeyPress}
             ></input>
           </div>
           <button className="signin__btn" onClick={handleSignIn}>

@@ -15,6 +15,13 @@ const SearchPage = () => {
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
 
+  const ScrollToTopOnMount = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    return null;
+  };
+
   const fetchMoreLists = () => {
     setFetching(true);
     fetch(`http://localhost:4000/surpin/searchlists`, {
@@ -30,7 +37,6 @@ const SearchPage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(pagenumber, data);
         setMergedData(mergedData.concat(data.surpins));
       });
     setFetching(false);
@@ -45,6 +51,12 @@ const SearchPage = () => {
 
   const onChangeSearchTag = (e) => {
     setTag(e.target.value);
+  };
+
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearchBtn();
+    }
   };
 
   const handleSearchBtn = () => {
@@ -72,6 +84,7 @@ const SearchPage = () => {
 
   return (
     <>
+      <ScrollToTopOnMount />
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">
@@ -79,6 +92,7 @@ const SearchPage = () => {
             className="searchbar__input"
             placeholder="search for"
             value={tag}
+            onKeyPress={onKeyPress}
             onChange={onChangeSearchTag}
           ></input>
           <button className="sarchbar__button" onClick={handleSearchBtn}>

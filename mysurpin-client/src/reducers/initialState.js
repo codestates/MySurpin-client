@@ -1,7 +1,7 @@
 export const initialState = {
   user: {
     token: null,
-    email: "guest",
+    email: null,
     nickname: "guest",
   },
   // MainPage-NewLists

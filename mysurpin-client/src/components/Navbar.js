@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
 
-const Navbar = ({ navBarState }) => {
+const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
-    user: { token, nickname },
+    user: { token, nickname, email },
   } = userState;
 
   const [tag, setTag] = useState("");
@@ -18,13 +18,37 @@ const Navbar = ({ navBarState }) => {
     history.push(`/surpinlists/${nickname}`);
   };
 
+  const handleEditProfileBtn = () => {
+    history.push("/edituserinfo");
+  };
+
   const handleLogOutBtn = () => {
     dispatch(signOut());
-    history.push("/");
+    const payload = JSON.stringify({
+      email,
+    });
+    return fetch(`http://localhost:4000/user/signout`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: payload,
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
   };
 
   const onChangeSearchTag = (e) => {
     setTag(e.target.value);
+  };
+
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearchBtn();
+    }
   };
 
   const handleSearchBtn = () => {
@@ -67,6 +91,7 @@ const Navbar = ({ navBarState }) => {
           <input
             className="navbar__searchbar__input"
             onChange={onChangeSearchTag}
+            onKeyPress={onKeyPress}
             value={tag}
           ></input>
 
@@ -77,16 +102,28 @@ const Navbar = ({ navBarState }) => {
       )}
       {token ? (
         <div className="navbar__btns">
-          <button className="navbar__btn" onClick={handleMySurpinBtn}>
+          <button
+            className={`navbar__btn ${isSignPage}`}
+            onClick={handleMySurpinBtn}
+          >
             My Surpin
           </button>
-          <button className="navbar__btn" onClick={handleLogOutBtn}>
+          <button
+            className={`navbar__btn ${isSignPage}`}
+            onClick={handleEditProfileBtn}
+          >
+            Edit Profile
+          </button>
+          <button
+            className={`navbar__btn ${isSignPage}`}
+            onClick={handleLogOutBtn}
+          >
             LOG OUT
           </button>
         </div>
       ) : (
-        <Link to="/signpage/">
-          <button className="navbar__btn">LOG IN / SIGN UP</button>
+        <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
+          <button>LOG IN / SIGN UP</button>
         </Link>
       )}
     </div>

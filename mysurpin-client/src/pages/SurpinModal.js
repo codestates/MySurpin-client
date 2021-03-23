@@ -4,7 +4,8 @@ import Tag from "../components/Tag";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
-import utils from "../modules/utils";
+import useCheckToken from "../hooks/useCheckToken";
+import axios from "axios";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
@@ -47,8 +48,10 @@ const SurpinModal = ({ location }) => {
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [inputTag, setInputTag] = useState("");
-  const [inputUrlname, setInputUrlname] = useState("");
+  const [inputUrlname, setInputUrlname] = useState();
   const [inputUrl, setInputUrl] = useState("");
+
+  useCheckToken([editmode]);
 
   useEffect(() => {
     if (listId === nickname) {
@@ -88,7 +91,7 @@ const SurpinModal = ({ location }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setNewUrls(data.urls);
+        setNewUrls([...data.urls]);
         dispatch(getShowSurpin(data.urls));
       })
       .catch((err) => console.log(err));
@@ -99,16 +102,23 @@ const SurpinModal = ({ location }) => {
   };
 
   const handleInputUrlBtn = () => {
-    if (!utils.isValidUrl(inputUrl)) {
-      setNewUrls([...newUrls, { name: inputUrl.split(".")[1], url: inputUrl }]);
+    if (!inputUrlname || inputUrlname.length === 0) {
+      fetch(`http://localhost:4000/surpin/showurltitle`, {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ url: inputUrl }),
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          setNewUrls([...newUrls, { name: body.title, url: inputUrl }]);
+        })
+        .catch((err) => console.log(err));
     } else {
-      utils.getUrlTitle(inputUrl, (err, title) => {
-        if (err) {
-          console.log(err);
-        } else {
-          setNewUrls([...newUrls, { name: title, url: inputUrl }]);
-        }
-      });
+      setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
     }
   };
 
@@ -251,7 +261,7 @@ const SurpinModal = ({ location }) => {
         )}
 
         <div className="sidebar__description">
-          <div className="description__title">설명</div>
+          <div className="description__title">Description</div>
           {editmode ? (
             <textarea
               className="sidebar__description__text"
@@ -264,7 +274,7 @@ const SurpinModal = ({ location }) => {
           )}
         </div>
         <div className="sidebar__taglists">
-          <div className="taglists__form__text">태그</div>
+          <div className="taglists__form__text">Tags</div>
           {editmode ? (
             <div className="taglists__form">
               <input
