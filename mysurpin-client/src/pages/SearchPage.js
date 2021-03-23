@@ -44,7 +44,7 @@ const SearchPage = () => {
   }, []);
 
   const fetchMoreLists = useCallback(() => {
-    setFetching(true);
+    // setFetching(true);
     console.log(
       "fetchMore",
       "요청가능횟수",

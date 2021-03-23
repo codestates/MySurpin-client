@@ -51,7 +51,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
     form.setAttribute("action", oauth2Endpoint);
     // Parameters to pass to OAuth 2.0 endpoint.
     var params = {
-      client_id: process.env.REACT_APP_client_id,
+      client_id: process.env.REACT_APP_CLIENT_ID,
       redirect_uri: "http://localhost:3000/signpage",
       response_type: "token",
       scope:
