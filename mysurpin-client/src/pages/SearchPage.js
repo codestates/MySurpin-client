@@ -1,11 +1,13 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
 import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useScrollEventListener from "../hooks/useScrollEventListener";
+import AlertModal from "../components/AlertModal";
+
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
   const { searchTagLists } = searchTagState;
@@ -14,16 +16,35 @@ const SearchPage = () => {
   const [reqCount, setReqCount] = useState(0);
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
 
-  console.log(
-    "렌더링",
-    "요청가능횟수",
-    reqCount,
-    "앞으로 요청할 페이지",
-    pagenumber
-  );
+  // console.log(
+  //   "렌더링",
+  //   "요청가능횟수",
+  //   reqCount,
+  //   "앞으로 요청할 페이지",
+  //   pagenumber
+  // );
 
-  const fetchMoreLists = () => {
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
+
+  // 최상단으로 이동하는 함수
+  function ScrollToTopOnMount() {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    return null;
+  }
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "SearchPage";
+  }, []);
+
+  const fetchMoreLists = useCallback(() => {
+    setFetching(true);
     console.log(
       "fetchMore",
       "요청가능횟수",
@@ -52,7 +73,7 @@ const SearchPage = () => {
     // console.log("POST 요청 불가");
     // }
     setPagenumber((pagenumber) => pagenumber + 1);
-  };
+  }, [tag, pagenumber]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -75,20 +96,26 @@ const SearchPage = () => {
     //   });
   }, []);
 
-  const onChangeSearchTag = (e) => {
-    setTag(e.target.value);
-  };
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearchBtn();
-    }
-  };
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchBtn();
+      }
+    },
+    [tag]
+  );
 
-  // 첫 요청
-  const handleSearchBtn = () => {
+  const handleSearchBtn = useCallback(() => {
     if (tag.length === 0) {
-      alert("검색어를 입력하세요");
+      setAlertModalOpen(true);
+      setAlertModalComment("검색어를 입력하세요.");
     } else {
       console.log("첫 요청");
       fetch(`http://localhost:4000/surpin/searchlists`, {
@@ -116,10 +143,16 @@ const SearchPage = () => {
           dispatch(getTagLists(data));
         });
     }
-  };
+  }, [tag, pagenumber]);
 
   return (
     <>
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
+      <ScrollToTopOnMount />
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">
@@ -137,16 +170,20 @@ const SearchPage = () => {
         <div className="searchpage-best-results">
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">
-            {searchTagLists.top.map((searchTagList) => {
-              return (
-                <li
-                  className="searchpage-best-list"
-                  key={searchTagList.surpinId}
-                >
-                  <Surpin surpin={searchTagList}></Surpin>
-                </li>
-              );
-            })}
+            {searchTagLists.top ? (
+              searchTagLists.top.map((searchTagList) => {
+                return (
+                  <li
+                    className="searchpage-best-list"
+                    key={searchTagList.surpinId}
+                  >
+                    <Surpin surpin={searchTagList}></Surpin>
+                  </li>
+                );
+              })
+            ) : (
+              <li className="searchpage-best-list">검색어 결과가 없습니닷!</li>
+            )}
           </ul>
         </div>
         <div className="searchpage-all-results">
@@ -158,17 +195,27 @@ const SearchPage = () => {
               <div className="topbar__numbOfUrls">URL 개수</div>
               <div className="topbar__createdAt">생성일</div>
             </div>
+
             <ul
               className="searchpage-all-results__lists"
               {...useScrollEventListener(fetchMoreLists, 1)}
             >
-              {mergedData.map((surpin, idx) => {
-                return (
-                  <li className="searchpage-all-result__list" key={idx}>
-                    <SearchResult surpin={surpin}></SearchResult>
-                  </li>
-                );
-              })}
+              {mergedData ? (
+                mergedData.map((surpin) => {
+                  return (
+                    <li
+                      className="searchpage-all-result__list"
+                      key={surpin.surpinId}
+                    >
+                      <SearchResult surpin={surpin}></SearchResult>
+                    </li>
+                  );
+                })
+              ) : (
+                <li className="searchpage-all-result__list">
+                  검색 결과가 없습니닷!
+                </li>
+              )}
             </ul>
           </div>
         </div>

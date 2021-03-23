@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import MainSection from "../components/MainSection";
 import BestTagsSection from "../components/BesttagsSection";
@@ -16,6 +16,11 @@ const MainPage = () => {
   const [chartdata, setChartdata] = useState([]);
   let newChartlabel = [];
   let newChartdata = [];
+
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "My Surpin";
+  }, []);
 
   // besttag
   useEffect(() => {
@@ -49,11 +54,11 @@ const MainPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChartdata = () => {
+  const handleChartdata = useCallback(() => {
     setChartlabel(newChartlabel);
     setChartdata(newChartdata);
     // setChartdata([12, 19, 3, 5, 2, 3]);
-  };
+  }, [newChartlabel, newChartdata]);
 
   useEffect(() => {
     window.addEventListener("scroll", getCurrentScroll);

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
+import AlertModal from "./AlertModal";
 
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
@@ -13,17 +14,24 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
   const [tag, setTag] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
 
   const handleMySurpinBtn = () => {
     history.push(`/surpinlists/${nickname}`);
   };
 
-  const handleEditProfileBtn = () => {
+  const handleEditProfileBtn = useCallback(() => {
     history.push("/edituserinfo");
-  };
+  }, []);
 
   const handleLogOutBtn = () => {
     dispatch(signOut());
+    history.push("/");
     const payload = JSON.stringify({
       email,
     });
@@ -41,35 +49,52 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       .catch((err) => console.error(err));
   };
 
-  const onChangeSearchTag = (e) => {
-    setTag(e.target.value);
-  };
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearchBtn();
-    }
-  };
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchBtn();
+      }
+    },
+    [tag]
+  );
 
   const handleSearchBtn = () => {
+    const payload = JSON.stringify({
+      pagenumber: 1,
+      tag: tag,
+    });
     fetch(`http://localhost:4000/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         credentials: "include",
       },
-      body: JSON.stringify({
-        pagenumber: 1,
-        tag,
-      }),
+      body: payload,
     })
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
       .then((res) => res.json())
-      .then((data) => {
-        if (data.surpins) {
-          dispatch(getTagLists(data));
+      .then((body) => {
+        console.log(body.message);
+        if (body.message === "Unsufficient info") {
+          // alert("검색어 입력 하세요. (궁서체)");
+          setAlertModalOpen(true);
+          setAlertModalComment("검색어를 입력하세요.");
+        } else if (body.message === "No surpin with request tag") {
+          dispatch(getTagLists({}));
           history.push("/searchpage");
         } else {
-          alert("Bad Request");
+          dispatch(getTagLists(body));
+          history.push("/searchpage");
         }
       })
       .catch((err) => console.error(err));
@@ -77,6 +102,11 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 
   return (
     <div className="navbar">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <Link to="/">
         <img
           className="navbar__logo-img"

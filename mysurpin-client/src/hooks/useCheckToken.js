@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "../actions/index";
 import { useHistory } from "react-router-dom";
 
-const useCheckToken = (param = []) => {
+const useCheckToken = (param = [], func) => {
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
   const history = useHistory();
@@ -35,6 +35,7 @@ const useCheckToken = (param = []) => {
             history.push("/signpage");
           } else {
             // alert("오우오우 토큰 유지~~~!");
+            func();
           }
         })
         .catch((err) => console.error(err));

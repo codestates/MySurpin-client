@@ -1,5 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
+import AlertModal from "./AlertModal";
+require("dotenv").config();
 
 const SignUp = ({ isSignInOn, handlePageState }) => {
   const history = useHistory();
@@ -9,33 +11,147 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
   const [password, setPassword] = useState("");
   const [passwordcheck, setPasswordCheck] = useState("");
   const [message, setMessage] = useState(false);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const moveToEmail = useRef();
+  const moveToPassword = useRef();
+  const moveToCheckPassword = useRef();
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
 
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
       setMessage(e.target.value !== password);
     },
+    [password, passwordcheck, message]
+  );
+
+  const onChangeName = useCallback(
+    (e) => {
+      setName(e.target.value);
+    },
+    [name]
+  );
+
+  const onChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+    },
+    [email]
+  );
+
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
     [password]
   );
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
+  const onKeyPressMoveToEmail = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        moveToEmail.current.focus();
+        handleClick();
+      }
+    },
+    [name, email]
+  );
+
+  const onKeyPressMoveToPassword = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        moveToPassword.current.focus();
+        handleClick();
+      }
+    },
+    [email, password]
+  );
+
+  const onKeyPressMoveToPasswordCheck = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        moveToCheckPassword.current.focus();
+        handleClick();
+      }
+    },
+    [password, passwordcheck]
+  );
+
+  const onKeyPressSignUp = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleClick();
+      }
+    },
+    [passwordcheck]
+  );
+
+  // 구글 로그인
+
+  const handleGoogleLogin = () => {
+    // Google's OAuth 2.0 endpoint for requesting an access token
+    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+    // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+    var form = document.createElement("form");
+    form.setAttribute("method", "GET"); // Send as a GET request.
+    form.setAttribute("action", oauth2Endpoint);
+    // Parameters to pass to OAuth 2.0 endpoint.
+    var params = {
+      client_id: process.env.REACT_APP_client_id,
+      redirect_uri: "http://localhost:3000/signpage",
+      response_type: "token",
+      scope:
+        "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+      include_granted_scopes: "true",
+      state: "",
+    };
+    // Add form parameters as hidden input values.
+    for (var p in params) {
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", p);
+      input.setAttribute("value", params[p]);
+      form.appendChild(input);
+    }
+    // Add form to page and submit it to open the OAuth 2.0 endpoint.
+    document.body.appendChild(form);
+    form.submit();
   };
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSignUp();
+  const handleSignUp = () => {
+    if (password === passwordcheck) {
+      const payload = JSON.stringify({
+        nickname: name,
+        email,
+        password,
+      });
+      fetch(`http://localhost:4000/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: payload,
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message === "Successfully processed") {
+            setMessage("회원가입이 완료되었습니다.");
+            setAlertModalOpen(true);
+            setAlertModalComment("회원가입이 완료되었습니다.");
+          } else {
+            setMessage("잘못된 요청입니다.");
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (name === "") {
       setMessage("이름을 입력해주세요.");
       return;
@@ -78,68 +194,51 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       handleSignUp(email, password);
       return;
     }
-  };
+  }, [name, email, password, passwordcheck, message]);
 
-  const ValidateEmail = (email) => {
-    if (
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        email
-      )
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const ValidateEmail = useCallback(
+    (email) => {
+      if (
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+          email
+        )
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [email]
+  );
 
-  const checkPassword = (upw) => {
-    if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
-      setMessage(
-        "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
-      );
-      return false;
-    }
-    var chk_num = upw.search(/[0-9]/g);
-    var chk_eng = upw.search(/[a-z]/gi);
-    if (chk_num < 0 || chk_eng < 0) {
-      setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
-      return false;
-    }
-    if (/(\w)\1\1\1/.test(upw)) {
-      setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
-      return false;
-    } else return true;
-  };
-
-  const handleSignUp = () => {
-    if (password === passwordcheck) {
-      const payload = JSON.stringify({
-        nickname: name,
-        email,
-        password,
-      });
-      fetch(`http://localhost:4000/user/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: payload,
-      })
-        .then((res) => res.json())
-        .then((body) => {
-          if (body.message === "Successfully processed") {
-            setMessage("회원가입이 완료되었습니다.");
-            history.push("/");
-          } else {
-            setMessage("잘못된 요청입니다.");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  };
+  const checkPassword = useCallback(
+    (upw) => {
+      if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
+        setMessage(
+          "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
+        );
+        return false;
+      }
+      var chk_num = upw.search(/[0-9]/g);
+      var chk_eng = upw.search(/[a-z]/gi);
+      if (chk_num < 0 || chk_eng < 0) {
+        setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+        return false;
+      }
+      if (/(\w)\1\1\1/.test(upw)) {
+        setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
+        return false;
+      } else return true;
+    },
+    [password, message]
+  );
 
   return (
     <div className="signUp">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isSignInOn ? (
         <div className="signup__formOff">
           <div className="signup__title">Sign Up Surpin</div>
@@ -152,6 +251,9 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         <div>
           <div className="signup__formOn">
             <div className="signup__title">Sign Up Surpin</div>
+            <button className="google-login__logo" onClick={handleGoogleLogin}>
+              G<img src="../../public/images/logo-google.png" alt=""></img>
+            </button>
             <div className="signup__ment">
               sign up and make your own surpin!
             </div>
@@ -162,7 +264,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Name"
                 onChange={onChangeName}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToEmail}
               ></input>
               <input
                 className="signup-form__email__input"
@@ -170,7 +272,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Email"
                 onChange={onChangeEmail}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToPassword}
+                ref={moveToEmail}
               ></input>
               <input
                 className="signup-form__password__input"
@@ -179,7 +282,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Password"
                 onChange={onChangePassword}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToPasswordCheck}
+                ref={moveToPassword}
               ></input>
               <input
                 className="signup-form__password__check__input"
@@ -188,10 +292,11 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="PasswordCheck"
                 onChange={onChangePasswordCheck}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressSignUp}
+                ref={moveToCheckPassword}
               ></input>
             </div>
-            <button className="signup__btn" onClick={() => handleSignUp()}>
+            <button className="signup__btn" onClick={() => handleClick()}>
               sign up
             </button>
             <span>{message}</span>
