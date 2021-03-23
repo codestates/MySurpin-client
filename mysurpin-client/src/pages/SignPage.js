@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 import Navbar from "../components/Navbar";
@@ -9,6 +9,10 @@ const SignPage = () => {
   const handlePageState = () => {
     setSignIn(!signIn);
   };
+
+  useEffect(() => {
+    document.title = "SignPage";
+  }, []);
 
   return (
     <>

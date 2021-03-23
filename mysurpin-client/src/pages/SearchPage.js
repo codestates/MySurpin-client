@@ -22,6 +22,10 @@ const SearchPage = () => {
     }, []);
     return null;
   }
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "SearchPage";
+  }, []);
 
   const fetchMoreLists = () => {
     setFetching(true);

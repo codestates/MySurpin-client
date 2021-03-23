@@ -20,8 +20,12 @@ const SurpinLists = () => {
   const [newShowUserLists, setNewShowUserLists] = useState([]);
   const [filteredUserLists, setFilteredUserLists] = useState([]);
   const [newShowUserTags, setNewShowUserTags] = useState([]);
-  // console.log(newShowUserTags);
-  // console.log(filteredUserLists)
+
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "Surpin Lists";
+  }, []);
+
   const handleCreateSurpin = () => {
     history.push("/surpinmodal/");
   };
