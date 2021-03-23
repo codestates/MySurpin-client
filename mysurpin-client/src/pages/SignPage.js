@@ -8,6 +8,7 @@ const SignPage = () => {
   const [signIn, setSignIn] = useState(true);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
+  const [googleToken, setGoogleToken] = useState("");
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -36,20 +37,6 @@ const SignPage = () => {
         body: JSON.stringify({ data: window.location.hash }),
       })
         .then((res) => res.json())
-        // .then((body) => {
-        //   console.log("웨 안나옴???", body);
-        //   alert(body);
-        //   return body;
-        // })
-        // .then((body) => {
-        //   if (body.message !== "Successfully processed") {
-        //     setAlertModalOpen(true);
-        //     setAlertModalComment("존재하는 유저입니다.");
-        //   } else if (body.message !== "Successfully processed") {
-        //     setAlertModalOpen(true);
-        //     setAlertModalComment("로그인을 진행해주세요.");
-        //   }
-        // })
         .catch((err) => console.log(err));
     }
   }, []);
@@ -82,6 +69,12 @@ const SignPage = () => {
     // Add form to page and submit it to open the OAuth 2.0 endpoint.
     document.body.appendChild(form);
     form.submit();
+  };
+
+  const handleSingUpWithGoogle = () => {
+    if (googleToken === "") {
+      handleGoogleLogin();
+    }
   };
 
   return (

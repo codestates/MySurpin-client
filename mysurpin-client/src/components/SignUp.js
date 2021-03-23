@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import AlertModal from "./AlertModal";
 require("dotenv").config();
@@ -17,6 +17,10 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   const moveToEmail = useRef();
   const moveToPassword = useRef();
   const moveToCheckPassword = useRef();
+
+  useEffect(() => {
+    // 자동으로 회원 가입 가능하게?
+  }, []);
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -91,25 +95,30 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   );
 
   const handleSignUpWithGoogle = async () => {
-    console.log("제대로 들어옴?????", window.location.hash);
-    let getGoogleToken = await handleGoogleLogin();
-    const checkToken = () => {
-      if (window.location.hash !== "") {
-        fetch("http://localhost:4000/user/googleSignUp", {
-          //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            credentials: "include",
-          },
-          body: JSON.stringify({ data: window.location.hash }),
+    console.log("나와랏", window.location.hash);
+    console.log("너의 상태는?", !isSignInOn);
+    if (window.location.hash !== "" && !isSignInOn) {
+      fetch("http://localhost:4000/user/googleSignUp", {
+        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ data: window.location.hash }),
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message !== "Successfully processed") {
+            setAlertModalOpen(true);
+            setAlertModalComment("존재하는 유저입니다.");
+          } else if (body.message !== "Successfully processed") {
+            setAlertModalOpen(true);
+            setAlertModalComment("로그인을 진행해주세요.");
+          }
         })
-          .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((err) => console.log(err));
-      }
-    };
-    let signUp = await checkToken();
+        .catch((err) => console.log(err));
+    }
   };
 
   const handleSignUp = () => {
