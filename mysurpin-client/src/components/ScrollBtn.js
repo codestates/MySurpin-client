@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const ScrollBtn = () => {
   const [scrollToMain, setScrollToMain] = useState(0);
@@ -7,23 +7,23 @@ const ScrollBtn = () => {
 
   // alert("Current scroll from the top: " + window.pageYOffset);
 
-  const handleToMain = () => {
+  const handleToMain = useCallback(() => {
     setScrollToMain(window.scrollTo({ behavior: "smooth", top: "location" }));
-  };
+  }, []);
 
-  const handleToBest = () => {
+  const handleToBest = useCallback(() => {
     setScorllToBestTags(
       document
         .querySelector(".scroll-buttons__bestTags")
         .scrollIntoView({ behavior: "smooth" })
     );
-  };
+  }, []);
 
-  const handleToNew = () => {
+  const handleToNew = useCallback(() => {
     setScrollToNewLists(
       window.scrollTo({ top: 2500, left: 0, behavior: "smooth" })
     );
-  };
+  }, []);
 
   return (
     <div className="scroll-buttons">

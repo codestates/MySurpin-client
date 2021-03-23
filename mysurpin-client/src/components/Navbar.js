@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
 import AlertModal from "./AlertModal";
-
-// fakeData 나중에 꼭 지우기 (여기부터)
-import { fakeData } from "../reducers/initialState";
-// fakeData 나중에 꼭 지우기 (여기까지)
 
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
@@ -21,19 +17,19 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  };
+  }, []);
 
-  const handleMySurpinBtn = () => {
+  const handleMySurpinBtn = useCallback(() => {
     history.push(`/surpinlists/${nickname}`);
-  };
+  }, [nickname]);
 
-  const handleEditProfileBtn = () => {
+  const handleEditProfileBtn = useCallback(() => {
     history.push("/edituserinfo");
-  };
+  }, []);
 
-  const handleLogOutBtn = () => {
+  const handleLogOutBtn = useCallback(() => {
     dispatch(signOut());
     const payload = JSON.stringify({
       email,
@@ -50,20 +46,20 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       .then((res) => res.json())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
-  };
+  }, [email, token]);
 
-  const onChangeSearchTag = (e) => {
+  const onChangeSearchTag = useCallback((e) => {
     setTag(e.target.value);
-  };
+  }, []);
 
-  const onKeyPress = (e) => {
+  const onKeyPress = useCallback((e) => {
     if (e.key === "Enter") {
       handleSearchBtn();
     }
-  };
+  }, []);
 
   // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
-  const handleSearchBtn = () => {
+  const handleSearchBtn = useCallback(() => {
     const payload = JSON.stringify({
       pagenumber: 1,
       tag: tag,
@@ -96,7 +92,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
         }
       })
       .catch((err) => console.error(err));
-  };
+  }, [tag]);
 
   return (
     <div className="navbar">

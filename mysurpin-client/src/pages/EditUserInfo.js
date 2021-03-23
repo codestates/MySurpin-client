@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ChangeInfo from "../components/ChangeInfo";
 import Withdrawal from "../components/Withdrawal";
 import Navbar from "../components/Navbar";
@@ -7,9 +7,9 @@ import useCheckToken from "../hooks/useCheckToken";
 const EditUserInfo = () => {
   const [editState, setEditState] = useState(true);
 
-  const handlePageState = () => {
+  const handlePageState = useCallback(() => {
     setEditState(!editState);
-  };
+  }, [editState]);
 
   useCheckToken([editState]);
   return (

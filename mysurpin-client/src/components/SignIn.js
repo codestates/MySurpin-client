@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signIn } from "../actions/index";
+import AlertModal from "./AlertModal";
 
 const SignIn = ({ isSignInOn, handlePageState }) => {
   const dispatch = useDispatch();
@@ -9,21 +10,35 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
 
-  const onChangeEmail = (e) => {
+  const moveToPassword = useRef();
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, []);
+  const onChangeEmail = useCallback((e) => {
     setEmail(e.target.value);
-  };
-  const onChangePassword = (e) => {
+  }, []);
+  const onChangePassword = useCallback((e) => {
     setPassword(e.target.value);
-  };
+  }, []);
 
-  const onKeyPress = (e) => {
+  const onKeyPress = useCallback((e) => {
     if (e.key === "Enter") {
+      moveToPassword.current.focus();
       handleSignIn();
     }
-  };
+  }, []);
 
-  const handleSignIn = () => {
+  const handleSignIn = useCallback(() => {
+    if (email === "") {
+      return;
+    }
+    if (password === "") {
+      return;
+    }
     const payload = JSON.stringify({
       email,
       password,
@@ -43,14 +58,20 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
           dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/");
         } else {
-          alert("Bad Request");
+          setAlertModalOpen(true);
+          setAlertModalComment("입력하신 정보가 틀렸습니다.");
         }
       })
       .catch((err) => console.error(err));
-  };
+  }, [email, password]);
 
   return (
     <div className="signIn">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isSignInOn ? (
         <div className="signin-formOn">
           <div className="signin__title">Sign In Surpin</div>
@@ -75,6 +96,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
               required
               onChange={onChangePassword}
               onKeyPress={onKeyPress}
+              ref={moveToPassword}
             ></input>
           </div>
           <button className="signin__btn" onClick={handleSignIn}>

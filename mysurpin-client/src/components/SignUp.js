@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const SignUp = ({ isSignInOn, handlePageState }) => {
@@ -10,6 +10,10 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
   const [passwordcheck, setPasswordCheck] = useState("");
   const [message, setMessage] = useState(false);
 
+  const moveToEmail = useRef();
+  const moveToPassword = useRef();
+  const moveToCheckPassword = useRef();
+
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
@@ -18,24 +22,74 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
     [password]
   );
 
-  const onChangeName = (e) => {
+  const onChangeName = useCallback((e) => {
     setName(e.target.value);
-  };
-  const onChangeEmail = (e) => {
+  }, []);
+
+  const onChangeEmail = useCallback((e) => {
     setEmail(e.target.value);
-  };
+  }, []);
 
-  const onChangePassword = (e) => {
+  const onChangePassword = useCallback((e) => {
     setPassword(e.target.value);
-  };
+  }, []);
 
-  const onKeyPress = (e) => {
+  const onKeyPressMoveToEmail = useCallback((e) => {
     if (e.key === "Enter") {
-      handleSignUp();
+      moveToEmail.current.focus();
+      handleClick();
     }
-  };
+  }, []);
 
-  const handleClick = () => {
+  const onKeyPressMoveToPassword = useCallback((e) => {
+    if (e.key === "Enter") {
+      moveToPassword.current.focus();
+      handleClick();
+    }
+  }, []);
+
+  const onKeyPressMoveToPasswordCheck = useCallback((e) => {
+    if (e.key === "Enter") {
+      moveToCheckPassword.current.focus();
+      handleClick();
+    }
+  }, []);
+
+  const onKeyPressSignUp = useCallback((e) => {
+    if (e.key === "Enter") {
+      handleClick();
+    }
+  }, []);
+
+  const handleSignUp = useCallback(() => {
+    if (password === passwordcheck) {
+      const payload = JSON.stringify({
+        nickname: name,
+        email,
+        password,
+      });
+      fetch(`http://localhost:4000/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: payload,
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message === "Successfully processed") {
+            setMessage("회원가입이 완료되었습니다.");
+            history.push("/");
+          } else {
+            setMessage("잘못된 요청입니다.");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [name, email, password]);
+
+  const handleClick = useCallback(() => {
     if (name === "") {
       setMessage("이름을 입력해주세요.");
       return;
@@ -78,20 +132,23 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       handleSignUp(email, password);
       return;
     }
-  };
+  }, [name, email, password]);
 
-  const ValidateEmail = (email) => {
-    if (
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        email
-      )
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const ValidateEmail = useCallback(
+    (email) => {
+      if (
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+          email
+        )
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [email]
+  );
 
-  const checkPassword = (upw) => {
+  const checkPassword = useCallback((upw) => {
     if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
       setMessage(
         "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
@@ -108,35 +165,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
       return false;
     } else return true;
-  };
-
-  const handleSignUp = () => {
-    if (password === passwordcheck) {
-      const payload = JSON.stringify({
-        nickname: name,
-        email,
-        password,
-      });
-      fetch(`http://localhost:4000/user/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: payload,
-      })
-        .then((res) => res.json())
-        .then((body) => {
-          if (body.message === "Successfully processed") {
-            setMessage("회원가입이 완료되었습니다.");
-            history.push("/");
-          } else {
-            setMessage("잘못된 요청입니다.");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  };
+  }, []);
 
   return (
     <div className="signUp">
@@ -162,7 +191,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Name"
                 onChange={onChangeName}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToEmail}
               ></input>
               <input
                 className="signup-form__email__input"
@@ -170,7 +199,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Email"
                 onChange={onChangeEmail}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToPassword}
+                ref={moveToEmail}
               ></input>
               <input
                 className="signup-form__password__input"
@@ -179,7 +209,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="Password"
                 onChange={onChangePassword}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressMoveToPasswordCheck}
+                ref={moveToPassword}
               ></input>
               <input
                 className="signup-form__password__check__input"
@@ -188,10 +219,11 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
                 required
                 placeholder="PasswordCheck"
                 onChange={onChangePasswordCheck}
-                onKeyPress={onKeyPress}
+                onKeyPress={onKeyPressSignUp}
+                ref={moveToCheckPassword}
               ></input>
             </div>
-            <button className="signup__btn" onClick={() => handleSignUp()}>
+            <button className="signup__btn" onClick={() => handleClick()}>
               sign up
             </button>
             <span>{message}</span>

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { userEdit } from "../actions/index";
 import AlertModal from "./AlertModal";
 
 const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
-  // const history = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
@@ -17,30 +17,45 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  };
+  }, []);
 
-  const onChangeEmail = (e) => {
+  const MoveToNewPassword = useRef();
+  const MoveToNewCheckPassword = useRef();
+
+  const onChangeEmail = useCallback((e) => {
     setEmail(e.target.value);
-  };
-  const onChangeNickname = (e) => {
+  }, []);
+  const onChangeNickname = useCallback((e) => {
     setNickname(e.target.value);
-  };
-  const onChangePassword = (e) => {
+  }, []);
+  const onChangePassword = useCallback((e) => {
     setPassword(e.target.value);
-  };
-  const onChangeCheckPassword = (e) => {
+  }, []);
+  const onChangeCheckPassword = useCallback((e) => {
     setCheckPassword(e.target.value);
-  };
+  }, []);
 
-  const onKeyPress = (e) => {
+  const onKeyPressMoveToNewPassword = useCallback((e) => {
+    if (e.key === "Enter") {
+      MoveToNewPassword.current.focus();
+    }
+  }, []);
+
+  const onKeyPressMoveToNewCheckPassword = useCallback((e) => {
+    if (e.key === "Enter") {
+      MoveToNewCheckPassword.current.focus();
+    }
+  }, []);
+
+  const onKeyPress = useCallback((e) => {
     if (e.key === "Enter") {
       handleChangeInfo();
     }
-  };
+  }, []);
 
-  const handleChangeInfo = () => {
+  const handleChangeInfo = useCallback(() => {
     console.log(user);
     if (user.email === email && password === checkpassword) {
       console.log("good");
@@ -65,6 +80,8 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
             // alert("정보가 변경되었습니다.");
             setAlertModalOpen(true);
             setAlertModalComment("회원 정보가 변경되었습니다.");
+            history.push("/");
+            // 리다이렉트 필요. userinfo로 이동해야함. 아마 에러 있는듯.
           } else {
             // alert("Bad Request");
             setAlertModalOpen(true);
@@ -73,7 +90,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
         })
         .catch((err) => console.error(err));
     }
-  };
+  }, [user, email, password, checkpassword]);
 
   return (
     <div className="changeInfo">
@@ -95,7 +112,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder="Email 본인확인을 위해 입력해주세요 (변경불가)"
               value={email}
               onChange={onChangeEmail}
-              onKeyPress={onKeyPress}
+              onKeyPress={onKeyPressMoveToNewPassword}
             />
             <input
               type="text"
@@ -111,7 +128,8 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               placeholder={"NEW Password"}
               value={password}
               onChange={onChangePassword}
-              onKeyPress={onKeyPress}
+              onKeyPress={onKeyPressMoveToNewCheckPassword}
+              ref={MoveToNewPassword}
             />
             <input
               type="password"
@@ -120,6 +138,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               value={checkpassword}
               onChange={onChangeCheckPassword}
               onKeyPress={onKeyPress}
+              ref={MoveToNewCheckPassword}
             />
           </div>
           <button className="changeinfo__btn" onClick={handleChangeInfo}>

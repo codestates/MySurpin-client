@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import AlertModal from "../components/AlertModal";
@@ -13,21 +13,21 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  };
+  }, []);
 
-  const onChangePassword = (e) => {
+  const onChangePassword = useCallback((e) => {
     setPassword(e.target.value);
-  };
+  }, []);
 
-  const onKeyPress = (e) => {
+  const onKeyPress = useCallback((e) => {
     if (e.key === "Enter") {
       handleWithdrawal();
     }
-  };
+  }, []);
 
-  const handleWithdrawal = () => {
+  const handleWithdrawal = useCallback(() => {
     const payload = JSON.stringify({
       email,
       password,
@@ -55,7 +55,7 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
         }
       })
       .catch((err) => console.error(err));
-  };
+  }, [email, password, token]);
 
   return (
     <div className="withdrawal">

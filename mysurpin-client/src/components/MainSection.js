@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import { useHistory } from "react-router-dom";
@@ -11,21 +11,21 @@ const MainSection = () => {
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  };
+  }, []);
 
-  const onChangeSearchTag = (e) => {
+  const onChangeSearchTag = useCallback((e) => {
     setTag(e.target.value);
-  };
+  }, []);
 
-  const onKeyPress = (e) => {
+  const onKeyPress = useCallback((e) => {
     if (e.key === "Enter") {
       handleSearchTag();
     }
-  };
+  }, []);
   // 미 구현 (시작)
-  const handleSearchTag = () => {
+  const handleSearchTag = useCallback(() => {
     const payload = JSON.stringify({
       pagenumber: 1,
       tag: tag,
@@ -57,7 +57,7 @@ const MainSection = () => {
         }
       })
       .catch((err) => console.error(err));
-  };
+  }, [tag]);
   // 미구현 (끝)
 
   return (

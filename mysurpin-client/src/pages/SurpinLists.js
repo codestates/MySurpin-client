@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -22,22 +22,25 @@ const SurpinLists = () => {
   const [newShowUserTags, setNewShowUserTags] = useState([]);
   // console.log(newShowUserTags);
   // console.log(filteredUserLists)
-  const handleCreateSurpin = () => {
+  const handleCreateSurpin = useCallback(() => {
     history.push("/surpinmodal/");
-  };
+  }, []);
 
-  const handleFilterTags = (targetTag) => {
-    console.log(targetTag, filteredUserLists);
-    if (targetTag === "all") {
-      setFilteredUserLists(newShowUserLists);
-    } else {
-      setFilteredUserLists(
-        newShowUserLists.filter((list) => {
-          return list.tags.includes(targetTag);
-        })
-      );
-    }
-  };
+  const handleFilterTags = useCallback(
+    (targetTag) => {
+      console.log(targetTag, filteredUserLists);
+      if (targetTag === "all") {
+        setFilteredUserLists(newShowUserLists);
+      } else {
+        setFilteredUserLists(
+          newShowUserLists.filter((list) => {
+            return list.tags.includes(targetTag);
+          })
+        );
+      }
+    },
+    [filteredUserLists, newShowUserLists, newShowUserTags]
+  );
 
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/showuserlists?nickname=${writer}`, {
