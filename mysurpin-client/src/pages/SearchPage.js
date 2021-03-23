@@ -22,6 +22,18 @@ const SearchPage = () => {
     setAlertModalOpen(false);
   }, [alertModalOpen]);
 
+  // 최상단으로 이동하는 함수
+  function ScrollToTopOnMount() {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    return null;
+  }
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "SearchPage";
+  }, []);
+
   const fetchMoreLists = useCallback(() => {
     setFetching(true);
     fetch(`http://localhost:4000/surpin/searchlists`, {
@@ -97,6 +109,7 @@ const SearchPage = () => {
         close={closeModal}
         comment={alertModalComment}
       />
+      <ScrollToTopOnMount />
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import ChangeInfo from "../components/ChangeInfo";
 import Withdrawal from "../components/Withdrawal";
 import Navbar from "../components/Navbar";
@@ -19,9 +19,14 @@ const EditUserInfo = () => {
     setAlertModalOpen(false);
   }, []);
 
-  const handlePageState = useCallback(() => {
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "Edit User Info";
+  }, []);
+
+  const handlePageState = () => {
     setEditState(!editState);
-  }, [editState]);
+  };
 
   useCheckToken([editState], openModal);
 

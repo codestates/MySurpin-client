@@ -14,6 +14,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const [nickname, setNickname] = useState(user.nickname);
   const [password, setPassword] = useState("");
   const [checkpassword, setCheckPassword] = useState("");
+  const [message, setMessage] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
@@ -118,6 +119,77 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
     }
   };
 
+  const handleCheck = () => {
+    if (email === "") {
+      setMessage("이메일을 입력해주세요.");
+      return;
+    }
+    if (email === "") {
+      setMessage("이메일을 입력해주세요.");
+      return;
+    } else if (!ValidateEmail(email)) {
+      setMessage("유효하지 않는 이메일 입니다.");
+      return;
+    }
+    if (password === "") {
+      setMessage("비밀번호를 입력해주세요.");
+    } else if (checkPassword(password)) {
+      if (password === checkpassword) {
+        setMessage("");
+        setEmail("");
+        setPassword("");
+      } else {
+        setMessage("비밀번호를 정확하게 입력해주세요.");
+        return;
+      }
+    } else {
+      if (email === "") {
+        setMessage("이메일을 입력해주세요");
+        return;
+      } else if (!ValidateEmail(email)) {
+        setMessage("유효하지 않는 이메일 입니다.");
+        return;
+      } else setMessage("");
+    }
+    if (password === "") {
+      setMessage("비밀번호를 입력해주세요.");
+      return;
+    } else if (checkPassword(password)) {
+      handleChangeInfo(email, password);
+      return;
+    }
+  };
+
+  const ValidateEmail = (email) => {
+    if (
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+        email
+      )
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const checkPassword = (upw) => {
+    if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
+      setMessage(
+        "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
+      );
+      return false;
+    }
+    var chk_num = upw.search(/[0-9]/g);
+    var chk_eng = upw.search(/[a-z]/gi);
+    if (chk_num < 0 || chk_eng < 0) {
+      setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+      return false;
+    }
+    if (/(\w)\1\1\1/.test(upw)) {
+      setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
+      return false;
+    } else return true;
+  };
+
   return (
     <div className="changeInfo">
       <AlertModal
@@ -167,9 +239,10 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
               ref={MoveToNewCheckPassword}
             />
           </div>
-          <button className="changeinfo__btn" onClick={handleChangeInfo}>
+          <button className="changeinfo__btn" onClick={() => handleCheck()}>
             edit
           </button>
+          <span>{message}</span>
         </div>
       ) : (
         <div className="changeinfo__formOff">

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 import Navbar from "../components/Navbar";
@@ -9,6 +9,24 @@ const SignPage = () => {
   const handlePageState = useCallback(() => {
     setSignIn(!signIn);
   }, [signIn]);
+
+  useEffect(() => {
+    document.title = "SignPage";
+  }, []);
+
+  if (window.location.hash !== "") {
+    fetch("https://localhost/user/googleSignUp", {
+      //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ data: window.location.hash }),
+    })
+      .then((v) => console.log(v))
+      .catch((err) => console.log(err));
+  }
 
   return (
     <>

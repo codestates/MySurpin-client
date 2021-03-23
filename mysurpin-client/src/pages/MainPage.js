@@ -17,6 +17,11 @@ const MainPage = () => {
   let newChartlabel = [];
   let newChartdata = [];
 
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "My Surpin";
+  }, []);
+
   // besttag
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/bestTags`)

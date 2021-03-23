@@ -61,6 +61,11 @@ const SurpinModal = ({ location }) => {
 
   useCheckToken([editmode]);
 
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "Surpin Modal";
+  }, []);
+
   useEffect(() => {
     console.log("찾아라!", inputTag.length);
     if (inputTag.length > 0) {
