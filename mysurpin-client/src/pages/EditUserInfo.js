@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChangeInfo from "../components/ChangeInfo";
 import Withdrawal from "../components/Withdrawal";
 import Navbar from "../components/Navbar";
@@ -6,6 +6,11 @@ import useCheckToken from "../hooks/useCheckToken";
 
 const EditUserInfo = () => {
   const [editState, setEditState] = useState(true);
+
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "Edit User Info";
+  }, []);
 
   const handlePageState = () => {
     setEditState(!editState);
