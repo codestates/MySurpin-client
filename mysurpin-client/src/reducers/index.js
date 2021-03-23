@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import userReducer from "./userReducer";
 import surpinReducer from "./surpinReducer";
 import tagsReducer from "./tagsReducer";
+import alertModalReducer from "./alertModalReducer";
 
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   userReducer,
   surpinReducer,
   tagsReducer,
+  alertModalReducer,
 });
 
 // export default rootReducer;

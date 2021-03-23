@@ -13,19 +13,26 @@ const MainSection = () => {
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  }, []);
+  }, [alertModalOpen]);
 
-  const onChangeSearchTag = useCallback((e) => {
-    setTag(e.target.value);
-  }, []);
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = useCallback((e) => {
-    if (e.key === "Enter") {
-      handleSearchTag();
-    }
-  }, []);
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchTag();
+      }
+    },
+    [tag]
+  );
+
   // 미 구현 (시작)
-  const handleSearchTag = useCallback(() => {
+  const handleSearchTag = () => {
     const payload = JSON.stringify({
       pagenumber: 1,
       tag: tag,
@@ -57,7 +64,7 @@ const MainSection = () => {
         }
       })
       .catch((err) => console.error(err));
-  }, [tag]);
+  };
   // 미구현 (끝)
 
   return (

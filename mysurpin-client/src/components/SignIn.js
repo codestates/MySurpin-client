@@ -17,22 +17,30 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  }, []);
-  const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  }, [alertModalOpen]);
 
-  const onKeyPress = useCallback((e) => {
+  const onChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+    },
+    [email]
+  );
+
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [password]
+  );
+
+  const onKeyPress = (e) => {
     if (e.key === "Enter") {
       moveToPassword.current.focus();
       handleSignIn();
     }
-  }, []);
+  };
 
-  const handleSignIn = useCallback(() => {
+  const handleSignIn = () => {
     if (email === "") {
       return;
     }
@@ -63,7 +71,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
         }
       })
       .catch((err) => console.error(err));
-  }, [email, password]);
+  };
 
   return (
     <div className="signIn">

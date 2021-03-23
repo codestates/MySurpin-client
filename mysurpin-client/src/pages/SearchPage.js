@@ -20,7 +20,7 @@ const SearchPage = () => {
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  }, []);
+  }, [alertModalOpen]);
 
   const fetchMoreLists = useCallback(() => {
     setFetching(true);
@@ -50,15 +50,21 @@ const SearchPage = () => {
 
   const [fetching, setFetching] = useInfiniteScroll(fetchMoreLists);
 
-  const onChangeSearchTag = useCallback((e) => {
-    setTag(e.target.value);
-  }, []);
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = useCallback((e) => {
-    if (e.key === "Enter") {
-      handleSearchBtn();
-    }
-  }, []);
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchBtn();
+      }
+    },
+    [tag]
+  );
 
   const handleSearchBtn = useCallback(() => {
     if (tag.length === 0) {
@@ -82,7 +88,7 @@ const SearchPage = () => {
           dispatch(getTagLists(data));
         });
     }
-  }, [tag]);
+  }, [tag, pagenumber]);
 
   return (
     <>

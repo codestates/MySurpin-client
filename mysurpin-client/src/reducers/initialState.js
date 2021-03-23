@@ -14,4 +14,8 @@ export const initialState = {
   // MainPage & NavBar SearchTagsLists
   searchTagLists: {},
   mainPage: {},
+  alertModal: {
+    open: false,
+    text: "",
+  },
 };

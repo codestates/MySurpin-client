@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
 import { useHistory } from "react-router-dom";
@@ -99,15 +99,15 @@ const SurpinModal = ({ location }) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleInputTagBtn = useCallback(() => {
+  const handleInputTagBtn = () => {
     setNewTags([...newTags, inputTag]);
-  }, [newTags, inputTag]);
+  };
 
-  const handleInputUrlBtn = useCallback(() => {
+  const handleInputUrlBtn = () => {
     setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
-  }, [newUrls, inputUrlname, inputUrl]);
+  };
 
-  const createSurpin = useCallback(() => {
+  const createSurpin = () => {
     setEditMode(!editmode);
     const newSurpinState = {
       thumbnail: "thumbnail",
@@ -137,47 +137,44 @@ const SurpinModal = ({ location }) => {
         }
       })
       .catch((err) => console.log(err));
-  }, [token, editmode, newDesc, newTags, newUrls, newListname, email]);
+  };
 
-  const editSurpin = useCallback(
-    (desc, listname) => {
-      setEditMode(!editmode);
+  const editSurpin = (desc, listname) => {
+    setEditMode(!editmode);
 
-      const newSurpinState = {
-        thumbnail: "thumbnail",
-        listname,
-        desc,
-        tags: newTags,
-        urls: newUrls,
-      };
+    const newSurpinState = {
+      thumbnail: "thumbnail",
+      listname,
+      desc,
+      tags: newTags,
+      urls: newUrls,
+    };
 
-      fetch(`http://localhost:4000/surpin/editmysurpin`, {
-        method: "PATCH",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
+    fetch(`http://localhost:4000/surpin/editmysurpin`, {
+      method: "PATCH",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ ...newSurpinState, listId: surpinId, email }),
+    })
+      .then((res) => res.json())
+      .then((body) => {
+        if (body.message === "edit done!") {
+          setAlertModalOpen(true);
+          setAlertModalComment("수정 완료");
+          // alert("수정 완료");
+        } else {
+          // alert("정보 부족");
+          setAlertModalOpen(true);
+          setAlertModalComment("정보 부족");
+        }
       })
-        .then((res) => res.json())
-        .then((body) => {
-          if (body.message === "edit done!") {
-            setAlertModalOpen(true);
-            setAlertModalComment("수정 완료");
-            // alert("수정 완료");
-          } else {
-            // alert("정보 부족");
-            setAlertModalOpen(true);
-            setAlertModalComment("정보 부족");
-          }
-        })
-        .catch((err) => console.log(err));
-    },
-    [editmode, newTags, newUrls, token, surpinId, email]
-  );
+      .catch((err) => console.log(err));
+  };
 
-  const handleRemoveSurpin = useCallback(() => {
+  const handleRemoveSurpin = () => {
     fetch(`http://localhost:4000/surpin/removemysurpin`, {
       method: "DELETE",
       headers: {
@@ -201,46 +198,32 @@ const SurpinModal = ({ location }) => {
         }
       })
       .catch((err) => console.log(err));
-  }, [token, surpinId, email]);
+  };
 
-  const handleSaveSurpin = useCallback(() => {
+  const handleSaveSurpin = () => {
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
     if (!location.surpin || writer !== nickname) createSurpin();
     else editSurpin(inputDesc, inputListname);
-  }, [
-    inputListname,
-    inputDesc,
-    location.surpin,
-    writer,
-    nickname,
-    inputDesc,
-    inputListname,
-  ]);
+  };
 
-  const handleDeleteTag = useCallback(
-    (e) => {
-      setNewTags(
-        newTags.filter(
-          (tag) => tag != e.target.parentNode.textContent.slice(0, -1)
-        )
-      );
-    },
-    [newTags]
-  );
+  const handleDeleteTag = (e) => {
+    setNewTags(
+      newTags.filter(
+        (tag) => tag != e.target.parentNode.textContent.slice(0, -1)
+      )
+    );
+  };
 
-  const handleDeleteUrl = useCallback(
-    (e) => {
-      setNewUrls(
-        newUrls.filter(
-          (url) =>
-            url.name + url.url !== e.target.parentNode.textContent.slice(0, -1)
-        )
-      );
-    },
-    [newUrls]
-  );
+  const handleDeleteUrl = (e) => {
+    setNewUrls(
+      newUrls.filter(
+        (url) =>
+          url.name + url.url !== e.target.parentNode.textContent.slice(0, -1)
+      )
+    );
+  };
 
   return (
     <div className="surpinModal">

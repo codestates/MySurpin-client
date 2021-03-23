@@ -15,17 +15,23 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  }, []);
+  }, [alertModalOpen]);
 
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [password]
+  );
 
-  const onKeyPress = useCallback((e) => {
-    if (e.key === "Enter") {
-      handleWithdrawal();
-    }
-  }, []);
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleWithdrawal();
+      }
+    },
+    [password]
+  );
 
   const handleWithdrawal = useCallback(() => {
     const payload = JSON.stringify({

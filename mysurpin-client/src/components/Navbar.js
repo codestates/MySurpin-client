@@ -19,18 +19,19 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
-  }, []);
+  }, [alertModalOpen]);
 
-  const handleMySurpinBtn = useCallback(() => {
+  const handleMySurpinBtn = () => {
     history.push(`/surpinlists/${nickname}`);
-  }, [nickname]);
+  };
 
   const handleEditProfileBtn = useCallback(() => {
     history.push("/edituserinfo");
   }, []);
 
-  const handleLogOutBtn = useCallback(() => {
+  const handleLogOutBtn = () => {
     dispatch(signOut());
+    history.push("/");
     const payload = JSON.stringify({
       email,
     });
@@ -46,20 +47,26 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       .then((res) => res.json())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
-  }, [email, token]);
+  };
 
-  const onChangeSearchTag = useCallback((e) => {
-    setTag(e.target.value);
-  }, []);
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = useCallback((e) => {
-    if (e.key === "Enter") {
-      handleSearchBtn();
-    }
-  }, []);
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchBtn();
+      }
+    },
+    [tag]
+  );
 
   // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
-  const handleSearchBtn = useCallback(() => {
+  const handleSearchBtn = () => {
     const payload = JSON.stringify({
       pagenumber: 1,
       tag: tag,
@@ -92,7 +99,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
         }
       })
       .catch((err) => console.error(err));
-  }, [tag]);
+  };
 
   return (
     <div className="navbar">

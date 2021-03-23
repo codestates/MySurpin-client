@@ -14,6 +14,9 @@ export const GET_TAG_LISTS = "GET_TAG_LISTS";
 export const SHOW_USER_TAGS = "SHOW_USER_TAGS";
 // main
 export const MAIN_PAGE_STATE = "MAIN_PAGE_STATE";
+// Modal
+export const MODAL_OPEN = "MODAL_OPEN";
+export const MODAL_CLOSE = "MODAL_CLOSE";
 
 // actions creator functions
 
@@ -121,5 +124,22 @@ export const showUserTags = (data) => {
     payload: {
       data,
     },
+  };
+};
+
+// alert Modal
+export const modalOpen = (text) => {
+  return {
+    type: MODAL_OPEN,
+    open: true,
+    text,
+  };
+};
+
+export const modalClose = () => {
+  return {
+    type: MODAL_CLOSE,
+    open: false,
+    text: "",
   };
 };
