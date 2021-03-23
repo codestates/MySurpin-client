@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists } from "../actions/index";
-
-// fakeData 나중에 꼭 지우기 (여기부터)
-import { fakeData } from "../reducers/initialState";
-// fakeData 나중에 꼭 지우기 (여기까지)
+import AlertModal from "./AlertModal";
 
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
@@ -17,17 +14,24 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
   const [tag, setTag] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
 
   const handleMySurpinBtn = () => {
     history.push(`/surpinlists/${nickname}`);
   };
 
-  const handleEditProfileBtn = () => {
+  const handleEditProfileBtn = useCallback(() => {
     history.push("/edituserinfo");
-  };
+  }, []);
 
   const handleLogOutBtn = () => {
     dispatch(signOut());
+    history.push("/");
     const payload = JSON.stringify({
       email,
     });
@@ -45,17 +49,22 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       .catch((err) => console.error(err));
   };
 
-  const onChangeSearchTag = (e) => {
-    setTag(e.target.value);
-  };
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearchBtn();
-    }
-  };
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchBtn();
+      }
+    },
+    [tag]
+  );
 
-  // 확인용 추후에 지워야 함 (시작) -- fakeData === 서버에 태그검색 결과 요청 initialState.searchTagLists
   const handleSearchBtn = () => {
     const payload = JSON.stringify({
       pagenumber: 1,
@@ -77,7 +86,9 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       .then((body) => {
         console.log(body.message);
         if (body.message === "Unsufficient info") {
-          alert("검색어 입력 하세요. (궁서체)");
+          // alert("검색어 입력 하세요. (궁서체)");
+          setAlertModalOpen(true);
+          setAlertModalComment("검색어를 입력하세요.");
         } else if (body.message === "No surpin with request tag") {
           dispatch(getTagLists({}));
           history.push("/searchpage");
@@ -91,6 +102,11 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 
   return (
     <div className="navbar">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <Link to="/">
         <img
           className="navbar__logo-img"

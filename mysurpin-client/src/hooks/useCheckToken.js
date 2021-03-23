@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "../actions/index";
 import { useHistory } from "react-router-dom";
 
-const useCheckToken = (param = []) => {
+const useCheckToken = (param = [], func) => {
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
   const history = useHistory();
@@ -25,16 +25,17 @@ const useCheckToken = (param = []) => {
         body: payload,
       })
         .then((res) => {
-          console.log("30초 안에 하면 200, 아니면 빠꾸", res.status);
+          // console.log("30초 안에 하면 200, 아니면 빠꾸", res.status);
           return res.status;
         })
         .then((status) => {
           if (Number(status) !== 200) {
-            alert("로그인 창으로 이도오오오오옹~!");
+            // alert("로그인 창으로 이도오오오오옹~!");
             dispatch(signOut());
             history.push("/signpage");
           } else {
-            alert("오우오우 토큰 유지~~~!");
+            // alert("오우오우 토큰 유지~~~!");
+            func();
           }
         })
         .catch((err) => console.error(err));

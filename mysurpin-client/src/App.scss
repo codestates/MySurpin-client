@@ -1,18 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@800&family=Poppins:wght@400&display=swap");
+
 $surpin: #40a8c438;
 $aqua: #40a8c4;
 $blue: #40a8c4;
+$dark: #242830;
+$main: #67a1ac;
+html,
+body {
+  height: 100%;
+}
+html {
+  overflow: auto;
+}
 * {
   margin: 0;
   padding: 0;
   border: none;
   outline: none;
   list-style: none;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  color: #555;
+  font-family: "Poppins", sans-serif;
+  color: $main;
   text-decoration: none;
   background-color: rgba(0, 0, 0, 0);
-  // border: 1px #555 solid;
+}
+
+body {
+  background-color: $dark;
 }
 
 /* react transition group */
@@ -50,6 +63,7 @@ button,
 li {
   cursor: pointer;
 }
+
 // Component - Navbar
 .navbar {
   position: fixed;
@@ -65,8 +79,7 @@ li {
     margin-left: 36px;
   }
   .navbar__searchbar {
-    // border: rgba(255, 255, 255, 0.7) 1px solid;
-    border: $blue 1px solid;
+    border: $main 1px solid;
     width: 300px;
     height: 28px;
     border-radius: 14px;
@@ -124,8 +137,9 @@ li {
     height: 100vh;
     background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
     background-size: cover;
-    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
+      font-weight: 800;
       margin-left: 8%;
       width: 50%;
       .main__title__text {
@@ -160,7 +174,7 @@ li {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
-      color: #555;
+      color: $main;
     }
     .besttags__chart {
       justify-self: center;
@@ -171,14 +185,14 @@ li {
   }
   .newListsSection {
     height: 100vh;
-    background-color: #eee;
+    background-color: $dark;
     display: flex;
     flex-direction: column;
     .newlists__title {
       margin-left: 48px;
       margin-top: 48px;
       font-size: 36px;
-      color: #555;
+      color: $main;
     }
     .newlists__lists {
       padding: 48px;
@@ -249,7 +263,7 @@ li {
 }
 // Component - Surpin
 .surpin {
-  border: 1px solid #555;
+  border: 1px solid $main;
   width: 220px;
   height: 270px;
   margin-right: 16px;
@@ -330,7 +344,7 @@ li {
   display: flex;
   .signin-section {
     width: 50%;
-    background-color: $blue;
+    background-color: $main;
   }
   .signup-section {
     width: 50%;
@@ -381,7 +395,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -411,7 +425,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -428,22 +442,22 @@ li {
     .signup__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
     }
     .signup__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
     }
     .signup__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -457,6 +471,10 @@ li {
     .signup__title {
       font-weight: 700;
       font-size: 36px;
+      color: $blue;
+    }
+    .google-login__logo {
+      font-size: 32px;
       color: $blue;
     }
     .signup__ment {
@@ -476,15 +494,15 @@ li {
       }
     }
     .signup__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -497,7 +515,7 @@ li {
   display: flex;
   .changeinfo-section {
     width: 50%;
-    background-color: $blue;
+    background-color: $main;
   }
   .widthdrawal-section {
     width: 50%;
@@ -515,7 +533,7 @@ li {
     .changeinfo__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
       .changeinfo__title__text {
         color: #fff;
       }
@@ -542,7 +560,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -572,7 +590,7 @@ li {
       font-size: 16px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.8);
-        color: $blue;
+        color: $main;
       }
     }
   }
@@ -589,17 +607,17 @@ li {
     .withdrawal__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
     }
     .withdrawal__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
     }
     .withdrawal__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
@@ -618,7 +636,7 @@ li {
     .withdrawal__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
       margin-bottom: 36px;
     }
     .withdrawal__img {
@@ -636,15 +654,15 @@ li {
       }
     }
     .withdrawl__btn {
-      color: $blue;
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid $blue;
+      border: 1px solid $main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -671,7 +689,7 @@ li {
         margin-right: 6px;
         &:hover {
           border: 1px solid rgba(0, 0, 0, 0);
-          background-color: $blue;
+          background-color: $main;
           color: #fff;
         }
       }
@@ -712,29 +730,33 @@ li {
     align-self: flex-start;
     margin: 48px 24px 0 0;
     &:hover {
-      color: $blue;
+      color: $main;
     }
   }
   .surpinModal__sidebar {
     display: flex;
     flex-direction: column;
-    border: 1px solid #eee;
+    border: 1px solid $main;
     width: 16vw;
     height: 90vh;
     padding: 0 24px;
     .sidebar__listinfo__thumbnail {
       display: flex;
-      border: 1px solid #eee;
+      border: 1px solid $main;
+      border-radius: 4px;
       margin-top: 36px;
       height: 35%;
+      background-color: $main;
       .sidebar__listinfo__title {
+        color: #fff;
         width: 70%;
         position: relative;
-        top: 18%;
-        left: 18%;
+        top: 16%;
+        left: 16%;
         font-size: 24px;
       }
       .sidebar__listinfo__writer {
+        color: #fff;
         z-index: 100;
         cursor: pointer;
         align-self: flex-end;
@@ -748,21 +770,28 @@ li {
       margin: 24px 0px;
     }
     .sidebar__description {
-      // border: 1px solid #eee;
       height: 15%;
+      margin-top: 26px;
       margin-bottom: 16px;
       .description__title {
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 1rem;
+        font-family: "Poppin";
+        font-weight: 800;
         margin-bottom: 8px;
       }
       .description__text {
-        font-size: 13px;
+        border: 1px solid #67a1acad;
+        border-radius: 4px;
+        width: 86%;
+        height: 80%;
+        padding: 14px;
+        font-size: 0.8rem;
         font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
       }
     }
     .sidebar__taglists {
-      // border: 1px solid #eee;
+      margin-top: 40px;
       height: 30%;
       display: flex;
       flex-direction: column;
@@ -799,7 +828,7 @@ li {
     }
   }
   .surpinModal__main {
-    border: 1px solid #eee;
+    border: 1px solid $main;
     display: flex;
     flex-direction: column;
     width: 60vw;
@@ -815,9 +844,19 @@ li {
       }
     }
     .surpinModal__show-contents {
-      border: 1px solid #eee;
       height: 65%;
       overflow-y: scroll;
+    }
+    .surpinModal__url-lists {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      li {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 8px;
+      }
     }
     .surpinModal__input-contents {
       display: flex;
@@ -837,7 +876,7 @@ li {
       button {
         width: 48px;
         height: 48px;
-        background-color: $blue;
+        background-color: $main;
         color: #fff;
       }
     }
@@ -849,15 +888,15 @@ li {
       .surpinModal__revise-btn {
         align-self: flex-end;
         margin-right: 24px;
-        border: 1px solid $blue;
-        color: $blue;
+        border: 1px solid $main;
+        color: $main;
         width: 180px;
         height: 48px;
         border-radius: 24px;
         transition: all 0.5s ease;
         &:hover {
           color: #fff;
-          background-color: $blue;
+          background-color: $main;
         }
       }
     }
@@ -866,11 +905,14 @@ li {
 
 // Component - UrlList
 .urlList {
-  border: 1px solid #eee;
+  color: $main;
+  border: 1px solid $main;
   display: flex;
   align-items: center;
-  height: 40px;
+  height: 48px;
   font-size: 14px;
+  border-radius: 4px;
+  width: 90%;
   .urlList__checkbox {
     width: 10%;
   }
@@ -879,6 +921,7 @@ li {
     width: 40%;
   }
   .urlList__url {
+    font-weight: 400;
     width: 40%;
   }
   .urlList__delete-btn {
@@ -886,11 +929,14 @@ li {
     width: 10%;
     z-index: 100;
     &:hover {
-      color: #40a8c4;
+      color: #fff;
     }
   }
   &:hover {
-    background-color: $surpin;
+    color: $dark;
+    transform: scale(1.01);
+    transition: 0.5s ease all;
+    background-color: $main;
   }
 }
 
@@ -898,7 +944,7 @@ li {
 .tag {
   margin: 2px 4px 2px 0px;
   font-size: 14px;
-  border: 1px solid #555;
+  border: 1px solid;
   padding: 3px 6px;
   border-radius: 16px;
 }

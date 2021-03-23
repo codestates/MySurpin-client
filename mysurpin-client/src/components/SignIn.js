@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signIn } from "../actions/index";
+import AlertModal from "./AlertModal";
 
 const SignIn = ({ isSignInOn, handlePageState }) => {
   const dispatch = useDispatch();
@@ -9,21 +10,66 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
 
   const moveToPassword = useRef();
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
+
+  const onChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+    },
+    [email]
+  );
+
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [password]
+  );
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
       moveToPassword.current.focus();
       handleSignIn();
     }
+  };
+
+  // 구글 로그인
+
+  const handleGoogleLogin = () => {
+    // Google's OAuth 2.0 endpoint for requesting an access token
+    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+    // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+    var form = document.createElement("form");
+    form.setAttribute("method", "GET"); // Send as a GET request.
+    form.setAttribute("action", oauth2Endpoint);
+    // Parameters to pass to OAuth 2.0 endpoint.
+    var params = {
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      redirect_uri: "http://localhost:3000/signpage",
+      response_type: "token",
+      scope:
+        "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+      include_granted_scopes: "true",
+      state: "",
+    };
+    // Add form parameters as hidden input values.
+    for (var p in params) {
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", p);
+      input.setAttribute("value", params[p]);
+      form.appendChild(input);
+    }
+    // Add form to page and submit it to open the OAuth 2.0 endpoint.
+    document.body.appendChild(form);
+    form.submit();
   };
 
   const handleSignIn = () => {
@@ -52,7 +98,8 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
           dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/");
         } else {
-          alert("Bad Request");
+          setAlertModalOpen(true);
+          setAlertModalComment("입력하신 정보가 틀렸습니다.");
         }
       })
       .catch((err) => console.error(err));
@@ -60,10 +107,15 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   return (
     <div className="signIn">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isSignInOn ? (
         <div className="signin-formOn">
           <div className="signin__title">Sign In Surpin</div>
-          <button className="google-login__logo">
+          <button className="google-login__logo" onClick={handleGoogleLogin}>
             G<img src="../../public/images/logo-google.png" alt=""></img>
           </button>
           <div className="signin__ment">or use email account</div>

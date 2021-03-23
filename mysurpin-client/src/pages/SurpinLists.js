@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -20,24 +20,31 @@ const SurpinLists = () => {
   const [newShowUserLists, setNewShowUserLists] = useState([]);
   const [filteredUserLists, setFilteredUserLists] = useState([]);
   const [newShowUserTags, setNewShowUserTags] = useState([]);
-  // console.log(newShowUserTags);
-  // console.log(filteredUserLists)
-  const handleCreateSurpin = () => {
-    history.push("/surpinmodal/");
-  };
 
-  const handleFilterTags = (targetTag) => {
-    console.log(targetTag, filteredUserLists);
-    if (targetTag === "all") {
-      setFilteredUserLists(newShowUserLists);
-    } else {
-      setFilteredUserLists(
-        newShowUserLists.filter((list) => {
-          return list.tags.includes(targetTag);
-        })
-      );
-    }
-  };
+  // 페이지 타이틀
+  useEffect(() => {
+    document.title = "Surpin Lists";
+  }, []);
+
+  const handleCreateSurpin = useCallback(() => {
+    history.push("/surpinmodal/");
+  }, []);
+
+  const handleFilterTags = useCallback(
+    (targetTag) => {
+      console.log(targetTag, filteredUserLists);
+      if (targetTag === "all") {
+        setFilteredUserLists(newShowUserLists);
+      } else {
+        setFilteredUserLists(
+          newShowUserLists.filter((list) => {
+            return list.tags.includes(targetTag);
+          })
+        );
+      }
+    },
+    [filteredUserLists, newShowUserLists, newShowUserTags]
+  );
 
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/showuserlists?nickname=${writer}`, {
@@ -66,7 +73,6 @@ const SurpinLists = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log("tags", data);
         dispatch(showUserTags(data));
         setNewShowUserTags(data.tags);
       });

@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
+import AlertModal from "./AlertModal";
+require("dotenv").config();
 
-const SignUp = ({ isSignInOn, handlePageState }) => {
+const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   const history = useHistory();
 
   const [name, setName] = useState("");
@@ -9,57 +11,105 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
   const [password, setPassword] = useState("");
   const [passwordcheck, setPasswordCheck] = useState("");
   const [message, setMessage] = useState(false);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
 
   const moveToEmail = useRef();
   const moveToPassword = useRef();
   const moveToCheckPassword = useRef();
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
 
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
       setMessage(e.target.value !== password);
     },
+    [password, passwordcheck, message]
+  );
+
+  const onChangeName = useCallback(
+    (e) => {
+      setName(e.target.value);
+    },
+    [name]
+  );
+
+  const onChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+    },
+    [email]
+  );
+
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
     [password]
   );
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
+  const onKeyPressMoveToEmail = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        moveToEmail.current.focus();
+        handleClick();
+      }
+    },
+    [name, email]
+  );
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
+  const onKeyPressMoveToPassword = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        moveToPassword.current.focus();
+        handleClick();
+      }
+    },
+    [email, password]
+  );
 
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const onKeyPressMoveToPasswordCheck = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        moveToCheckPassword.current.focus();
+        handleClick();
+      }
+    },
+    [password, passwordcheck]
+  );
 
-  const onKeyPressMoveToEmail = (e) => {
-    if (e.key === "Enter") {
-      moveToEmail.current.focus();
-      handleClick();
+  const onKeyPressSignUp = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleClick();
+      }
+    },
+    [passwordcheck]
+  );
+
+  const handleSignUpWithGoogle = () => {
+    console.log("제대로 들어옴?????", window.location.hash);
+    if (window.location.hash !== "") {
+      fetch("http://localhost:4000/user/googleSignUp", {
+        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ data: window.location.hash }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
+    } else {
+      handleGoogleLogin();
     }
   };
-
-  const onKeyPressMoveToPassword = (e) => {
-    if (e.key === "Enter") {
-      moveToPassword.current.focus();
-      handleClick();
-    }
-  };
-
-  const onKeyPressMoveToPasswordCheck = (e) => {
-    if (e.key === "Enter") {
-      moveToCheckPassword.current.focus();
-      handleClick();
-    }
-  };
-
-  const onKeyPressSignUp = (e) => {
-    if (e.key === "Enter") {
-      handleClick();
-    }
-  };
+  // 구글 로그인
 
   const handleSignUp = () => {
     if (password === passwordcheck) {
@@ -80,7 +130,8 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         .then((body) => {
           if (body.message === "Successfully processed") {
             setMessage("회원가입이 완료되었습니다.");
-            history.push("/");
+            setAlertModalOpen(true);
+            setAlertModalComment("회원가입이 완료되었습니다.");
           } else {
             setMessage("잘못된 요청입니다.");
           }
@@ -89,7 +140,7 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
     }
   };
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (name === "") {
       setMessage("이름을 입력해주세요.");
       return;
@@ -132,40 +183,51 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
       handleSignUp(email, password);
       return;
     }
-  };
+  }, [name, email, password, passwordcheck, message]);
 
-  const ValidateEmail = (email) => {
-    if (
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        email
-      )
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const ValidateEmail = useCallback(
+    (email) => {
+      if (
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+          email
+        )
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [email]
+  );
 
-  const checkPassword = (upw) => {
-    if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
-      setMessage(
-        "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
-      );
-      return false;
-    }
-    var chk_num = upw.search(/[0-9]/g);
-    var chk_eng = upw.search(/[a-z]/gi);
-    if (chk_num < 0 || chk_eng < 0) {
-      setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
-      return false;
-    }
-    if (/(\w)\1\1\1/.test(upw)) {
-      setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
-      return false;
-    } else return true;
-  };
+  const checkPassword = useCallback(
+    (upw) => {
+      if (!/^[a-zA-Z0-9]{8,20}$/.test(upw)) {
+        setMessage(
+          "비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다."
+        );
+        return false;
+      }
+      var chk_num = upw.search(/[0-9]/g);
+      var chk_eng = upw.search(/[a-z]/gi);
+      if (chk_num < 0 || chk_eng < 0) {
+        setMessage("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+        return false;
+      }
+      if (/(\w)\1\1\1/.test(upw)) {
+        setMessage("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
+        return false;
+      } else return true;
+    },
+    [password, message]
+  );
 
   return (
     <div className="signUp">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isSignInOn ? (
         <div className="signup__formOff">
           <div className="signup__title">Sign Up Surpin</div>
@@ -178,6 +240,12 @@ const SignUp = ({ isSignInOn, handlePageState }) => {
         <div>
           <div className="signup__formOn">
             <div className="signup__title">Sign Up Surpin</div>
+            <button
+              className="google-login__logo"
+              onClick={handleSignUpWithGoogle}
+            >
+              G<img src="../../public/images/logo-google.png" alt=""></img>
+            </button>
             <div className="signup__ment">
               sign up and make your own surpin!
             </div>

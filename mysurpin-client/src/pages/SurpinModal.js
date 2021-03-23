@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
+import AlertModal from "../components/AlertModal";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
+  const { listId } = useParams();
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const surpinState = useSelector((state) => state.surpinReducer);
@@ -46,15 +48,31 @@ const SurpinModal = ({ location }) => {
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [inputTag, setInputTag] = useState("");
-  const [inputUrlname, setInputUrlname] = useState("");
+  const [inputUrlname, setInputUrlname] = useState();
   const [inputUrl, setInputUrl] = useState("");
-  console.log(newExistTags);
-  console.log(inputTag.length);
+
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
   useCheckToken([editmode]);
 
+  // 페이지 타이틀
   useEffect(() => {
-    console.log("찾아라!", inputTag.length);
+    document.title = "Surpin Modal";
+  }, []);
+
+  useEffect(() => {
+    if (listId === nickname) {
+      setEditMode(true);
+    }
+  });
+
+  // showexiststag
+  useEffect(() => {
     if (inputTag.length > 0) {
       fetch(`http://localhost:4000/tag/showexiststags?inputText=${inputTag}`, {
         method: "GET",
@@ -65,13 +83,13 @@ const SurpinModal = ({ location }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("existtag", data);
           setNewExistTags(data.tags);
         })
         .catch((err) => console.log(err));
     }
   }, [inputTag]);
 
+  // showsurpin/listid
   useEffect(() => {
     fetch(`http://localhost:4000/surpin/showsurpin?listId=${surpinId}`, {
       method: "POST",
@@ -96,7 +114,24 @@ const SurpinModal = ({ location }) => {
   };
 
   const handleInputUrlBtn = () => {
-    setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
+    if (!inputUrlname || inputUrlname.length === 0) {
+      fetch(`http://localhost:4000/surpin/showurltitle`, {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ url: inputUrl }),
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          setNewUrls([...newUrls, { name: body.title, url: inputUrl }]);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setNewUrls([...newUrls, { name: inputUrlname, url: inputUrl }]);
+    }
   };
 
   const createSurpin = () => {
@@ -120,9 +155,12 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "done") {
-          alert("생성 완료");
+          setAlertModalOpen(true);
+          setAlertModalComment("생성 완료");
+          // alert("생성 완료");
         } else {
-          alert("생성 실패");
+          setAlertModalOpen(true);
+          setAlertModalComment("생성 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -151,9 +189,13 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "edit done!") {
-          alert("수정 완료");
+          setAlertModalOpen(true);
+          setAlertModalComment("수정 완료");
+          // alert("수정 완료");
         } else {
-          alert("정보 부족");
+          // alert("정보 부족");
+          setAlertModalOpen(true);
+          setAlertModalComment("정보 부족");
         }
       })
       .catch((err) => console.log(err));
@@ -172,10 +214,14 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          alert("삭제 완료");
+          // alert("삭제 완료");
+          setAlertModalOpen(true);
+          setAlertModalComment("삭제 완료");
           history.goBack();
         } else {
-          alert("삭제 실패");
+          // alert("삭제 실패");
+          setAlertModalOpen(true);
+          setAlertModalComment("삭제 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -208,6 +254,11 @@ const SurpinModal = ({ location }) => {
 
   return (
     <div className="surpinModal">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <button className="surpinModal__back-btn" onClick={() => history.go(-2)}>
         {"<"}
       </button>
@@ -228,7 +279,7 @@ const SurpinModal = ({ location }) => {
             className="sidebar__listinfo__writer"
             onClick={() => history.push(`/surpinlists/${writer}`)}
           >
-            {writer}
+            {editmode ? nickname : writer}
           </div>
         </div>
         {editmode ? (
@@ -238,10 +289,10 @@ const SurpinModal = ({ location }) => {
         )}
 
         <div className="sidebar__description">
-          <div className="description__title">설명</div>
+          <div className="description__title">Description</div>
           {editmode ? (
             <textarea
-              className="sidebar__description__text"
+              className="description__text"
               placeholder={desc}
               onChange={(e) => setInputDesc(e.target.value)}
               value={inputDesc}
@@ -251,7 +302,7 @@ const SurpinModal = ({ location }) => {
           )}
         </div>
         <div className="sidebar__taglists">
-          <div className="taglists__form__text">태그</div>
+          <div className="taglists__form__text">Tags</div>
           {editmode ? (
             <div className="taglists__form">
               <input
@@ -279,30 +330,32 @@ const SurpinModal = ({ location }) => {
           )}
 
           <ul className="taglists__show">
-            {newTags.length > 0
-              ? newTags.map((tag) => {
-                  return (
-                    <li className="taglists__show__tag">
-                      <Tag tag={tag}></Tag>
-                      {editmode ? (
-                        <button
-                          className="tagaList__delete-btn"
-                          onClick={handleDeleteTag}
-                        >
-                          X
-                          <img
-                            className="tagList__delete-btn-img"
-                            src=""
-                            alt=""
-                          />
-                        </button>
-                      ) : (
-                        <></>
-                      )}
-                    </li>
-                  );
-                })
-              : console.log("no tags")}
+            {newTags.length > 0 ? (
+              newTags.map((tag) => {
+                return (
+                  <li className="taglists__show__tag">
+                    <Tag tag={tag}></Tag>
+                    {editmode ? (
+                      <button
+                        className="tagaList__delete-btn"
+                        onClick={handleDeleteTag}
+                      >
+                        X
+                        <img
+                          className="tagList__delete-btn-img"
+                          src=""
+                          alt=""
+                        />
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                  </li>
+                );
+              })
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
       </section>
@@ -379,37 +432,41 @@ const SurpinModal = ({ location }) => {
         ) : (
           <></>
         )}
-
-        <div className="surpinModal__revise-btn__wrapper">
-          {writer === nickname && editmode ? (
-            <button
-              className="surpinModal__revise-btn"
-              onClick={handleSaveSurpin}
-            >
-              편집완료
-            </button>
-          ) : (
-            <button
-              className="surpinModal__revise-btn"
-              onClick={handleSaveSurpin}
-            >
-              새로만들기
-            </button>
-          )}
-        </div>
-
-        <div className="surpinModal__revise-btn__wrapper">
-          {writer === nickname ? (
-            <button
-              className="surpinModal__revise-btn"
-              onClick={handleRemoveSurpin}
-            >
-              삭제
-            </button>
-          ) : (
-            <></>
-          )}
-        </div>
+        {editmode ? (
+          <>
+            <div className="surpinModal__revise-btn__wrapper">
+              {writer === nickname ? (
+                <button
+                  className="surpinModal__revise-btn"
+                  onClick={handleSaveSurpin}
+                >
+                  편집완료
+                </button>
+              ) : (
+                <button
+                  className="surpinModal__revise-btn"
+                  onClick={handleSaveSurpin}
+                >
+                  내 서핀에 추가
+                </button>
+              )}
+            </div>
+            <div className="surpinModal__revise-btn__wrapper">
+              {writer === nickname ? (
+                <button
+                  className="surpinModal__revise-btn"
+                  onClick={handleRemoveSurpin}
+                >
+                  삭제
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </section>
     </div>
   );
