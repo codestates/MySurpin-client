@@ -14,6 +14,20 @@ const SignPage = () => {
     document.title = "SignPage";
   }, []);
 
+  if (window.location.hash !== "") {
+    fetch("https://localhost/user/googleSignUp", {
+      //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: JSON.stringify({ data: window.location.hash }),
+    })
+      .then((v) => console.log(v))
+      .catch((err) => console.log(err));
+  }
+
   return (
     <>
       <Navbar isSignPage={"hidden"} />
