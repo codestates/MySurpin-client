@@ -90,26 +90,27 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
     [passwordcheck]
   );
 
-  const handleSignUpWithGoogle = () => {
+  const handleSignUpWithGoogle = async () => {
     console.log("제대로 들어옴?????", window.location.hash);
-    if (window.location.hash !== "") {
-      fetch("http://localhost:4000/user/googleSignUp", {
-        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: JSON.stringify({ data: window.location.hash }),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
-    } else {
-      handleGoogleLogin();
-    }
+    let getGoogleToken = await handleGoogleLogin();
+    const checkToken = () => {
+      if (window.location.hash !== "") {
+        fetch("http://localhost:4000/user/googleSignUp", {
+          //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            credentials: "include",
+          },
+          body: JSON.stringify({ data: window.location.hash }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((err) => console.log(err));
+      }
+    };
+    let signUp = await checkToken();
   };
-  // 구글 로그인
 
   const handleSignUp = () => {
     if (password === passwordcheck) {

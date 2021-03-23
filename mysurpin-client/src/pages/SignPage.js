@@ -2,9 +2,16 @@ import React, { useCallback, useState, useEffect } from "react";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 import Navbar from "../components/Navbar";
+import AlertModal from "../components/AlertModal";
 
 const SignPage = () => {
   const [signIn, setSignIn] = useState(true);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
 
   const handlePageState = useCallback(() => {
     setSignIn(!signIn);
@@ -12,6 +19,39 @@ const SignPage = () => {
 
   useEffect(() => {
     document.title = "SignPage";
+  }, []);
+
+  useEffect(() => {
+    // 자동으로 회원 가입 가능하게?
+    console.log("나와랏", window.location.hash);
+    console.log("너의 상태는?", !signIn);
+    if (window.location.hash !== "" && !signIn) {
+      fetch("http://localhost:4000/user/googleSignUp", {
+        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ data: window.location.hash }),
+      })
+        .then((res) => res.json())
+        // .then((body) => {
+        //   console.log("웨 안나옴???", body);
+        //   alert(body);
+        //   return body;
+        // })
+        // .then((body) => {
+        //   if (body.message !== "Successfully processed") {
+        //     setAlertModalOpen(true);
+        //     setAlertModalComment("존재하는 유저입니다.");
+        //   } else if (body.message !== "Successfully processed") {
+        //     setAlertModalOpen(true);
+        //     setAlertModalComment("로그인을 진행해주세요.");
+        //   }
+        // })
+        .catch((err) => console.log(err));
+    }
   }, []);
 
   const handleGoogleLogin = () => {
@@ -46,6 +86,11 @@ const SignPage = () => {
 
   return (
     <>
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <Navbar isSignPage={"hidden"} />
       <div className="signPage">
         <section className="signin-section">

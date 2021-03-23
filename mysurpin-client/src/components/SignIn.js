@@ -72,6 +72,35 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
     form.submit();
   };
 
+  const handleSignInWithGoogle = () => {
+    console.log("제대로 들어옴?????", window.location.hash);
+    if (window.location.hash !== "") {
+      fetch("http://localhost:4000/user/googlesignin", {
+        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ data: window.location.hash }),
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.accessToken) {
+            console.log(body);
+            dispatch(signIn(body.accessToken, email, body.nickname));
+            history.push("/");
+          } else {
+            setAlertModalOpen(true);
+            setAlertModalComment("회원가입을 진행해 주세요");
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      handleGoogleLogin();
+    }
+  };
+
   const handleSignIn = () => {
     if (email === "") {
       return;
@@ -83,7 +112,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       email,
       password,
     });
-    return fetch(`http://localhost:4000/user/signin`, {
+    return fetch(`http://localhost:4000/user/signIn`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -115,7 +144,10 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       {isSignInOn ? (
         <div className="signin-formOn">
           <div className="signin__title">Sign In Surpin</div>
-          <button className="google-login__logo" onClick={handleGoogleLogin}>
+          <button
+            className="google-login__logo"
+            onClick={handleSignInWithGoogle}
+          >
             G<img src="../../public/images/logo-google.png" alt=""></img>
           </button>
           <div className="signin__ment">or use email account</div>
