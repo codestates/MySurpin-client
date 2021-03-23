@@ -739,16 +739,20 @@ li {
     .sidebar__listinfo__thumbnail {
       display: flex;
       border: 1px solid $main;
+      border-radius: 4px;
       margin-top: 36px;
       height: 35%;
+      background-color: $main;
       .sidebar__listinfo__title {
+        color: #fff;
         width: 70%;
         position: relative;
-        top: 18%;
-        left: 18%;
+        top: 16%;
+        left: 16%;
         font-size: 24px;
       }
       .sidebar__listinfo__writer {
+        color: #fff;
         z-index: 100;
         cursor: pointer;
         align-self: flex-end;
@@ -762,21 +766,28 @@ li {
       margin: 24px 0px;
     }
     .sidebar__description {
-      // border: 1px solid #eee;
       height: 15%;
+      margin-top: 26px;
       margin-bottom: 16px;
       .description__title {
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 1rem;
+        font-family: "Poppin";
+        font-weight: 800;
         margin-bottom: 8px;
       }
       .description__text {
-        font-size: 13px;
+        border: 1px solid #67a1acad;
+        border-radius: 4px;
+        width: 86%;
+        height: 80%;
+        padding: 14px;
+        font-size: 0.8rem;
         font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
       }
     }
     .sidebar__taglists {
-      // border: 1px solid #eee;
+      margin-top: 40px;
       height: 30%;
       display: flex;
       flex-direction: column;
@@ -813,7 +824,7 @@ li {
     }
   }
   .surpinModal__main {
-    border: 1px solid #eee;
+    border: 1px solid $main;
     display: flex;
     flex-direction: column;
     width: 60vw;
@@ -829,9 +840,19 @@ li {
       }
     }
     .surpinModal__show-contents {
-      border: 1px solid #eee;
       height: 65%;
       overflow-y: scroll;
+    }
+    .surpinModal__url-lists {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      li {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 8px;
+      }
     }
     .surpinModal__input-contents {
       display: flex;
@@ -880,11 +901,14 @@ li {
 
 // Component - UrlList
 .urlList {
-  border: 1px solid #eee;
+  color: $main;
+  border: 1px solid $main;
   display: flex;
   align-items: center;
-  height: 40px;
+  height: 48px;
   font-size: 14px;
+  border-radius: 4px;
+  width: 90%;
   .urlList__checkbox {
     width: 10%;
   }
@@ -893,6 +917,7 @@ li {
     width: 40%;
   }
   .urlList__url {
+    font-weight: 400;
     width: 40%;
   }
   .urlList__delete-btn {
@@ -900,11 +925,14 @@ li {
     width: 10%;
     z-index: 100;
     &:hover {
-      color: #40a8c4;
+      color: #fff;
     }
   }
   &:hover {
-    background-color: $surpin;
+    color: $dark;
+    transform: scale(1.01);
+    transition: 0.5s ease all;
+    background-color: $main;
   }
 }
 
@@ -912,7 +940,7 @@ li {
 .tag {
   margin: 2px 4px 2px 0px;
   font-size: 14px;
-  border: 1px solid #555;
+  border: 1px solid;
   padding: 3px 6px;
   border-radius: 16px;
 }

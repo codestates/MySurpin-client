@@ -43,7 +43,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
           dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/");
         } else {
-          alert("Bad Request");
+          // alert("Bad Request");
         }
       })
       .catch((err) => console.error(err));

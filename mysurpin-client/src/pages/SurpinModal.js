@@ -5,7 +5,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
-import axios from "axios";
 
 const SurpinModal = ({ location }) => {
   const history = useHistory();
@@ -143,9 +142,9 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "done") {
-          alert("생성 완료");
+          // alert("생성 완료");
         } else {
-          alert("생성 실패");
+          // alert("생성 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -174,9 +173,9 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "edit done!") {
-          alert("수정 완료");
+          // alert("수정 완료");
         } else {
-          alert("정보 부족");
+          // alert("정보 부족");
         }
       })
       .catch((err) => console.log(err));
@@ -195,10 +194,10 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          alert("삭제 완료");
+          // alert("삭제 완료");
           history.goBack();
         } else {
-          alert("삭제 실패");
+          // alert("삭제 실패");
         }
       })
       .catch((err) => console.log(err));
@@ -264,7 +263,7 @@ const SurpinModal = ({ location }) => {
           <div className="description__title">Description</div>
           {editmode ? (
             <textarea
-              className="sidebar__description__text"
+              className="description__text"
               placeholder={desc}
               onChange={(e) => setInputDesc(e.target.value)}
               value={inputDesc}
