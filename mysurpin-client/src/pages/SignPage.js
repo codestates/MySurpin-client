@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 import Navbar from "../components/Navbar";
@@ -6,9 +6,9 @@ import Navbar from "../components/Navbar";
 const SignPage = () => {
   const [signIn, setSignIn] = useState(true);
 
-  const handlePageState = () => {
+  const handlePageState = useCallback(() => {
     setSignIn(!signIn);
-  };
+  }, [signIn]);
 
   useEffect(() => {
     document.title = "SignPage";

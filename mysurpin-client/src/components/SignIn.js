@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signIn } from "../actions/index";
+import AlertModal from "./AlertModal";
 
 const SignIn = ({ isSignInOn, handlePageState }) => {
   const dispatch = useDispatch();
@@ -9,15 +10,28 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
 
   const moveToPassword = useRef();
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
+
+  const onChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+    },
+    [email]
+  );
+
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [password]
+  );
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -84,7 +98,8 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
           dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/");
         } else {
-          alert("Bad Request");
+          setAlertModalOpen(true);
+          setAlertModalComment("입력하신 정보가 틀렸습니다.");
         }
       })
       .catch((err) => console.error(err));
@@ -92,6 +107,11 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
 
   return (
     <div className="signIn">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isSignInOn ? (
         <div className="signin-formOn">
           <div className="signin__title">Sign In Surpin</div>

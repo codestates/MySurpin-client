@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useHistory } from "react-router-dom";
-import { userEdit } from "../actions/index";
 import { useHistory } from "react-router-dom";
+import { userEdit } from "../actions/index";
+import AlertModal from "./AlertModal";
 
 const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const history = useHistory();
@@ -11,44 +11,71 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const { user } = userState;
 
   const [email, setEmail] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(user.nickname);
   const [password, setPassword] = useState("");
   const [checkpassword, setCheckPassword] = useState("");
   const [message, setMessage] = useState(false);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
   const MoveToNewPassword = useRef();
   const MoveToNewCheckPassword = useRef();
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const onChangeNickname = (e) => {
-    setNickname(e.target.value);
-  };
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const onChangeCheckPassword = (e) => {
-    setCheckPassword(e.target.value);
-  };
+  const onChangeEmail = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+    },
+    [email]
+  );
+  const onChangeNickname = useCallback(
+    (e) => {
+      setNickname(e.target.value);
+    },
+    [nickname]
+  );
+  const onChangePassword = useCallback(
+    (e) => {
+      setPassword(e.target.value);
+    },
+    [password]
+  );
+  const onChangeCheckPassword = useCallback(
+    (e) => {
+      setCheckPassword(e.target.value);
+    },
+    [checkpassword]
+  );
 
-  const onKeyPressMoveToNewPassword = (e) => {
-    if (e.key === "Enter") {
-      MoveToNewPassword.current.focus();
-    }
-  };
+  const onKeyPressMoveToNewPassword = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        MoveToNewPassword.current.focus();
+      }
+    },
+    [email, password]
+  );
 
-  const onKeyPressMoveToNewCheckPassword = (e) => {
-    if (e.key === "Enter") {
-      MoveToNewCheckPassword.current.focus();
-    }
-  };
+  const onKeyPressMoveToNewCheckPassword = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        MoveToNewCheckPassword.current.focus();
+      }
+    },
+    [password, checkpassword]
+  );
 
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleCheck();
-    }
-  };
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleChangeInfo();
+      }
+    },
+    [checkpassword]
+  );
 
   const handleChangeInfo = () => {
     console.log(user);
@@ -73,10 +100,19 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
           if (body.accessToken) {
             dispatch(userEdit(body.accessToken, email, password, nickname));
             alert("정보가 변경되었습니다.");
-            history.push("/");
+            history.push({
+              pathname: "/",
+              state: {
+                confirm: "제대로 오니???????????",
+              },
+            });
+            // setAlertModalOpen(true);
+            // setAlertModalComment("회원 정보가 변경되었습니다.");
             // 리다이렉트 필요. userinfo로 이동해야함. 아마 에러 있는듯.
           } else {
-            alert("Bad Request");
+            // alert("Bad Request");
+            setAlertModalOpen(true);
+            setAlertModalComment("입력하신 정보가 올바르지 않습니다.");
           }
         })
         .catch((err) => console.error(err));
@@ -156,6 +192,11 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
 
   return (
     <div className="changeInfo">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       {isChangeInfoFormOn ? (
         <div className="changeinfo__formOn">
           <div className="changeinfo__title">
@@ -166,7 +207,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
             <input
               type="text"
               className="email__input"
-              placeholder="Email 본인확인을 위해 입력해주세요 (변경불가)"
+              placeholder="Email 본인확인을 위해 입력해주세요 (변경 불가)"
               value={email}
               onChange={onChangeEmail}
               onKeyPress={onKeyPressMoveToNewPassword}
@@ -174,7 +215,7 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
             <input
               type="text"
               className="nickname__input"
-              placeholder={user.nickname}
+              placeholder={`${user.nickname} (변경 가능)`}
               value={nickname}
               onChange={onChangeNickname}
               onKeyPress={onKeyPress}

@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import { useHistory } from "react-router-dom";
+import AlertModal from "./AlertModal";
 
 const MainSection = () => {
   const [tag, setTag] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onChangeSearchTag = (e) => {
-    setTag(e.target.value);
-  };
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
 
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearchTag();
-    }
-  };
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
+
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
+
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchTag();
+      }
+    },
+    [tag]
+  );
+
   // 미 구현 (시작)
   const handleSearchTag = () => {
     const payload = JSON.stringify({
@@ -39,7 +53,8 @@ const MainSection = () => {
       .then((body) => {
         console.log(body.message);
         if (body.message === "Unsufficient info") {
-          alert("검색어 입력 하세요. (궁서체)");
+          // alert("검색어 입력 하세요. (궁서체)");
+          setAlertModalOpen(true);
         } else if (body.message === "No surpin with request tag") {
           dispatch(getTagLists({}));
           history.push("/searchpage");
@@ -54,6 +69,11 @@ const MainSection = () => {
 
   return (
     <div className="mainSection">
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={"검색어를 제대로 입력하세요."}
+      />
       <div className="main__title">
         {/* <img className="main__title__logo" src="" alt=""></img> */}
         <div className="main__title__text">My Surpin</div>

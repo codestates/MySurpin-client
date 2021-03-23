@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
+
 const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
   const [gradient, setGradient] = useState("");
+
   useEffect(() => {
     var ctx = document.getElementById("myChart").getContext("2d");
     var gradient = ctx.createLinearGradient(0, 25, 0, 300);
@@ -13,6 +15,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
     gradient.addColorStop(1, "rgba(149, 76, 233, 0)");
     setGradient(gradient);
   }, []);
+
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>

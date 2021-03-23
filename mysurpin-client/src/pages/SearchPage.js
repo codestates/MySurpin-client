@@ -1,11 +1,12 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import SearchResult from "../components/SearchResult";
 import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import AlertModal from "../components/AlertModal";
 
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
@@ -14,6 +15,12 @@ const SearchPage = () => {
   const [tag, setTag] = useState([]);
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
 
   // 최상단으로 이동하는 함수
   function ScrollToTopOnMount() {
@@ -27,7 +34,7 @@ const SearchPage = () => {
     document.title = "SearchPage";
   }, []);
 
-  const fetchMoreLists = () => {
+  const fetchMoreLists = useCallback(() => {
     setFetching(true);
     fetch(`http://localhost:4000/surpin/searchlists`, {
       method: "POST",
@@ -47,7 +54,7 @@ const SearchPage = () => {
       });
     setFetching(false);
     setPagenumber((pagenumber) => pagenumber + 1);
-  };
+  }, [tag, pagenumber]);
 
   useEffect(() => {
     fetchMoreLists();
@@ -55,19 +62,26 @@ const SearchPage = () => {
 
   const [fetching, setFetching] = useInfiniteScroll(fetchMoreLists);
 
-  const onChangeSearchTag = (e) => {
-    setTag(e.target.value);
-  };
+  const onChangeSearchTag = useCallback(
+    (e) => {
+      setTag(e.target.value);
+    },
+    [tag]
+  );
 
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearchBtn();
-    }
-  };
+  const onKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSearchBtn();
+      }
+    },
+    [tag]
+  );
 
-  const handleSearchBtn = () => {
+  const handleSearchBtn = useCallback(() => {
     if (tag.length === 0) {
-      alert("검색어를 입력하세요");
+      setAlertModalOpen(true);
+      setAlertModalComment("검색어를 입력하세요.");
     } else {
       fetch(`http://localhost:4000/surpin/searchlists`, {
         method: "POST",
@@ -86,10 +100,15 @@ const SearchPage = () => {
           dispatch(getTagLists(data));
         });
     }
-  };
+  }, [tag, pagenumber]);
 
   return (
     <>
+      <AlertModal
+        open={alertModalOpen}
+        close={closeModal}
+        comment={alertModalComment}
+      />
       <ScrollToTopOnMount />
       <Navbar></Navbar>
       <div className="searchPage">
