@@ -1,0 +1,910 @@
+$surpin: #40a8c438;
+$aqua: #40a8c4;
+$blue: #40a8c4;
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  list-style: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: #555;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0);
+  // border: 1px #555 solid;
+}
+
+/* react transition group */
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+div.transition-group {
+  position: relative;
+}
+
+section.route-section {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+button,
+li {
+  cursor: pointer;
+}
+// Component - Navbar
+.navbar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95vw;
+  height: 10%;
+  min-height: 60px;
+  .navbar__logo-img {
+    width: 20px;
+    height: 20px;
+    margin-left: 36px;
+  }
+  .navbar__searchbar {
+    // border: rgba(255, 255, 255, 0.7) 1px solid;
+    border: $blue 1px solid;
+    width: 300px;
+    height: 28px;
+    border-radius: 14px;
+    transition: 1s all ease;
+    input {
+      width: 80%;
+      margin-left: 20px;
+      background-color: rgba(0, 0, 0, 0);
+    }
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .navbar__btns {
+    display: flex;
+  }
+  .navbar__btn {
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    margin-right: 8%;
+    width: 120px;
+    height: 28px;
+    border-radius: 14px;
+  }
+}
+.scroll-buttons {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 100;
+  left: 95%;
+  top: 50%;
+  button {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    margin: 3px;
+  }
+}
+
+// Component - MainpageSections
+.mainpage__sections {
+  display: flex;
+  flex-direction: column;
+  li {
+    cursor: auto;
+  }
+  .mainSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
+    background-size: cover;
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    .main__title {
+      margin-left: 8%;
+      width: 50%;
+      .main__title__text {
+        font-size: 80px;
+        color: rgba(255, 255, 255, 0.95);
+      }
+    }
+    .main__search-bar {
+      margin-left: 8%;
+      border: 1px solid #fff;
+      height: 36px;
+      width: 30%;
+      border-radius: 18px;
+      margin-top: 20px;
+      display: flex;
+      input {
+        background-color: rgba(0, 0, 0, 0);
+        margin-left: 16px;
+        width: 80%;
+        &::placeholder {
+          color: rgba(238, 238, 238, 0.7);
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .besttagsSection {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .besttags__title {
+      margin-left: 48px;
+      margin-top: 48px;
+      font-size: 36px;
+      color: #555;
+    }
+    .besttags__chart {
+      justify-self: center;
+      align-self: center;
+      width: 70vw;
+      height: 70vh;
+    }
+  }
+  .newListsSection {
+    height: 100vh;
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    .newlists__title {
+      margin-left: 48px;
+      margin-top: 48px;
+      font-size: 36px;
+      color: #555;
+    }
+    .newlists__lists {
+      padding: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: scroll;
+    }
+    .newlists__list {
+      margin-bottom: 16px;
+    }
+  }
+}
+// Page - SearchPage
+.searchPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  // border: 1px solid #555;
+  .searchbar {
+    margin-top: 10%;
+    border: 1px solid #555;
+    width: 35%;
+    height: 36px;
+    border-radius: 18px;
+    display: flex;
+    z-index: 100;
+    input {
+      margin-left: 16px;
+      width: 85%;
+    }
+  }
+  .searchpage-best-results {
+    // border: 1px solid #eee;
+    width: 85%;
+    margin-top: 36px;
+    .searchpage__best__title {
+      font-size: 24px;
+    }
+    .searchpage-best-lists {
+      padding: 24px 12px;
+      display: flex;
+      overflow-x: scroll;
+    }
+  }
+  .searchpage-all-results {
+    // border: 1px solid #eee;
+    width: 85%;
+    margin-top: 36px;
+    .searchpage__all__title {
+      margin-bottom: 36px;
+      font-size: 24px;
+    }
+    .searchpage__all__lists {
+      display: flex;
+      flex-direction: column;
+      .searchpage__all__lists__topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 90%;
+        height: 48px;
+        font-size: 14px;
+        border: 1px solid #eee;
+      }
+    }
+  }
+}
+// Component - Surpin
+.surpin {
+  border: 1px solid #555;
+  width: 220px;
+  height: 270px;
+  margin-right: 16px;
+  .surpin__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      margin-top: 36px;
+      width: 48px;
+      height: 48px;
+      border-radius: 30px;
+    }
+    .surpin-title {
+      margin-top: 24px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .surpin-username {
+      margin-top: 2px;
+      font-size: 14px;
+    }
+    .list__tags {
+      width: 85%;
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      li {
+        font-size: 14px;
+        border: 1px solid #555;
+        padding: 3px 6px;
+        border-radius: 30px;
+        text-align: center;
+        margin: 3px 3px;
+      }
+    }
+  }
+  transition: all 1s ease;
+  &:hover {
+    transform: scale(1.1);
+    background-color: $surpin;
+  }
+}
+
+// Component - SearchResult
+.searchResult {
+  width: 90%;
+  height: 48px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 14px;
+  border: 1px solid #eee;
+  &:hover {
+    transform: scale(1.01);
+    background-color: $surpin;
+  }
+  div {
+    text-align: center;
+  }
+  .searchResult__name {
+    width: 180px;
+  }
+  .searchResult__description {
+    width: 300px;
+  }
+  .searchResult__urlsCount {
+    width: 100px;
+  }
+  .searchResult__createdAt {
+    width: 200px;
+  }
+}
+// Page - SignPage
+.signPage {
+  height: 100vh;
+  display: flex;
+  .signin-section {
+    width: 50%;
+    background-color: $blue;
+  }
+  .signup-section {
+    width: 50%;
+  }
+}
+// Component - SignIn
+.signIn {
+  transition: all 1s ease;
+  .signin-formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .google-login__logo {
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 4px;
+      }
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+  .signin-formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signin__title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 36px;
+    }
+    .signin__ment {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px;
+    }
+    .signin__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+
+// Component - SignUp
+.signUp {
+  .signup__formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .signup__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .signup__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .signup__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .signup__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Page - EditUserInfo
+.editUserInfo {
+  height: 100vh;
+  display: flex;
+  .changeinfo-section {
+    width: 50%;
+    background-color: $blue;
+  }
+  .widthdrawal-section {
+    width: 50%;
+  }
+}
+
+// Component - Changeinfo
+.changeInfo {
+  .changeinfo__formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .changeinfo__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+      .changeinfo__title__text {
+        color: #fff;
+      }
+    }
+    .changeinfo__form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: rgba(255, 255, 255, 0.7);
+        margin: 4px;
+      }
+    }
+    .changeinfo__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+  .changeinfo__formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .changeinfo__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: #fff;
+    }
+    .changeinfo__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .changeinfo__btn {
+      color: rgba(255, 255, 255, 0.8);
+      width: 240px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $blue;
+      }
+    }
+  }
+}
+
+// Component - Withdrawal
+.withdrawal {
+  .withdrawal_formOff {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .withdrawal__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+    }
+    .withdrawal__ment {
+      font-size: 14px;
+      margin: 30px 0 30px 0;
+    }
+    .withdrawal__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .withdrawal_formOn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .withdrawal__title {
+      font-weight: 700;
+      font-size: 36px;
+      color: $blue;
+      margin-bottom: 36px;
+    }
+    .withdrawal__img {
+    }
+    .withdrawal-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 36px;
+      input {
+        padding: 0 20px;
+        width: 360px;
+        height: 48px;
+        background-color: #07679f13;
+        margin: 4px;
+      }
+    }
+    .withdrawl__btn {
+      color: $blue;
+      width: 240px;
+      height: 48px;
+      border: 1px solid $blue;
+      border-radius: 24px;
+      transition: all 0.5s ease;
+      font-size: 16px;
+      &:hover {
+        background-color: $blue;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Page - SurpinLists
+.surpinLists {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  font-size: 30px;
+  font-weight: 700;
+  .surpinlists__tags {
+    margin: 16px 0;
+    font-size: 20px;
+    .surpinlists__tags__tags {
+      margin-top: 20px;
+      display: flex;
+      .surpinlist__tags__tag .tag {
+        font-weight: 400;
+        margin-right: 6px;
+        &:hover {
+          border: 1px solid rgba(0, 0, 0, 0);
+          background-color: $blue;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .surpinlists__lists {
+    margin-top: 36px;
+    .surpinlists__lists__title {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .surpinlists__lists__lists {
+      display: flex;
+      flex-wrap: wrap;
+      .surpin {
+        margin-bottom: 16px;
+      }
+    }
+  }
+  .surpinlists__btn {
+    align-self: flex-end;
+    border: 1px solid #555;
+    width: 160px;
+    height: 60px;
+    margin-right: 160px;
+    margin-bottom: 60px;
+  }
+}
+
+// Page - SurpinModal
+.surpinModal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .surpinModal__back-btn {
+    font-size: 36px;
+    align-self: flex-start;
+    margin: 48px 24px 0 0;
+    &:hover {
+      color: $blue;
+    }
+  }
+  .surpinModal__sidebar {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    width: 16vw;
+    height: 90vh;
+    padding: 0 24px;
+    .sidebar__listinfo__thumbnail {
+      display: flex;
+      border: 1px solid #eee;
+      margin-top: 36px;
+      height: 35%;
+      .sidebar__listinfo__title {
+        width: 70%;
+        position: relative;
+        top: 18%;
+        left: 18%;
+        font-size: 24px;
+      }
+      .sidebar__listinfo__writer {
+        z-index: 100;
+        cursor: pointer;
+        align-self: flex-end;
+        justify-self: flex-end;
+        margin-bottom: 36px;
+        margin-right: 12px;
+        font-size: 14px;
+      }
+    }
+    .sidebar__thumbnail__input {
+      margin: 24px 0px;
+    }
+    .sidebar__description {
+      // border: 1px solid #eee;
+      height: 15%;
+      margin-bottom: 16px;
+      .description__title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .description__text {
+        font-size: 13px;
+        font-weight: 400;
+      }
+    }
+    .sidebar__taglists {
+      // border: 1px solid #eee;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      .taglists__form__text {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .taglists__form {
+        justify-self: center;
+        margin-bottom: 24px;
+        input {
+          margin-left: 12px;
+          padding: 12px;
+          border-bottom: 1px solid #eee;
+        }
+        button {
+          border: 1px solid #eee;
+          padding: 5px 24px;
+          border-radius: 16px;
+          font-weight: 800;
+          &:hover {
+            background-color: $surpin;
+          }
+        }
+      }
+      .taglists__show {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+  .surpinModal__main {
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    height: 90vh;
+    .surpinModal__header {
+      height: 8%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      button {
+        margin-right: 36px;
+        align-self: flex-end;
+      }
+    }
+    .surpinModal__show-contents {
+      border: 1px solid #eee;
+      height: 65%;
+      overflow-y: scroll;
+    }
+    .surpinModal__input-contents {
+      display: flex;
+      justify-content: center;
+      height: 8%;
+      margin-top: 12px;
+      input {
+        width: 240px;
+        height: 48px;
+        padding: 0 24px;
+        border: 1px solid #eee;
+        margin-right: 8px;
+        &::placeholder {
+          color: #eee;
+        }
+      }
+      button {
+        width: 48px;
+        height: 48px;
+        background-color: $blue;
+        color: #fff;
+      }
+    }
+    .surpinModal__revise-btn__wrapper {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      height: 18%;
+      .surpinModal__revise-btn {
+        align-self: flex-end;
+        margin-right: 24px;
+        border: 1px solid $blue;
+        color: $blue;
+        width: 180px;
+        height: 48px;
+        border-radius: 24px;
+        transition: all 0.5s ease;
+        &:hover {
+          color: #fff;
+          background-color: $blue;
+        }
+      }
+    }
+  }
+}
+
+// Component - UrlList
+.urlList {
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: 14px;
+  .urlList__checkbox {
+    width: 10%;
+  }
+  .urlList__urlName {
+    font-weight: 600;
+    width: 40%;
+  }
+  .urlList__url {
+    width: 40%;
+  }
+  .urlList__delete-btn {
+    color: #eee;
+    width: 10%;
+    z-index: 100;
+    &:hover {
+      color: #40a8c4;
+    }
+  }
+  &:hover {
+    background-color: $surpin;
+  }
+}
+
+// Component - Tag
+.tag {
+  margin: 2px 4px 2px 0px;
+  font-size: 14px;
+  border: 1px solid #555;
+  padding: 3px 6px;
+  border-radius: 16px;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s all ease;
+}

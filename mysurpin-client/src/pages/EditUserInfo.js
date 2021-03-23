@@ -1,18 +1,36 @@
-import React from 'react'
-import ChangeInfo from '../components/ChangeInfo'
-import Withdrawal from '../components/Withdrawal'
+import React, { useState } from "react";
+import ChangeInfo from "../components/ChangeInfo";
+import Withdrawal from "../components/Withdrawal";
+import Navbar from "../components/Navbar";
+import useCheckToken from "../hooks/useCheckToken";
 
 const EditUserInfo = () => {
-    return (
-        <div className="editUserInfo">
-            <section className="changeinfo-section">
-                <ChangeInfo></ChangeInfo>
-            </section>
-            <section className="widthdrawal-section">
-                <Withdrawal></Withdrawal>
-            </section>
-        </div>
-    )
-}
+  const [editState, setEditState] = useState(true);
 
-export default EditUserInfo
+  const handlePageState = () => {
+    setEditState(!editState);
+  };
+
+  useCheckToken([editState]);
+  return (
+    <>
+      <Navbar isSignPage={"hidden"} />
+      <div className="editUserInfo">
+        <section className="changeinfo-section">
+          <ChangeInfo
+            isChangeInfoFormOn={editState}
+            handleEditUserInfo={handlePageState}
+          ></ChangeInfo>
+        </section>
+        <section className="widthdrawal-section">
+          <Withdrawal
+            isChangeInfoFormOn={editState}
+            handleEditUserInfo={handlePageState}
+          ></Withdrawal>
+        </section>
+      </div>
+    </>
+  );
+};
+
+export default EditUserInfo;
