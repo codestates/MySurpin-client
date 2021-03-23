@@ -51,7 +51,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
     form.setAttribute("action", oauth2Endpoint);
     // Parameters to pass to OAuth 2.0 endpoint.
     var params = {
-      client_id: process.env.REACT_APP_client_id,
+      client_id: process.env.REACT_APP_CLIENT_ID,
       redirect_uri: "http://localhost:3000/signpage",
       response_type: "token",
       scope:
@@ -114,7 +114,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       />
       {isSignInOn ? (
         <div className="signin-formOn">
-          <div className="signin__title">Sign In Surpin</div>
+          <div className="signin__title">Log In Surpin</div>
           <button className="google-login__logo" onClick={handleGoogleLogin}>
             G<img src="../../public/images/logo-google.png" alt=""></img>
           </button>
@@ -140,18 +140,18 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
             ></input>
           </div>
           <button className="signin__btn" onClick={handleSignIn}>
-            sign in
+            log in
           </button>
         </div>
       ) : (
         <div className="signin-formOff">
-          <div className="signin__title">Sign In Surpin!</div>
+          <div className="signin__title">Log In Surpin!</div>
           <div className="signin__ment">
             To keep connected with us, please login with your personal
             information
           </div>
           <button className="signin__btn" onClick={() => handlePageState()}>
-            sign in
+            log in
           </button>
         </div>
       )}

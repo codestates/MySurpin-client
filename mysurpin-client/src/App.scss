@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@800&family=Poppins:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Passion+One&display=swap");
 $surpin: #40a8c438;
-$aqua: #5187fc;
-$blue: #5187fc;
+$aqua: #8ab5f7;
+$blue: #8ab5f7;
 $medium: #2d2d36;
-$dark: #18181c;
-$main: #467ceb;
-$border: #5187fc;
+$signpage: #242830;
+$dark: #202225;
+$main: #8ab5f7;
+$border: #8ab5f7;
+
 html,
 body {
   height: 100%;
@@ -168,6 +170,12 @@ li {
         }
       }
     }
+    .video {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
   }
   .besttagsSection {
     height: 100vh;
@@ -193,12 +201,13 @@ li {
     flex-direction: column;
     align-items: center;
     .newlists__title {
+      align-self: flex-start;
       font-family: "Poppin";
       font-weight: 800;
-      margin-left: 48px;
+      margin-left: 80px;
       margin-top: 48px;
       font-size: 36px;
-      color: #fff;
+      color: #8ab5f7;
     }
     .newlists__lists {
       width: 90%;
@@ -206,6 +215,7 @@ li {
       display: flex;
       flex-wrap: wrap;
       overflow: scroll;
+      margin-left: 24px;
     }
     .newlists__list {
       margin-bottom: 16px;
@@ -482,6 +492,7 @@ li {
 
 // Component - SignUp
 .signUp {
+  background-color: $signpage;
   .signup__formOff {
     display: flex;
     flex-direction: column;

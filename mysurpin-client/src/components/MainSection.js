@@ -91,6 +91,9 @@ const MainSection = () => {
           검색
         </button>
       </div>
+      <video className="video" autoPlay muted loop>
+        <source src="/Videos/surf.mp4" type="video/mp4"></source>
+      </video>
     </div>
   );
 };
