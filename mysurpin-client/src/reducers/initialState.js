@@ -18,4 +18,5 @@ export const initialState = {
     open: false,
     text: "",
   },
+  googleToken: "",
 };
