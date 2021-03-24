@@ -1,12 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@800&family=Poppins:wght@400&display=swap");
-
-$surpin: #40a8c438;
-$aqua: #40a8c4;
-$blue: #40a8c4;
+@import url("https://fonts.googleapis.com/css2?family=Passion+One&display=swap");
+$signpage: #242830;
+$medium: rgb(53, 53, 59);
 $dark: #202225;
 $main: #8ab5f7;
-$medium: rgb(53, 53, 59);
 $border: #8ab5f7;
+
 html,
 body {
   height: 100%;
@@ -68,12 +67,13 @@ li {
 
 // Component - Navbar
 .navbar {
+  // background-color: $dark;
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95vw;
-  height: 10%;
+  width: 100vw;
+  height: 8%;
   min-height: 60px;
   z-index: 1;
   .navbar__logo-img {
@@ -81,47 +81,62 @@ li {
     height: 20px;
     margin-left: 36px;
   }
-  .navbar__searchbar {
-    border: $main 1px solid;
-    width: 300px;
-    height: 28px;
-    border-radius: 14px;
-    transition: 1s all ease;
-    input {
-      width: 80%;
-      margin-left: 20px;
-      background-color: rgba(0, 0, 0, 0);
-    }
-    img {
-      width: 20px;
-      height: 20px;
-    }
-  }
-  .navbar__btns {
+  .navbar__utils {
     display: flex;
-  }
-  .navbar__btn {
-    background-color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-    margin-right: 8%;
-    width: 120px;
-    height: 28px;
-    border-radius: 14px;
+    .navbar__searchbar {
+      margin-right: 8px;
+      background-color: $medium;
+      width: 300px;
+      height: 28px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      transition: 1s all ease;
+      input {
+        width: 80%;
+        margin-left: 20px;
+        background-color: rgba(0, 0, 0, 0);
+      }
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .navbar__btn,
+    .navbar__btns {
+      color: #fff;
+      background-color: $main;
+      font-size: 12px;
+      margin-right: 8%;
+      width: 120px;
+      height: 36px;
+      border-radius: 3px;
+    }
   }
 }
 .scroll-buttons {
+  position: fixed;
+  background-color: $dark;
+  width: 6vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  z-index: 100;
-  left: 95%;
-  top: 50%;
-  button {
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 6px;
-    margin: 3px;
+  align-items: flex-end;
+  z-index: 2;
+  .scroll-box {
+    width: 4vw;
+    height: 40vh;
+    z-index: 100;
+    margin-top: 38vh;
+    button {
+      font-size: 0.7rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      width: 100%;
+      height: 54px;
+      &:hover {
+        border-right: #8ab5f7 3px solid;
+      }
+    }
   }
 }
 
@@ -138,6 +153,7 @@ li {
     justify-content: center;
     width: 100%;
     height: 100vh;
+
     overflow: hidden;
     position: relative;
     // background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
@@ -177,38 +193,63 @@ li {
     }
   }
   .besttagsSection {
-    height: 100vh;
     display: flex;
+    height: 100vh;
+    width: 100vw;
+    // border: 1px solid #fff;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .besttags__title {
-      margin-left: 48px;
-      margin-top: 48px;
-      font-size: 36px;
+      margin-bottom: 24px;
+      width: 80vw;
+      font-size: 1.4rem;
       color: $main;
+      font-family: "Poppin";
+      font-weight: 700;
     }
     .besttags__chart {
-      justify-self: center;
-      align-self: center;
-      width: 70vw;
+      // border: 1px solid #fff;
+      width: 50vw;
+      height: 70vh;
+      background-color: #242830;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      #myChart {
+        transform: scale(0.8);
+      }
+    }
+    .besttags__rank {
+      border: 1px solid #fff;
+      width: 150px;
       height: 70vh;
     }
   }
   .newListsSection {
-    height: 100vh;
+    height: 70vh;
     background-color: $dark;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    // border: 1px solid #fff;
     .newlists__title {
-      margin-left: 48px;
-      margin-top: 48px;
-      font-size: 36px;
+      width: 80vw;
+      font-family: "Poppin";
+      font-weight: 700;
+      font-size: 1.4rem;
       color: $main;
     }
     .newlists__lists {
+      width: 80vw;
+      height: 30vh;
       padding: 48px;
       display: flex;
-      flex-wrap: wrap;
-      overflow: scroll;
+      // flex-wrap: wrap;
+      overflow-x: scroll;
+      margin-left: 24px;
     }
     .newlists__list {
       margin-bottom: 16px;
@@ -273,50 +314,92 @@ li {
 }
 // Component - Surpin
 .surpin {
-  border: 1px solid $main;
-  width: 220px;
-  height: 270px;
+  color: #fff;
+  width: 230px;
+  height: 300px;
   margin-right: 16px;
-  .surpin__content {
+  border-radius: 8px;
+  // box-shadow: 3px 2px 0px 5px #0b0e1a;
+  overflow: hidden;
+  .surpin-bold {
+    z-index: 100;
+    position: absolute;
+    margin-top: 50px;
+    margin-left: 30px;
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: "Passion One", cursive;
+  }
+  .surpin-title {
+    width: 160px;
+    height: 80px;
+    word-break: break-all;
+    white-space: pre-line;
+    z-index: 100;
+    margin-top: 100px;
+    margin-left: 30px;
+    color: #fff;
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: 400;
+  }
+  .surpin-username {
+    margin-top: 230px;
+    margin-left: 30px;
+    width: 160px;
+    position: absolute;
+    z-index: 100;
+    color: #fff;
+    font-size: 14px;
+  }
+  .list__tags {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    img {
-      margin-top: 36px;
-      width: 48px;
-      height: 48px;
+    flex-wrap: wrap;
+    z-index: 100;
+    color: #fff;
+    position: absolute;
+    width: 85%;
+    margin-top: 0.2rem;
+    .list__tag {
+      position: relative;
+      font-size: 0.8rem;
+      // padding: 3px 6px;
       border-radius: 30px;
-    }
-    .surpin-title {
-      margin-top: 24px;
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .surpin-username {
-      margin-top: 2px;
-      font-size: 14px;
-    }
-    .list__tags {
-      width: 85%;
-      margin-top: 24px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      li {
-        font-size: 14px;
-        border: 1px solid #555;
-        padding: 3px 6px;
-        border-radius: 30px;
-        text-align: center;
-        margin: 3px 3px;
-      }
+      text-align: center;
+      margin-right: 8px;
     }
   }
-  transition: all 1s ease;
-  &:hover {
-    transform: scale(1.1);
-    background-color: $surpin;
+  .surpin__img {
+    background-color: #3c4049;
+    width: 100%;
+    height: 100%;
+    filter: blur(40px);
   }
+  .surpin__addBtn {
+    position: absolute;
+    margin-top: -70px;
+    margin-left: 170px;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 1.1rem;
+    color: #fff;
+    border: 1px solid #fff;
+    &:hover {
+      background-color: $main;
+      border: none;
+      transform: scale(1.01);
+    }
+  }
+  // transition: all 1s ease;
+  // &:hover:after {
+  //   content: attr();
+  //   width: 100%;
+  //   height: 100%;
+  //   background-color: #18181c;
+  //   box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
+  //   // transform: scale(1.01);
+  //   // background-color: $main;
+  // }
 }
 
 // Component - SearchResult
@@ -330,7 +413,7 @@ li {
   border: 1px solid #eee;
   &:hover {
     transform: scale(1.01);
-    background-color: $surpin;
+    background-color: $main;
   }
   div {
     text-align: center;
@@ -346,6 +429,18 @@ li {
   }
   .searchResult__createdAt {
     width: 200px;
+  }
+}
+// Page - SignPage
+.signPage {
+  height: 100vh;
+  display: flex;
+  .signin-section {
+    width: 50%;
+    background-color: $main;
+  }
+  .signup-section {
+    width: 50%;
   }
 }
 // Page - SignPage
@@ -441,7 +536,6 @@ li {
     }
   }
 }
-
 // Component - SignUp
 .signUp {
   .signup__formOff {
@@ -518,6 +612,9 @@ li {
         background-color: rgba(255, 255, 255, 0.8);
         color: $main;
       }
+    }
+    .signup__message {
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 }
@@ -635,7 +732,7 @@ li {
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
@@ -749,7 +846,7 @@ li {
   .surpinModal__sidebar {
     display: flex;
     flex-direction: column;
-    border: 1px solid $main;
+    border: 1px solid $border;
     width: 16vw;
     height: 90vh;
     padding: 0 24px;
@@ -763,6 +860,7 @@ li {
       .sidebar__listinfo__title {
         color: #fff;
         width: 70%;
+        height: 205px;
         position: relative;
         top: 16%;
         left: 16%;
@@ -790,10 +888,11 @@ li {
         font-size: 1rem;
         font-family: "Poppin";
         font-weight: 800;
-        margin-bottom: 8px;
+        margin-bottom: 12px;
       }
       .description__text {
-        border: 1px solid #67a1acad;
+        border: 1px solid $border;
+        resize: none;
         border-radius: 4px;
         width: 86%;
         height: 80%;
@@ -804,30 +903,39 @@ li {
       }
     }
     .sidebar__taglists {
-      margin-top: 40px;
+      margin-top: 50px;
       height: 30%;
       display: flex;
       flex-direction: column;
       .taglists__form__text {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 8px;
+        font-size: 1rem;
+        font-family: "Poppin";
+        font-weight: 800;
+        margin-bottom: 12px;
       }
       .taglists__form {
-        justify-self: center;
-        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        margin-top: -8px;
+        margin-bottom: 18px;
         input {
-          margin-left: 12px;
-          padding: 12px;
-          border-bottom: 1px solid #eee;
+          width: 70%;
+          font-size: 0.8rem;
+          margin-left: 8px;
+          padding: 4px;
+          border-bottom: 1px solid $border;
         }
         button {
-          border: 1px solid #eee;
-          padding: 5px 24px;
+          margin-left: 0.7rem;
+          border: 1px solid $main;
+          height: 26px;
+          padding: 4px 20px;
           border-radius: 16px;
+          font-family: "Poppin";
           font-weight: 800;
           &:hover {
-            background-color: $surpin;
+            background-color: $main;
+            color: $dark;
           }
         }
       }
@@ -836,27 +944,82 @@ li {
         flex-wrap: wrap;
         li {
           margin-bottom: 12px;
+          margin-right: 8px;
+          .tag {
+            padding: 4px 10px;
+            cursor: auto;
+          }
         }
+      }
+    }
+    #sidebar__thumbnail__input {
+      position: absolute;
+      top: 85%;
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+    label {
+      position: absolute;
+      top: 89%;
+      width: 80px;
+      text-align: center;
+      height: 20px;
+      border: 1px solid $main;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.7rem;
+      outline: none;
+      &:hover {
+        cursor: pointer;
+        background-color: $main;
+        color: $dark;
       }
     }
   }
   .surpinModal__main {
-    border: 1px solid $main;
+    border: 1px solid $border;
+    border-left: none;
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 60vw;
     height: 90vh;
     .surpinModal__header {
-      height: 8%;
+      width: 100%;
+      height: 12%;
       display: flex;
-      justify-content: center;
       flex-direction: column;
+      justify-content: center;
       button {
-        margin-right: 36px;
+        padding: 4px 10px;
+        border-radius: 4px;
         align-self: flex-end;
+        margin-right: 36px;
+        &:hover {
+          background-color: #3c4049;
+          transform: scale(1.05);
+          transition: 0.1s ease all;
+        }
+      }
+    }
+    .surpinModal__show-contents__topbar {
+      color: #fff;
+      display: flex;
+      width: 80%;
+      margin-bottom: 12px;
+      font-family: "Poppin";
+      font-weight: 900;
+      font-size: 0.85rem;
+      div {
+        width: 40%;
       }
     }
     .surpinModal__show-contents {
+      width: 100%;
       height: 65%;
       overflow-y: scroll;
     }
@@ -869,42 +1032,74 @@ li {
         display: flex;
         justify-content: center;
         margin-bottom: 8px;
+        .urlList {
+          width: 80%;
+          padding: 0px 24px;
+          &:hover {
+            div {
+              color: $dark;
+            }
+            transform: scale(1.01);
+            transition: 0.5s ease all;
+            background-color: $main;
+          }
+        }
+        .urlList__delete-btn {
+          font-family: "Poppin";
+          position: relative;
+          font-weight: 800;
+          margin-left: 10px;
+          font-size: 1rem;
+          color: $main;
+          z-index: 100;
+          &:hover {
+            transform: scale(1.01);
+            color: rgba(255, 255, 255, 0.7);
+          }
+        }
       }
     }
     .surpinModal__input-contents {
       display: flex;
       justify-content: center;
+      align-items: center;
       height: 8%;
+      width: 80%;
       margin-top: 12px;
       input {
-        width: 240px;
-        height: 48px;
+        border-bottom: 1px solid #505050;
+        width: 35%;
+        height: 40px;
         padding: 0 24px;
-        border: 1px solid #eee;
         margin-right: 8px;
         &::placeholder {
-          color: #eee;
+          color: #505050;
         }
       }
       button {
-        width: 48px;
-        height: 48px;
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
         background-color: $main;
         color: #fff;
       }
     }
     .surpinModal__revise-btn__wrapper {
+      // border: 1px solid #fff;
       display: flex;
-      justify-content: center;
-      flex-direction: column;
-      height: 18%;
+      justify-content: flex-end;
+      align-items: center;
+      width: 80%;
+      height: 14%;
       .surpinModal__revise-btn {
-        align-self: flex-end;
-        margin-right: 24px;
+        &:last-child {
+          margin-right: 6%;
+        }
+        margin-left: 12px;
         border: 1px solid $main;
         color: $main;
-        width: 180px;
-        height: 48px;
+        width: 140px;
+        height: 40px;
         border-radius: 24px;
         transition: all 0.5s ease;
         &:hover {
@@ -922,34 +1117,19 @@ li {
   border: 1px solid $main;
   display: flex;
   align-items: center;
-  height: 48px;
-  font-size: 14px;
+  height: 46px;
+  font-size: 0.85rem;
   border-radius: 4px;
-  width: 90%;
-  .urlList__checkbox {
-    width: 10%;
-  }
+
   .urlList__urlName {
-    font-weight: 600;
+    font-family: "Poppin";
+    font-weight: 700;
     width: 40%;
   }
   .urlList__url {
+    font-family: "Poppin";
     font-weight: 400;
     width: 40%;
-  }
-  .urlList__delete-btn {
-    color: #eee;
-    width: 10%;
-    z-index: 100;
-    &:hover {
-      color: #fff;
-    }
-  }
-  &:hover {
-    color: $dark;
-    transform: scale(1.01);
-    transition: 0.5s ease all;
-    background-color: $main;
   }
 }
 
