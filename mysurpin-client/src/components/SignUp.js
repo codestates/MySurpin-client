@@ -138,6 +138,7 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
         })
         .catch((err) => console.log(err));
     }
+    setPasswordCheck("");
   };
 
   const handleClick = useCallback(() => {
