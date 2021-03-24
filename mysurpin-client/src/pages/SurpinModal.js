@@ -266,6 +266,7 @@ const SurpinModal = ({ location }) => {
         <div className="sidebar__listinfo__thumbnail">
           {editmode ? (
             <input
+              className="sidebar__listinfo__title"
               type="text"
               placeholder={title}
               onChange={(e) => setInputListname(e.target.value)}
@@ -282,12 +283,6 @@ const SurpinModal = ({ location }) => {
             {editmode ? nickname : writer}
           </div>
         </div>
-        {editmode ? (
-          <input type="file" className="sidebar__thumbnail__input" />
-        ) : (
-          <></>
-        )}
-
         <div className="sidebar__description">
           <div className="description__title">Description</div>
           {editmode ? (
@@ -358,6 +353,14 @@ const SurpinModal = ({ location }) => {
             )}
           </ul>
         </div>
+        {editmode ? (
+          <>
+            <label for="sidebar__thumbnail__input">썸네일 등록</label>
+            <input type="file" id="sidebar__thumbnail__input" />
+          </>
+        ) : (
+          <></>
+        )}
       </section>
 
       <section className="surpinModal__main">
@@ -382,11 +385,11 @@ const SurpinModal = ({ location }) => {
             </button>
           )}
         </div>
+        <div className="surpinModal__show-contents__topbar">
+          <div className="show-contents__urlname">URL NAME</div>
+          <div className="show-contents__url">URL</div>
+        </div>
         <div className="surpinModal__show-contents">
-          <div className="surpinModal__show-contents__topbar">
-            <div className="show-contents__urlname"></div>
-            <div className="show-contents__url"></div>
-          </div>
           <ul className="surpinModal__url-lists">
             {newUrls.length > 0
               ? newUrls.map((urlinfo) => {
@@ -450,8 +453,6 @@ const SurpinModal = ({ location }) => {
                   내 서핀에 추가
                 </button>
               )}
-            </div>
-            <div className="surpinModal__revise-btn__wrapper">
               {writer === nickname ? (
                 <button
                   className="surpinModal__revise-btn"
