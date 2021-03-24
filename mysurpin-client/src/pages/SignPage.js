@@ -14,89 +14,109 @@ const SignPage = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  // const googleTokenState = useSelector((state) => state.userReducer);
-  // const { googleToken } = googleTokenState;
-
-  useEffect(() => {
-    console.log("일단 확인한다!", window.location.hash);
-    if (window.location.hash.length > 0) {
-      console.log("리덕스에 저장!", window.location.hash);
-      dispatch(getGoogleToken(window.location.hash));
-      if (!isSignInOn) {
-        history.push("/signpage");
-      } else {
-        fetch("http://localhost:4000/user/googlesignin", {
-          //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            credentials: "include",
-          },
-          body: JSON.stringify({ data: window.location.hash }),
-        })
-          .then((res) => res.json())
-          .then((body) => {
-            if (body.accessToken) {
-              console.log(body);
-              let email = "";
-              dispatch(getGoogleToken(""));
-              dispatch(signIn(body.accessToken, email, body.nickname));
-              history.push("/");
-            } else {
-              setAlertModalOpen(true);
-              setAlertModalComment("회원가입을 진행해 주세요");
-            }
-          });
-      }
-    }
-  }, []);
+  const googleTokenState = useSelector((state) => state.userReducer);
+  const { googleToken } = googleTokenState;
 
   useEffect(() => {
     document.title = "SignPage";
   }, []);
 
-  const closeModal = useCallback(() => {
-    setAlertModalOpen(false);
-  }, [alertModalOpen]);
+  useEffect(() => {
+    console.log("SignPage 일단 확인한다!", window.location.hash);
+    let state = window.location.hash.slice(7, 13);
+    console.log("SignPage 제대로 잘랐나?", state);
 
-  const handlePageState = useCallback(() => {
-    setIsSignInOn(!isSignInOn);
-  }, [isSignInOn]);
+    // 구글 버튼을 누른 곳이 회원가입 일 때
+    if (state === "signUp") {
+      console.log("회원가입 일 경우 잘 들어와야 한다~?");
+      fetch("http://localhost:4000/user/googleSignUp", {
+        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ data: window.location.hash }),
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message === "Successfully processed") {
+            return "ok";
+          } else {
+            return "no";
+          }
+        })
+        .then((data) => {
+          if (data === "ok") {
+            fetch("http://localhost:4000/user/googleSignIn", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                credentials: "include",
+              },
+              body: JSON.stringify({ data: window.location.hash }),
+            })
+              .then((res) => res.json())
+              .then((body) => {
+                if (body.accessToken) {
+                  dispatch(signIn(body.accessToken, body.email, body.nickname));
+                  return "ok";
+                } else {
+                  setAlertModalOpen(true);
+                  setAlertModalComment("회원가입을 진행해 주세요");
+                  return "no";
+                }
+              })
+              .then((data) => {
+                if (data === "ok") {
+                  history.push("/");
+                  return "ok";
+                }
+              })
+              .catch((err) => console.error(err));
+          } else {
+            history.push("/signpage");
+            return "no";
+          }
+        })
+        .then((data) => {
+          if (data === "no") {
+            alert("이미 가입한 유저이거나 유효하지 않는 사용자 입니다.");
+          }
+        })
+        .catch((err) => console.error(err));
+    } // 구글 버튼을 누른 곳이 로그인 일 때
+    else if (state === "signIn") {
+      fetch("http://localhost:4000/user/googleSignIn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ data: window.location.hash }),
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.accessToken) {
+            dispatch(signIn(body.accessToken, body.email, body.nickname));
+            return "ok";
+          } else {
+            setAlertModalOpen(true);
+            setAlertModalComment("회원가입을 진행해 주세요");
+            return "no";
+          }
+        })
+        .then((data) => {
+          if (data === "ok") {
+            history.push("/");
+            return "ok";
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   // 자동으로 회원 가입 가능하게?
-  //   console.log("나와랏", window.location.hash);
-  //   console.log("너의 상태는?", !signIn);
-  //   if (window.location.hash !== "" && !signIn) {
-  //     fetch("http://localhost:4000/user/googleSignUp", {
-  //       //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         credentials: "include",
-  //       },
-  //       body: JSON.stringify({ data: window.location.hash }),
-  //     })
-  //       .then((res) => res.json())
-  //       // .then((body) => {
-  //       //   console.log("웨 안나옴???", body);
-  //       //   alert(body);
-  //       //   return body;
-  //       // })
-  //       // .then((body) => {
-  //       //   if (body.message !== "Successfully processed") {
-  //       //     setAlertModalOpen(true);
-  //       //     setAlertModalComment("존재하는 유저입니다.");
-  //       //   } else if (body.message !== "Successfully processed") {
-  //       //     setAlertModalOpen(true);
-  //       //     setAlertModalComment("로그인을 진행해주세요.");
-  //       //   }
-  //       // })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }, []);
-
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = (reqPage = "") => {
     // Google's OAuth 2.0 endpoint for requesting an access token
     var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
     // Create <form> element to submit parameters to OAuth 2.0 endpoint.
@@ -111,7 +131,7 @@ const SignPage = () => {
       scope:
         "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
       include_granted_scopes: "true",
-      state: "",
+      state: reqPage,
     };
     // Add form parameters as hidden input values.
     for (var p in params) {
@@ -125,6 +145,14 @@ const SignPage = () => {
     document.body.appendChild(form);
     form.submit();
   };
+
+  const closeModal = useCallback(() => {
+    setAlertModalOpen(false);
+  }, [alertModalOpen]);
+
+  const handlePageState = useCallback(() => {
+    setIsSignInOn(!isSignInOn);
+  }, [isSignInOn]);
 
   return (
     <>
