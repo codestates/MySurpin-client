@@ -1,4 +1,10 @@
-import { SIGN_IN, SIGN_OUT, USER_EDIT, WITHDRAWAL } from "../actions/index";
+import {
+  SIGN_IN,
+  SIGN_OUT,
+  USER_EDIT,
+  WITHDRAWAL,
+  GET_GOOGLE_TOKEN,
+} from "../actions/index";
 import { initialState } from "./initialState";
 
 const userReducer = (state = initialState, action) => {
@@ -34,6 +40,11 @@ const userReducer = (state = initialState, action) => {
           email: null,
           nickname: "guest",
         },
+      });
+
+    case GET_GOOGLE_TOKEN:
+      return Object.assign({}, state, {
+        googleToken: action.payload.data,
       });
 
     default:

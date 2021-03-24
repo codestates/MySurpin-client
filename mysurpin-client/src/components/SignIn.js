@@ -1,13 +1,15 @@
 import React, { useState, useRef, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { signIn } from "../actions/index";
+import { getGoogleToken, signIn } from "../actions/index";
 import AlertModal from "./AlertModal";
 
 const SignIn = ({ isSignInOn, handlePageState }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const googleTokenState = useSelector((state) => state.userReducer);
+  const { googleToken } = googleTokenState;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alertModalOpen, setAlertModalOpen] = useState(false);
@@ -73,8 +75,8 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
   };
 
   const handleSignInWithGoogle = () => {
-    console.log("제대로 들어옴?????", window.location.hash);
-    if (window.location.hash !== "") {
+    console.log("제대로 들어옴?????", googleToken);
+    if (googleToken !== "") {
       fetch("http://localhost:4000/user/googlesignin", {
         //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
         method: "POST",
@@ -82,13 +84,14 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
           "Content-Type": "application/json",
           credentials: "include",
         },
-        body: JSON.stringify({ data: window.location.hash }),
+        body: JSON.stringify({ data: googleToken }),
       })
         .then((res) => res.json())
         .then((body) => {
           if (body.accessToken) {
             console.log(body);
-            dispatch(signIn(body.accessToken, email, body.nickname));
+            dispatch(getGoogleToken(""));
+            dispatch(signIn(body.accessToken, body.email, body.nickname));
             history.push("/");
           } else {
             setAlertModalOpen(true);

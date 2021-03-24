@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { signOut, getTagLists } from "../actions/index";
+import { signOut, getTagLists, getGoogleToken } from "../actions/index";
 import AlertModal from "./AlertModal";
 
 const Navbar = ({ navBarState, isSignPage = "" }) => {
@@ -31,6 +31,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
 
   const handleLogOutBtn = () => {
     dispatch(signOut());
+    dispatch(getGoogleToken(""));
     history.push("/");
     const payload = JSON.stringify({
       email,

@@ -1,10 +1,13 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import AlertModal from "./AlertModal";
+import { useSelector, useDispatch } from "react-redux";
 require("dotenv").config();
 
 const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   const history = useHistory();
+  const googleTokenState = useSelector((state) => state.userReducer);
+  const { googleToken } = googleTokenState;
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,10 +20,6 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   const moveToEmail = useRef();
   const moveToPassword = useRef();
   const moveToCheckPassword = useRef();
-
-  useEffect(() => {
-    // 자동으로 회원 가입 가능하게?
-  }, []);
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -94,10 +93,10 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
     [passwordcheck]
   );
 
-  const handleSignUpWithGoogle = async () => {
-    console.log("나와랏", window.location.hash);
-    console.log("너의 상태는?", !isSignInOn);
-    if (window.location.hash !== "" && !isSignInOn) {
+  const handleSignUpWithGoogle = () => {
+    // console.log("--------------SingUp 버튼-----------------", googleToken);
+    console.log("--------------SignUp 버튼-----------------", googleTokenState);
+    if (googleToken.length > 0) {
       fetch("http://localhost:4000/user/googleSignUp", {
         //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
         method: "POST",
@@ -105,19 +104,23 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
           "Content-Type": "application/json",
           credentials: "include",
         },
-        body: JSON.stringify({ data: window.location.hash }),
+        body: JSON.stringify({ data: googleToken }),
       })
         .then((res) => res.json())
         .then((body) => {
           if (body.message !== "Successfully processed") {
             setAlertModalOpen(true);
             setAlertModalComment("존재하는 유저입니다.");
-          } else if (body.message !== "Successfully processed") {
+          } else if (body.message === "Successfully processed") {
             setAlertModalOpen(true);
             setAlertModalComment("로그인을 진행해주세요.");
+            history.push("/signpage");
+            handlePageState();
           }
         })
         .catch((err) => console.log(err));
+    } else {
+      handleGoogleLogin();
     }
   };
 
