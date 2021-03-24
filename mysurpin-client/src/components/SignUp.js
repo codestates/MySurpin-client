@@ -93,66 +93,6 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
     [passwordcheck]
   );
 
-  const handleSignUpWithGoogle = () => {
-    // console.log("--------------SingUp 버튼-----------------", googleToken);
-    console.log("--------------SignUp 버튼-----------------", googleTokenState);
-    if (googleToken.length > 0) {
-      fetch("http://localhost:4000/user/googleSignUp", {
-        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: JSON.stringify({ data: googleToken }),
-      })
-        .then((res) => res.json())
-        .then((body) => {
-          if (body.message !== "Successfully processed") {
-            setAlertModalOpen(true);
-            setAlertModalComment("존재하는 유저입니다.");
-          } else if (body.message === "Successfully processed") {
-            setAlertModalOpen(true);
-            setAlertModalComment("로그인을 진행해주세요.");
-            history.push("/signpage");
-            handlePageState();
-          }
-        })
-        .catch((err) => console.log(err));
-    } else {
-      handleGoogleLogin();
-    }
-  };
-
-  const handleSignUp = () => {
-    if (password === passwordcheck) {
-      const payload = JSON.stringify({
-        nickname: name,
-        email,
-        password,
-      });
-      fetch(`http://localhost:4000/user/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: payload,
-      })
-        .then((res) => res.json())
-        .then((body) => {
-          if (body.message === "Successfully processed") {
-            setMessage("회원가입이 완료되었습니다.");
-            setAlertModalOpen(true);
-            setAlertModalComment("회원가입이 완료되었습니다.");
-          } else {
-            setMessage("잘못된 요청입니다.");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  };
-
   const handleClick = useCallback(() => {
     if (name === "") {
       setMessage("이름을 입력해주세요.");
@@ -233,6 +173,39 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
     },
     [password, message]
   );
+
+  const handleSignUpWithGoogle = () => {
+    handleGoogleLogin("signUp");
+  };
+
+  const handleSignUp = () => {
+    if (password === passwordcheck) {
+      const payload = JSON.stringify({
+        nickname: name,
+        email,
+        password,
+      });
+      fetch(`http://localhost:4000/user/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: payload,
+      })
+        .then((res) => res.json())
+        .then((body) => {
+          if (body.message === "Successfully processed") {
+            setMessage("회원가입이 완료되었습니다.");
+            setAlertModalOpen(true);
+            setAlertModalComment("회원가입이 완료되었습니다.");
+          } else {
+            setMessage("잘못된 요청입니다.");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
 
   return (
     <div className="signUp">
