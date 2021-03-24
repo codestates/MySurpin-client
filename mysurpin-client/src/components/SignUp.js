@@ -94,9 +94,9 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   );
 
   const handleSignUpWithGoogle = () => {
-    // console.log("--------------SingUp 버튼-----------------", googleToken);
-    console.log("--------------SignUp 버튼-----------------", googleTokenState);
-    if (googleToken.length > 0) {
+    // console.log("--------------SignUp 버튼-----------------", googleTokenState);
+    console.log("--------------SingUp 버튼-----------------", googleToken);
+    if (googleToken && googleToken.length > 0) {
       fetch("http://localhost:4000/user/googleSignUp", {
         //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
         method: "POST",

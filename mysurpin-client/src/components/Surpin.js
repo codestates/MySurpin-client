@@ -14,10 +14,6 @@ const Surpin = ({ surpin }) => {
     tags,
   } = surpin;
 
-  if (thumbnail === "thumbnail") {
-    thumbnail = "https://source.unsplash.com/random/1600x900";
-  }
-
   return (
     <Link to={{ pathname: `/surpinmodal/${surpinId}`, surpin }}>
       <div className="surpin">
@@ -25,7 +21,7 @@ const Surpin = ({ surpin }) => {
         <div className="surpin-title">
           {title}
           <ul className="list__tags">
-            {tags ? (
+            {tags.length ? (
               tags.map((tag) => <li className="list__tag">{`#${tag}`}</li>)
             ) : (
               <li />

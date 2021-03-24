@@ -33,18 +33,15 @@ const SurpinModal = ({ location }) => {
     writer: nickname,
     desc: "no description",
     tags: [],
-    thumbnail:
-      "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
+    thumbnail: "",
     created_At: "",
     modified_At: "",
   };
 
-  let thumbnailUrl = thumbnail;
-
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
   const [newDesc, setNewDesc] = useState(desc);
-  const [newTags, setNewTags] = useState([]);
+  const [newTags, setNewTags] = useState(tags);
   const [newUrls, setNewUrls] = useState([]);
   const [newExistTags, setNewExistTags] = useState(["tag"]);
 
@@ -68,7 +65,8 @@ const SurpinModal = ({ location }) => {
   }, []);
 
   useEffect(() => {
-    if (listId === nickname) {
+    if (!location.surpin) {
+      console.log("edit mode on");
       setEditMode(true);
     }
   });
@@ -136,14 +134,16 @@ const SurpinModal = ({ location }) => {
     }
   };
 
-  const createSurpin = () => {
+  const createSurpin = (listname, desc) => {
     setEditMode(!editmode);
     const newSurpinState = {
-      thumbnail: "https://source.unsplash.com/random/1600x900",
-      desc: newDesc,
+      thumbnail: `https://source.unsplash.com/random?${Math.floor(
+        Math.random() * 100
+      )}/1600x900?blue,water`,
+      listname,
+      desc,
       tags: newTags,
       urls: newUrls,
-      listname: newListname,
     };
     fetch(`http://localhost:4000/surpin/createmysurpin`, {
       method: "POST",
@@ -156,6 +156,7 @@ const SurpinModal = ({ location }) => {
     })
       .then((res) => res.json())
       .then((body) => {
+        console.log(body.message);
         if (body.message === "done") {
           setAlertModalOpen(true);
           setAlertModalComment("생성 완료");
@@ -167,11 +168,13 @@ const SurpinModal = ({ location }) => {
       .catch((err) => console.log(err));
   };
 
-  const editSurpin = (desc, listname) => {
+  const editSurpin = (listname, desc) => {
     setEditMode(!editmode);
 
     const newSurpinState = {
-      thumbnail: "https://source.unsplash.com/random/1600x900",
+      thumbnail: `https://source.unsplash.com/random?${Math.floor(
+        Math.random() * 100
+      )}/1600x900?blue,water`,
       listname,
       desc,
       tags: newTags,
@@ -228,8 +231,9 @@ const SurpinModal = ({ location }) => {
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
-    if (!location.surpin || writer !== nickname) createSurpin();
-    else editSurpin(inputDesc, inputListname);
+    if (!location.surpin || writer !== nickname) {
+      createSurpin(inputListname, inputDesc);
+    } else editSurpin(inputListname, inputDesc);
   };
 
   const handleDeleteTag = (e) => {
@@ -435,7 +439,7 @@ const SurpinModal = ({ location }) => {
         {editmode ? (
           <>
             <div className="surpinModal__revise-btn__wrapper">
-              {writer === nickname ? (
+              {writer === nickname && location.surpin ? (
                 <button
                   className="surpinModal__revise-btn"
                   onClick={handleSaveSurpin}
@@ -450,7 +454,7 @@ const SurpinModal = ({ location }) => {
                   내 서핀에 추가
                 </button>
               )}
-              {writer === nickname ? (
+              {writer === nickname && location.surpin ? (
                 <button
                   className="surpinModal__revise-btn"
                   onClick={handleRemoveSurpin}

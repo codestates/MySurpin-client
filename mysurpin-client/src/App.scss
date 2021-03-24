@@ -101,12 +101,20 @@ li {
         height: 20px;
       }
     }
+    .navbar__btn__show-all {
+      background-color: $main;
+      color: #fff;
+      width: 120px;
+      height: 36px;
+      border-radius: 3px;
+    }
     .navbar__btn,
     .navbar__btns {
-      color: #fff;
-      background-color: $main;
+      background-color: $medium;
+      color: $main;
       font-size: 12px;
       margin-right: 8%;
+      border-bottom: #3c4049 1px solid;
       width: 120px;
       height: 36px;
       border-radius: 3px;
@@ -155,8 +163,6 @@ li {
 
     overflow: hidden;
     position: relative;
-    // background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
-    // background-size: cover;
     box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
       font-weight: 800;
@@ -195,20 +201,18 @@ li {
     display: flex;
     height: 100vh;
     width: 100vw;
-    // border: 1px solid #fff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     .besttags__title {
+      color: rgba(255, 255, 255, 0.8);
       margin-bottom: 24px;
       width: 80vw;
       font-size: 1.4rem;
-      color: $main;
       font-family: "Poppin";
       font-weight: 700;
     }
     .besttags__chart {
-      // border: 1px solid #fff;
       width: 50vw;
       height: 70vh;
       background-color: #242830;
@@ -227,41 +231,78 @@ li {
     }
   }
   .newListsSection {
-    height: 70vh;
     background-color: $dark;
     display: flex;
+    margin-left: 160px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    // border: 1px solid #fff;
+    overflow: hidden;
     .newlists__title {
-      width: 80vw;
+      width: 85vw;
       font-family: "Poppin";
       font-weight: 700;
       font-size: 1.4rem;
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
     }
-    .newlists__lists {
-      width: 80vw;
+    .newlists__lists_first,
+    .newlists__lists_second {
+      position: relative;
+      left: 500px;
+      width: 140vw;
       height: 30vh;
       padding: 48px;
       display: flex;
-      // flex-wrap: wrap;
       overflow-x: scroll;
-      margin-left: 24px;
+      margin-left: 2px;
+    }
+    .newlists__lists_first {
+      animation: move-to-right 20s linear infinite;
+    }
+    .newlists__lists_second {
+      animation: move-to-left 20s linear infinite;
     }
     .newlists__list {
       margin-bottom: 16px;
+      margin-right: 8px;
+      &:hover {
+        transition: all 0.7s ease;
+        transform: scale(1.1);
+      }
     }
   }
 }
+
+@keyframes move-to-right {
+  0% {
+    left: -150px;
+  }
+  50% {
+    left: 350px;
+  }
+  100% {
+    left: -150px;
+  }
+}
+
+@keyframes move-to-left {
+  0% {
+    left: 350px;
+  }
+  50% {
+    left: -150px;
+  }
+  100% {
+    left: 350px;
+  }
+}
+
 // Page - SearchPage
 .searchPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  // border: 1px solid #555;
   .searchbar {
     margin-top: 10%;
     border: 1px solid #555;
@@ -276,7 +317,6 @@ li {
     }
   }
   .searchpage-best-results {
-    // border: 1px solid #eee;
     width: 85%;
     margin-top: 36px;
     .searchpage__best__title {
@@ -289,7 +329,6 @@ li {
     }
   }
   .searchpage-all-results {
-    // border: 1px solid #eee;
     width: 85%;
     margin-top: 36px;
     .searchpage__all__title {
@@ -318,7 +357,6 @@ li {
   height: 300px;
   margin-right: 16px;
   border-radius: 8px;
-  // box-shadow: 3px 2px 0px 5px #0b0e1a;
   overflow: hidden;
   .surpin-bold {
     z-index: 100;
@@ -360,6 +398,7 @@ li {
     width: 85%;
     margin-top: 0.2rem;
     .list__tag {
+      color: #fff;
       position: relative;
       font-size: 0.8rem;
       // padding: 3px 6px;
@@ -389,16 +428,6 @@ li {
       transform: scale(1.01);
     }
   }
-  // transition: all 1s ease;
-  // &:hover:after {
-  //   content: attr();
-  //   width: 100%;
-  //   height: 100%;
-  //   background-color: #18181c;
-  //   box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
-  //   // transform: scale(1.01);
-  //   // background-color: $main;
-  // }
 }
 
 // Component - SearchResult
@@ -1068,7 +1097,6 @@ li {
       }
     }
     .surpinModal__revise-btn__wrapper {
-      // border: 1px solid #fff;
       display: flex;
       justify-content: flex-end;
       align-items: center;
