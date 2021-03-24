@@ -343,12 +343,11 @@ const SurpinModal = ({ location }) => {
                         className="tagaList__delete-btn"
                         onClick={handleDeleteTag}
                       >
-                        X
-                        {/* <img
+                        <img
                           className="tagList__delete-btn-img"
                           src="/images/X_Button.png"
                           alt=""
-                        /> */}
+                        />
                       </button>
                     ) : (
                       <></>
