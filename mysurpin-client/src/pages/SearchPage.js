@@ -163,8 +163,8 @@ const SearchPage = () => {
             onKeyPress={onKeyPress}
             onChange={onChangeSearchTag}
           ></input>
-          <button className="sarchbar__button" onClick={handleSearchBtn}>
-            <img src="../../public/images/search.png"></img>
+          <button className="searchbar__button" onClick={handleSearchBtn}>
+            <img src="/images/Magnifying Glass.png" alt=""></img>
           </button>
         </div>
         <div className="searchpage-best-results">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
 import { useHistory, useParams } from "react-router-dom";
@@ -17,6 +17,8 @@ const SurpinModal = ({ location }) => {
     user: { nickname, token, email },
   } = userState;
   const { showSurpin } = surpinState;
+
+  const moveToUrl = useRef();
 
   const {
     surpinId,
@@ -260,7 +262,7 @@ const SurpinModal = ({ location }) => {
         comment={alertModalComment}
       />
       <button className="surpinModal__back-btn" onClick={() => history.go(-2)}>
-        {"<"}
+        <img src="/images/go_back_Button.png" alt=""></img>
       </button>
       <section className="surpinModal__sidebar">
         <div className="sidebar__listinfo__thumbnail">
@@ -305,6 +307,12 @@ const SurpinModal = ({ location }) => {
                 className="taglists__form__input"
                 placeholder="태그 추가"
                 onChange={(e) => setInputTag(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    handleInputTagBtn();
+                    setInputTag("");
+                  }
+                }}
                 value={inputTag}
                 list="existTagsList"
               />
@@ -336,11 +344,11 @@ const SurpinModal = ({ location }) => {
                         onClick={handleDeleteTag}
                       >
                         X
-                        <img
+                        {/* <img
                           className="tagList__delete-btn-img"
-                          src=""
+                          src="/images/X_Button.png"
                           alt=""
-                        />
+                        /> */}
                       </button>
                     ) : (
                       <></>
@@ -402,6 +410,7 @@ const SurpinModal = ({ location }) => {
                           onClick={handleDeleteUrl}
                         >
                           X
+                          {/* {<img src="/images/X_Button.png" alt=""></img>} */}
                         </button>
                       ) : (
                         <></>
@@ -419,6 +428,11 @@ const SurpinModal = ({ location }) => {
               className="input-content__urlname"
               placeholder="name"
               onChange={(e) => setInputUrlname(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  moveToUrl.current.focus();
+                }
+              }}
               value={inputUrlname}
             />
             <input
@@ -426,7 +440,15 @@ const SurpinModal = ({ location }) => {
               className="input-content__url"
               placeholder="url"
               onChange={(e) => setInputUrl(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleInputUrlBtn();
+                  setInputUrlname("");
+                  setInputUrl("");
+                }
+              }}
               value={inputUrl}
+              ref={moveToUrl}
             />
             <button className="input-content__btn" onClick={handleInputUrlBtn}>
               +
