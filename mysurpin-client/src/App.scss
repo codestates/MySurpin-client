@@ -1,10 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@800&family=Poppins:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Passion+One&display=swap");
-$surpin: #40a8c438;
-$aqua: #8ab5f7;
-$blue: #8ab5f7;
-$medium: #2d2d36;
 $signpage: #242830;
+$medium: rgb(53, 53, 59);
 $dark: #202225;
 $main: #8ab5f7;
 $border: #8ab5f7;
@@ -70,59 +67,74 @@ li {
 
 // Component - Navbar
 .navbar {
+  // background-color: $dark;
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95vw;
-  height: 10%;
+  width: 100vw;
+  height: 8%;
   min-height: 60px;
   .navbar__logo-img {
     width: 20px;
     height: 20px;
     margin-left: 36px;
   }
-  .navbar__searchbar {
-    border: $main 1px solid;
-    width: 300px;
-    height: 28px;
-    border-radius: 14px;
-    transition: 1s all ease;
-    input {
-      width: 80%;
-      margin-left: 20px;
-      background-color: rgba(0, 0, 0, 0);
-    }
-    img {
-      width: 20px;
-      height: 20px;
-    }
-  }
-  .navbar__btns {
+  .navbar__utils {
     display: flex;
-  }
-  .navbar__btn {
-    background-color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
-    margin-right: 8%;
-    width: 120px;
-    height: 28px;
-    border-radius: 14px;
+    .navbar__searchbar {
+      margin-right: 8px;
+      background-color: $medium;
+      width: 300px;
+      height: 28px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      transition: 1s all ease;
+      input {
+        width: 80%;
+        margin-left: 20px;
+        background-color: rgba(0, 0, 0, 0);
+      }
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .navbar__btn,
+    .navbar__btns {
+      color: #fff;
+      background-color: $main;
+      font-size: 12px;
+      margin-right: 8%;
+      width: 120px;
+      height: 36px;
+      border-radius: 3px;
+    }
   }
 }
 .scroll-buttons {
+  position: fixed;
+  background-color: $dark;
+  width: 6vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  z-index: 100;
-  left: 95%;
-  top: 50%;
-  button {
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 6px;
-    margin: 3px;
+  align-items: flex-end;
+  .scroll-box {
+    width: 4vw;
+    height: 40vh;
+    z-index: 100;
+    margin-top: 38vh;
+    button {
+      font-size: 0.7rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      width: 100%;
+      height: 54px;
+      &:hover {
+        border-right: #8ab5f7 3px solid;
+      }
+    }
   }
 }
 
@@ -178,43 +190,62 @@ li {
     }
   }
   .besttagsSection {
-    height: 100vh;
     display: flex;
+    height: 100vh;
+    width: 100vw;
+    // border: 1px solid #fff;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .besttags__title {
-      margin-left: 48px;
-      margin-top: 48px;
-      font-size: 36px;
+      margin-bottom: 24px;
+      width: 80vw;
+      font-size: 1.4rem;
       color: $main;
+      font-family: "Poppin";
+      font-weight: 700;
     }
     .besttags__chart {
-      justify-self: center;
-      align-self: center;
-      width: 70vw;
+      // border: 1px solid #fff;
+      width: 50vw;
+      height: 70vh;
+      background-color: #242830;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      #myChart {
+        transform: scale(0.8);
+      }
+    }
+    .besttags__rank {
+      border: 1px solid #fff;
+      width: 150px;
       height: 70vh;
     }
   }
   .newListsSection {
-    height: 100vh;
+    height: 50vh;
     background-color: $dark;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     .newlists__title {
-      align-self: flex-start;
+      // border: 1px solid #fff;
+      width: 80vw;
       font-family: "Poppin";
-      font-weight: 800;
-      margin-left: 80px;
-      margin-top: 48px;
-      font-size: 36px;
-      color: #8ab5f7;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: $main;
     }
     .newlists__lists {
-      width: 90%;
+      width: 80vw;
+      height: 30vh;
       padding: 48px;
       display: flex;
-      flex-wrap: wrap;
-      overflow: scroll;
+      // flex-wrap: wrap;
+      overflow-x: scroll;
       margin-left: 24px;
     }
     .newlists__list {
@@ -379,7 +410,7 @@ li {
   border: 1px solid #eee;
   &:hover {
     transform: scale(1.01);
-    background-color: $surpin;
+    background-color: $main;
   }
   div {
     text-align: center;
@@ -531,11 +562,11 @@ li {
     .signup__title {
       font-weight: 700;
       font-size: 36px;
-      color: $blue;
+      color: $main;
     }
     .google-login__logo {
       font-size: 32px;
-      color: $blue;
+      color: $main;
     }
     .signup__ment {
       font-size: 14px;
@@ -682,7 +713,7 @@ li {
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $blue;
+        background-color: $main;
         color: rgba(255, 255, 255, 0.8);
       }
     }
