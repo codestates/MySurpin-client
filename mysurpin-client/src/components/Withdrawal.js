@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import AlertModal from "../components/AlertModal";
 
+const awsController = require("../aws_controller/aws_controller");
+
 const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const history = useHistory();
   const userState = useSelector((state) => state.userReducer);
@@ -38,6 +40,9 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
       email,
       password,
     });
+
+    awsController.deleteFolder(email);
+
     return fetch(`http://localhost:4000/user/withdrawal`, {
       method: "DELETE",
       headers: {

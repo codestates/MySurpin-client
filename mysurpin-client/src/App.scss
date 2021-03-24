@@ -495,6 +495,18 @@ li {
     width: 50%;
   }
 }
+// Page - SignPage
+.signPage {
+  height: 100vh;
+  display: flex;
+  .signin-section {
+    width: 50%;
+    background-color: $main;
+  }
+  .signup-section {
+    width: 50%;
+  }
+}
 // Component - SignIn
 .signIn {
   transition: all 1s ease;
@@ -550,35 +562,34 @@ li {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: $dark;
     .signin__title {
       font-weight: 700;
-      color: #fff;
+      color: $main;
       font-size: 36px;
     }
     .signin__ment {
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
+      color: $main;
       padding: 48px;
     }
     .signin__btn {
-      color: rgba(255, 255, 255, 0.8);
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      border: 1px solid$main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: rgba(255, 255, 255, 0.8);
-        color: $main;
+        background-color: $main;
+        color: rgba(255, 255, 255, 0.8);
       }
     }
   }
 }
-
 // Component - SignUp
 .signUp {
-  background-color: $signpage;
   .signup__formOff {
     display: flex;
     flex-direction: column;
@@ -614,18 +625,20 @@ li {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: $main;
     .signup__title {
       font-weight: 700;
       font-size: 36px;
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
     }
     .google-login__logo {
       font-size: 32px;
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
     }
     .signup__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
+      color: rgba(255, 255, 255, 0.8);
     }
     .signup-form {
       display: flex;
@@ -635,22 +648,25 @@ li {
         padding: 0 20px;
         width: 360px;
         height: 48px;
-        background-color: #07679f13;
+        background-color: rgba(255, 255, 255, 0.8);
         margin: 4px;
       }
     }
     .signup__btn {
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
       width: 240px;
       height: 48px;
-      border: 1px solid $main;
+      border: 1px solid rgba(255, 255, 255, 0.8);
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $main;
-        color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $main;
       }
+    }
+    .signup__message {
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 }
@@ -993,7 +1009,7 @@ li {
       top: 85%;
       width: 0.1px;
       height: 0.1px;
-      opacity: 0;
+      // opacity: 0;
       overflow: hidden;
       position: absolute;
       z-index: -1;

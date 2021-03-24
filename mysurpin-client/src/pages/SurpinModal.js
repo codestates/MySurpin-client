@@ -7,6 +7,8 @@ import { getShowSurpin } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
 
+const awsController = require("../aws_controller/aws_controller");
+
 const SurpinModal = ({ location }) => {
   const history = useHistory();
   const { listId } = useParams();
@@ -44,6 +46,11 @@ const SurpinModal = ({ location }) => {
   const [newTags, setNewTags] = useState(tags);
   const [newUrls, setNewUrls] = useState([]);
   const [newExistTags, setNewExistTags] = useState(["tag"]);
+  const [newThumbnail, setNewThumbnail] = useState(
+    `https://source.unsplash.com/random?${Math.floor(
+      Math.random() * 100
+    )}/1600x900?blue,water`
+  );
 
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
@@ -62,9 +69,6 @@ const SurpinModal = ({ location }) => {
 
   useEffect(() => {
     document.title = "Surpin Modal";
-  }, []);
-
-  useEffect(() => {
     if (!location.surpin) {
       console.log("edit mode on");
       setEditMode(true);
@@ -134,17 +138,26 @@ const SurpinModal = ({ location }) => {
     }
   };
 
-  const createSurpin = (listname, desc) => {
+  const createSurpin = async (listname, desc) => {
     setEditMode(!editmode);
+    // aws s3 request
+    let thumbnail = newThumbnail;
+    if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
+      thumbnail = await awsController.uploadSurpinThumbnail(
+        email,
+        document.querySelector("#sidebar__thumbnail__input").files
+      );
+    }
+
     const newSurpinState = {
-      thumbnail: `https://source.unsplash.com/random?${Math.floor(
-        Math.random() * 100
-      )}/1600x900?blue,water`,
+      thumbnail,
       listname,
       desc,
       tags: newTags,
       urls: newUrls,
     };
+
+    //mysurpin server request
     fetch(`http://localhost:4000/surpin/createmysurpin`, {
       method: "POST",
       headers: {
@@ -156,7 +169,6 @@ const SurpinModal = ({ location }) => {
     })
       .then((res) => res.json())
       .then((body) => {
-        console.log(body.message);
         if (body.message === "done") {
           setAlertModalOpen(true);
           setAlertModalComment("생성 완료");
@@ -168,13 +180,19 @@ const SurpinModal = ({ location }) => {
       .catch((err) => console.log(err));
   };
 
-  const editSurpin = (listname, desc) => {
+  const editSurpin = async (listname, desc) => {
     setEditMode(!editmode);
 
+    let changeThumbnail = newThumbnail;
+    if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
+      changeThumbnail = await awsController.changeSurpinThumbnail(
+        thumbnail,
+        document.querySelector("#sidebar__thumbnail__input").files
+      );
+    }
+
     const newSurpinState = {
-      thumbnail: `https://source.unsplash.com/random?${Math.floor(
-        Math.random() * 100
-      )}/1600x900?blue,water`,
+      changeThumbnail,
       listname,
       desc,
       tags: newTags,
@@ -363,7 +381,7 @@ const SurpinModal = ({ location }) => {
         {editmode ? (
           <>
             <label for="sidebar__thumbnail__input">썸네일 등록</label>
-            <input type="file" id="sidebar__thumbnail__input" />
+            <input type="file" id="sidebar__thumbnail__input"></input>
           </>
         ) : (
           <></>
@@ -398,25 +416,27 @@ const SurpinModal = ({ location }) => {
         </div>
         <div className="surpinModal__show-contents">
           <ul className="surpinModal__url-lists">
-            {newUrls.length > 0
-              ? newUrls.map((urlinfo) => {
-                  return (
-                    <li className="surpinModal__url-list">
-                      <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
-                      {editmode ? (
-                        <button
-                          className="urlList__delete-btn"
-                          onClick={handleDeleteUrl}
-                        >
-                          X
-                        </button>
-                      ) : (
-                        <></>
-                      )}
-                    </li>
-                  );
-                })
-              : console.log("no urls")}
+            {newUrls.length > 0 ? (
+              newUrls.map((urlinfo) => {
+                return (
+                  <li className="surpinModal__url-list">
+                    <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
+                    {editmode ? (
+                      <button
+                        className="urlList__delete-btn"
+                        onClick={handleDeleteUrl}
+                      >
+                        X
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                  </li>
+                );
+              })
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
         {editmode ? (

@@ -6,7 +6,11 @@ const ScrollBtn = () => {
   const [scrollToNewLists, setScrollToNewLists] = useState(0);
 
   const handleToMain = useCallback(() => {
-    setScrollToMain(window.scrollTo({ behavior: "smooth", top: "location" }));
+    setScrollToMain(
+      document
+        .querySelector(".mainSection")
+        .scrollIntoView({ behavior: "smooth" })
+    );
   }, []);
 
   const handleToBest = useCallback(() => {
@@ -19,7 +23,9 @@ const ScrollBtn = () => {
 
   const handleToNew = useCallback(() => {
     setScrollToNewLists(
-      window.scrollTo({ top: 2500, left: 0, behavior: "smooth" })
+      document
+        .querySelector(".newListsSection")
+        .scrollIntoView({ behavior: "smooth" })
     );
   }, []);
 

@@ -234,6 +234,39 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
     [password, message]
   );
 
+  // const handleSignUpWithGoogle = () => {
+  //   handleGoogleLogin("signUp");
+  // };
+
+  // const handleSignUp = () => {
+  //   if (password === passwordcheck) {
+  //     const payload = JSON.stringify({
+  //       nickname: name,
+  //       email,
+  //       password,
+  //     });
+  //     fetch(`http://localhost:4000/user/signup`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         credentials: "include",
+  //       },
+  //       body: payload,
+  //     })
+  //       .then((res) => res.json())
+  //       .then((body) => {
+  //         if (body.message === "Successfully processed") {
+  //           setMessage("회원가입이 완료되었습니다.");
+  //           setAlertModalOpen(true);
+  //           setAlertModalComment("회원가입이 완료되었습니다.");
+  //         } else {
+  //           setMessage("잘못된 요청입니다.");
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // };
+
   return (
     <div className="signUp">
       <AlertModal
@@ -304,7 +337,7 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
             <button className="signup__btn" onClick={() => handleClick()}>
               sign up
             </button>
-            <span>{message}</span>
+            <span className="signup__message">{message}</span>
           </div>
         </div>
       )}
