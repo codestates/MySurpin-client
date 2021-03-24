@@ -75,6 +75,7 @@ li {
   width: 100vw;
   height: 8%;
   min-height: 60px;
+  z-index: 1;
   .navbar__logo-img {
     width: 20px;
     height: 20px;
@@ -151,9 +152,11 @@ li {
     justify-content: center;
     width: 100%;
     height: 100vh;
-    // background-image: url("../public/images/main.jpg");
-    background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
-    background-size: cover;
+
+    overflow: hidden;
+    position: relative;
+    // background-image: url("https://source.unsplash.com/u6ZtzsHxMic/1600x900");
+    // background-size: cover;
     box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
       font-weight: 800;
@@ -184,7 +187,6 @@ li {
     }
     .video {
       position: absolute;
-      height: 100%;
       width: 100%;
       z-index: -1;
     }
