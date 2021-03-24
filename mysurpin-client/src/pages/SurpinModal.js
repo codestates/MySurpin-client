@@ -61,7 +61,6 @@ const SurpinModal = ({ location }) => {
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
-
   const closeModal = () => {
     setAlertModalOpen(false);
   };
@@ -117,10 +116,10 @@ const SurpinModal = ({ location }) => {
   const setInputThumbnail = () => {
     if (
       document.querySelector("#sidebar__thumbnail__input").files[0].size >
-      20 * 1024
+      20 * 1024 * 8
     ) {
       setAlertModalOpen(true);
-      setAlertModalComment("20KB 이하의 파일만 등록가능합니다.");
+      setAlertModalComment("20MB 이하의 파일만 등록가능합니다.");
     }
   };
 
@@ -195,15 +194,25 @@ const SurpinModal = ({ location }) => {
     setEditMode(!editmode);
 
     let changeThumbnail = newThumbnail;
+
     if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
-      changeThumbnail = await awsController.changeSurpinThumbnail(
-        thumbnail,
-        document.querySelector("#sidebar__thumbnail__input").files
-      );
+      if (thumbnail.split("/")[2] === "photo.mysurpin.com") {
+        changeThumbnail = await awsController.changeSurpinThumbnail(
+          thumbnail,
+          document.querySelector("#sidebar__thumbnail__input").files
+        );
+        console.log("changed", changeThumbnail);
+      } else {
+        changeThumbnail = await awsController.uploadSurpinThumbnail(
+          email,
+          document.querySelector("#sidebar__thumbnail__input").files
+        );
+        console.log("created", changeThumbnail);
+      }
     }
 
     const newSurpinState = {
-      changeThumbnail,
+      thumbnail: changeThumbnail,
       listname,
       desc,
       tags: newTags,

@@ -161,13 +161,11 @@ li {
     justify-content: center;
     width: 100%;
     height: 100vh;
-
     overflow: hidden;
     position: relative;
     // box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
-      position: fixed;
-      // border: 1px solid #fff;
+      // position: fixed;
       font-weight: 800;
       top: 30vh;
       margin-left: 10%;
@@ -231,8 +229,8 @@ li {
     height: 100vh;
     width: 100vw;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+
     .besttags__title {
       color: rgba(255, 255, 255, 0.8);
       margin-bottom: 24px;
@@ -242,6 +240,8 @@ li {
       font-weight: 700;
     }
     .besttags__chart {
+      margin-right: 36vw;
+      border: 1px solid #fff;
       width: 50vw;
       height: 70vh;
       background-color: #242830;
@@ -249,9 +249,21 @@ li {
       justify-content: center;
       align-items: center;
       border-radius: 4px;
-      #myChart {
+      .bestChart {
         transform: scale(0.8);
       }
+    }
+    .besttags__rank {
+      display: flex;
+      justify-content: space-between;
+      button {
+        border: 1px solid #fff;
+      }
+      position: absolute;
+      margin-left: 50vw;
+      margin-top: 10vh;
+      width: 30vw;
+      border: 1px solid #fff;
     }
   }
   .newListsSection {
