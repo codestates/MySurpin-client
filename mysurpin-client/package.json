@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-cognito-identity": "^3.9.0",
+    "@aws-sdk/client-s3": "^3.9.0",
+    "@aws-sdk/credential-provider-cognito-identity": "^3.9.0",
     "@reactchartjs/react-chart.js": "^1.0.0-rc.3",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
