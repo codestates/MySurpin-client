@@ -110,7 +110,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
         comment={alertModalComment}
       />
       <Link to="/">
-        <img className="navbar__logo-img" src="/images/loupe.png" alt="" />
+        <img className="navbar__logo-img" src="/images/mysurpin.png" alt="" />
       </Link>
       <div className="navbar__utils">
         {history.location.pathname !== "/" ? (

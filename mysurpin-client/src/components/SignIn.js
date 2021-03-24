@@ -127,7 +127,7 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
       .then((body) => {
         if (body.accessToken) {
           console.log(body);
-          dispatch(signIn(body.accessToken, email, body.nickname));
+          dispatch(signIn(body.accessToken, body.email, body.nickname));
           history.push("/");
         } else {
           setAlertModalOpen(true);

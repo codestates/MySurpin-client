@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import { useHistory } from "react-router-dom";
 import AlertModal from "./AlertModal";
+import useScrollEventListener from "../hooks/useScrollEventListener";
 
 const MainSection = () => {
   const [tag, setTag] = useState("");
@@ -10,6 +11,7 @@ const MainSection = () => {
   const history = useHistory();
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [show, setShow] = useState("");
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -31,7 +33,6 @@ const MainSection = () => {
     [tag]
   );
 
-  // 미 구현 (시작)
   const handleSearchTag = () => {
     const payload = JSON.stringify({
       pagenumber: 1,
@@ -65,18 +66,23 @@ const MainSection = () => {
       })
       .catch((err) => console.error(err));
   };
-  // 미구현 (끝)
+
+  const handleTitleScroll = () => {
+    setShow("scroll-to-top");
+  };
 
   return (
-    <div className="mainSection">
+    <div
+      className="mainSection"
+      {...useScrollEventListener(handleTitleScroll, 1)}
+    >
       <AlertModal
         open={alertModalOpen}
         close={closeModal}
         comment={"검색어를 제대로 입력하세요."}
       />
       <div className="main__title">
-        {/* <img className="main__title__logo" src="" alt=""></img> */}
-        <div className="main__title__text">My Surpin</div>
+        <div className={`main__title__text ${show}`}>My Surpin</div>
       </div>
       <div className="main__ment"></div>
       <div className="main__search-bar">
@@ -92,6 +98,7 @@ const MainSection = () => {
         </button>
       </div>
       <video className="video" autoPlay muted loop>
+        {/* <div className="video__shadow"></div> */}
         <source src="/Videos/surf.mp4" type="video/mp4"></source>
       </video>
     </div>

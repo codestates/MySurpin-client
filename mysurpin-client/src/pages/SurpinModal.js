@@ -264,7 +264,13 @@ const SurpinModal = ({ location }) => {
         {"<"}
       </button>
       <section className="surpinModal__sidebar">
-        <div className="sidebar__listinfo__thumbnail">
+        <div
+          className="sidebar__listinfo__thumbnail"
+          style={{
+            backgroundImage: `url(${thumbnail})`,
+            backgroundSize: `cover`,
+          }}
+        >
           {editmode ? (
             <input
               className="sidebar__listinfo__title"
@@ -373,7 +379,7 @@ const SurpinModal = ({ location }) => {
               onClick={() => setEditMode(!editmode)}
             >
               <img src="" alt="" />
-              내서핀 편집
+              {editmode ? "EDIT DONE" : "EDIT MODE"}
             </button>
           ) : (
             // 남의 서핀일때 - 새로운 서핀 생성

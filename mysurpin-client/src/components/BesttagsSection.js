@@ -84,11 +84,6 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
             ],
           }}
         />
-        {/* <div className="besttags__rank">
-          {chartlabel.map((label) => {
-            return <Tag tag={label}></Tag>;
-          })}
-        </div> */}
       </div>
     </div>
   );

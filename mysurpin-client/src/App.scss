@@ -30,7 +30,6 @@ body {
 }
 
 /* react transition group */
-
 .fade-enter {
   opacity: 0.01;
 }
@@ -75,11 +74,12 @@ li {
   width: 100vw;
   height: 8%;
   min-height: 60px;
-  z-index: 1;
+  z-index: 3;
   .navbar__logo-img {
-    width: 20px;
-    height: 20px;
-    margin-left: 36px;
+    width: 30px;
+    opacity: 0.7;
+    margin-left: 28px;
+    margin-top: 24px;
   }
   .navbar__utils {
     display: flex;
@@ -129,6 +129,7 @@ li {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 2;
   .scroll-box {
     width: 4vw;
     height: 40vh;
@@ -163,18 +164,38 @@ li {
 
     overflow: hidden;
     position: relative;
-    box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
+    // box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
+      position: fixed;
+      border: 1px solid #fff;
       font-weight: 800;
-      margin-left: 8%;
+      top: 30vh;
+      margin-left: 10%;
       width: 50%;
+      height: 130px;
+      // overflow: hidden;
       .main__title__text {
+        border: 1px solid #eee;
+        height: 300px;
         font-size: 80px;
         color: rgba(255, 255, 255, 0.95);
       }
+      .scroll-to-top {
+        animation: 1.5s move-to-top;
+      }
     }
+
+    @keyframes move-to-top {
+      0% {
+        top: 300px;
+      }
+      100% {
+        top: 100px;
+      }
+    }
+
     .main__search-bar {
-      margin-left: 8%;
+      margin-left: 10%;
       border: 1px solid #fff;
       height: 36px;
       width: 30%;
@@ -193,8 +214,16 @@ li {
     }
     .video {
       position: absolute;
-      width: 100%;
+      width: 60%;
+      margin-left: 500px;
       z-index: -1;
+      // .video__shadow {
+      //   position: relative;
+      //   background-color: $main;
+      //   box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
+      //   width: 100vw;
+      //   height: 100vh;
+      // }
     }
   }
   .besttagsSection {
@@ -223,11 +252,6 @@ li {
       #myChart {
         transform: scale(0.8);
       }
-    }
-    .besttags__rank {
-      border: 1px solid #fff;
-      width: 150px;
-      height: 70vh;
     }
   }
   .newListsSection {
@@ -858,17 +882,17 @@ li {
   .surpinModal__sidebar {
     display: flex;
     flex-direction: column;
-    border: 1px solid $border;
+    // border: 1px solid $border;
     width: 16vw;
     height: 90vh;
     padding: 0 24px;
     .sidebar__listinfo__thumbnail {
       display: flex;
-      border: 1px solid $main;
       border-radius: 4px;
       margin-top: 36px;
       height: 35%;
-      background-color: $main;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1000px #587fb986;
       .sidebar__listinfo__title {
         color: #fff;
         width: 70%;
@@ -993,7 +1017,7 @@ li {
     }
   }
   .surpinModal__main {
-    border: 1px solid $border;
+    // border: 1px solid $border;
     border-left: none;
     display: flex;
     flex-direction: column;
