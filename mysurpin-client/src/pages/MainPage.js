@@ -80,7 +80,7 @@ const MainPage = () => {
       <ul className="mainpage__sections">
         <MainSection></MainSection>
         <BestTagsSection
-          animatedItem={useScrollEventListener(handleChartdata)}
+          animatedItem={useScrollEventListener(handleChartdata, 0.3)}
           chartdata={chartdata}
           chartlabel={chartlabel}
         ></BestTagsSection>
