@@ -57,6 +57,7 @@ const SurpinModal = ({ location }) => {
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState();
   const [inputUrl, setInputUrl] = useState("");
+  // const [inputThumbnail, setInputThumbnail] = useState("");
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
@@ -112,6 +113,16 @@ const SurpinModal = ({ location }) => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const setInputThumbnail = () => {
+    if (
+      document.querySelector("#sidebar__thumbnail__input").files[0].size >
+      20 * 1024
+    ) {
+      setAlertModalOpen(true);
+      setAlertModalComment("20KB 이하의 파일만 등록가능합니다.");
+    }
+  };
 
   const handleInputTagBtn = () => {
     setNewTags([...newTags, inputTag]);
@@ -381,7 +392,11 @@ const SurpinModal = ({ location }) => {
         {editmode ? (
           <>
             <label for="sidebar__thumbnail__input">썸네일 등록</label>
-            <input type="file" id="sidebar__thumbnail__input"></input>
+            <input
+              type="file"
+              id="sidebar__thumbnail__input"
+              onChange={setInputThumbnail}
+            ></input>
           </>
         ) : (
           <></>
