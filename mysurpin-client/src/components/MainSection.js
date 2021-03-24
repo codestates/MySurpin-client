@@ -75,7 +75,7 @@ const MainSection = () => {
         comment={"검색어를 제대로 입력하세요."}
       />
       <div className="main__title">
-        {/* <img className="main__title__logo" src="" alt=""></img> */}
+        {/* <img className="main__title__logo" src="/images/loupe.png" alt=""></img> */}
         <div className="main__title__text">My Surpin</div>
       </div>
       <div className="main__ment"></div>
@@ -92,7 +92,7 @@ const MainSection = () => {
         </button>
       </div>
       <video className="video" autoPlay muted loop>
-        <source src="/Videos/surf.mp4" type="video/mp4"></source>
+        <source src="/Videos/surfer.mp4" type="video/mp4"></source>
       </video>
     </div>
   );
