@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Surpin = ({ surpin }) => {
-  const {
+  let {
     surpinId,
     title,
     desc,
@@ -13,6 +13,10 @@ const Surpin = ({ surpin }) => {
     modified_At,
     tags,
   } = surpin;
+
+  if (thumbnail === "thumbnail") {
+    thumbnail = "https://source.unsplash.com/random/1600x900";
+  }
 
   return (
     <Link to={{ pathname: `/surpinmodal/${surpinId}`, surpin }}>
@@ -33,7 +37,7 @@ const Surpin = ({ surpin }) => {
         <div
           className="surpin__img"
           style={{
-            backgroundImage: `url(https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512)`,
+            backgroundImage: `url(${thumbnail})`,
             backgroundSize: `cover`,
           }}
         ></div>

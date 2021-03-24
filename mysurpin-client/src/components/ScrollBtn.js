@@ -5,8 +5,6 @@ const ScrollBtn = () => {
   const [scrollToBestTags, setScorllToBestTags] = useState(0);
   const [scrollToNewLists, setScrollToNewLists] = useState(0);
 
-  // alert("Current scroll from the top: " + window.pageYOffset);
-
   const handleToMain = useCallback(() => {
     setScrollToMain(window.scrollTo({ behavior: "smooth", top: "location" }));
   }, []);
@@ -14,7 +12,7 @@ const ScrollBtn = () => {
   const handleToBest = useCallback(() => {
     setScorllToBestTags(
       document
-        .querySelector(".scroll-buttons__bestTags")
+        .querySelector(".besttagsSection")
         .scrollIntoView({ behavior: "smooth" })
     );
   }, []);

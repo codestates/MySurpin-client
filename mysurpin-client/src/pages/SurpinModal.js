@@ -33,10 +33,13 @@ const SurpinModal = ({ location }) => {
     writer: nickname,
     desc: "no description",
     tags: [],
-    thumbnail: "thumbnail",
+    thumbnail:
+      "https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512",
     created_At: "",
     modified_At: "",
   };
+
+  let thumbnailUrl = thumbnail;
 
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
@@ -60,7 +63,6 @@ const SurpinModal = ({ location }) => {
 
   useCheckToken([editmode]);
 
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "Surpin Modal";
   }, []);
@@ -137,7 +139,7 @@ const SurpinModal = ({ location }) => {
   const createSurpin = () => {
     setEditMode(!editmode);
     const newSurpinState = {
-      thumbnail: "thumbnail",
+      thumbnail: "https://source.unsplash.com/random/1600x900",
       desc: newDesc,
       tags: newTags,
       urls: newUrls,
@@ -157,7 +159,6 @@ const SurpinModal = ({ location }) => {
         if (body.message === "done") {
           setAlertModalOpen(true);
           setAlertModalComment("생성 완료");
-          // alert("생성 완료");
         } else {
           setAlertModalOpen(true);
           setAlertModalComment("생성 실패");
@@ -170,7 +171,7 @@ const SurpinModal = ({ location }) => {
     setEditMode(!editmode);
 
     const newSurpinState = {
-      thumbnail: "thumbnail",
+      thumbnail: "https://source.unsplash.com/random/1600x900",
       listname,
       desc,
       tags: newTags,
@@ -191,9 +192,7 @@ const SurpinModal = ({ location }) => {
         if (body.message === "edit done!") {
           setAlertModalOpen(true);
           setAlertModalComment("수정 완료");
-          // alert("수정 완료");
         } else {
-          // alert("정보 부족");
           setAlertModalOpen(true);
           setAlertModalComment("정보 부족");
         }
@@ -214,12 +213,10 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          // alert("삭제 완료");
           setAlertModalOpen(true);
           setAlertModalComment("삭제 완료");
           history.goBack();
         } else {
-          // alert("삭제 실패");
           setAlertModalOpen(true);
           setAlertModalComment("삭제 실패");
         }
