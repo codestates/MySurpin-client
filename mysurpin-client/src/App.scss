@@ -223,14 +223,23 @@ li {
     .besttags__rank {
       display: flex;
       justify-content: space-between;
-      button {
-        border: 1px solid #fff;
-      }
       position: absolute;
       margin-left: 50vw;
       margin-top: 10vh;
       width: 30vw;
       border: 1px solid #fff;
+      button {
+        border: 1px solid #fff;
+        font-size: 30px;
+      }
+      .besttags__rank__elements {
+        display: flex;
+        overflow: hidden;
+        .besttags__rank__element {
+          border: 3px solid red;
+          width: 100%;
+        }
+      }
     }
   }
   .newListsSection {

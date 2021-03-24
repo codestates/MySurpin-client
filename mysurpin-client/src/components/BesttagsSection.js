@@ -17,7 +17,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
       <div className="besttags__rank">
-        <button>left</button>
+        <button>{"<"}</button>
         <ul className="besttags__rank__elements">
           {chartlabel.map((label, idx) => {
             return (
@@ -28,7 +28,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
             );
           })}
         </ul>
-        <button>right</button>
+        <button>{">"}</button>
       </div>
       <div {...animatedItem} className="besttags__chart">
         <Line
