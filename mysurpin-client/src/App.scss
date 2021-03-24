@@ -225,14 +225,14 @@ li {
     }
   }
   .newListsSection {
-    height: 50vh;
+    height: 70vh;
     background-color: $dark;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    // border: 1px solid #fff;
     .newlists__title {
-      // border: 1px solid #fff;
       width: 80vw;
       font-family: "Poppin";
       font-weight: 700;
@@ -872,7 +872,7 @@ li {
         margin-bottom: 12px;
       }
       .description__text {
-        border: 1px solid #67a1acad;
+        border: 1px solid $border;
         resize: none;
         border-radius: 4px;
         width: 86%;
@@ -962,7 +962,7 @@ li {
     }
   }
   .surpinModal__main {
-    border: 1px solid #67a1acb4;
+    border: 1px solid $border;
     border-left: none;
     display: flex;
     flex-direction: column;

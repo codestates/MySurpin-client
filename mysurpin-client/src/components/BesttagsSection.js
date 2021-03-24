@@ -17,8 +17,6 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
     setGradient(gradient);
   }, []);
 
-  // console.log(chartlabel);
-
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
