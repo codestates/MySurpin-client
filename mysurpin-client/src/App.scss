@@ -86,6 +86,8 @@ li {
   }
   .navbar__utils {
     display: flex;
+    height: 100%;
+    align-items: center;
     .navbar__searchbar {
       margin-right: 8px;
       background-color: $medium;
@@ -105,13 +107,61 @@ li {
       }
     }
     .navbar__btn__show-all {
-      background-color: $main;
-      font-weight: 700;
+      font-weight: 800;
       color: $dark;
       width: 120px;
       height: 36px;
       border-radius: 3px;
+      padding: 7px;
+      position: relative;
+      overflow: hidden;
+      transform: translate3d(0, 0, 0);
+      &::after {
+        content: "";
+        display: block;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 11;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .wave {
+        z-index: -1;
+        opacity: 0.4;
+        position: absolute;
+        top: 3%;
+        left: 50%;
+        background: #8ab6f773;
+        width: 250px;
+        height: 250px;
+        margin-left: -120px;
+        margin-top: 15px;
+        transform-origin: 50% 48%;
+        border-radius: 43%;
+        animation: drift 5s infinite linear;
+      }
+
+      .wave.-three {
+        z-index: -1;
+        animation: drift 7s infinite linear;
+      }
+
+      .wave.-two {
+        animation: drift 10s infinite linear;
+        opacity: 0.1;
+      }
     }
+    @keyframes drift {
+      from {
+        transform: rotate(0deg);
+      }
+      from {
+        transform: rotate(360deg);
+      }
+    }
+
     .navbar__btn,
     .navbar__btns {
       background-color: $medium;
@@ -268,6 +318,7 @@ li {
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
+    margin-bottom: 20vh;
     .newlists__title {
       width: 85vw;
       font-family: "Poppin";
@@ -334,13 +385,14 @@ li {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+
   .searchbar {
-    margin-top: 10%;
-    border: 1px solid #555;
+    margin-top: 8%;
+    margin-bottom: 54px;
+    border: 2px solid #3c4049;
     width: 35%;
-    height: 36px;
-    border-radius: 18px;
+    height: 50px;
+    border-radius: 24px;
     display: flex;
     z-index: 100;
     input {
@@ -349,13 +401,18 @@ li {
     }
     img {
       width: 35px;
+      opacity: 0.6;
     }
   }
   .searchpage-best-results {
     width: 85%;
     margin-top: 36px;
     .searchpage__best__title {
-      font-size: 24px;
+      color: #8ab6f7c7;
+      font-size: 26px;
+      font-weight: 600;
+      font-family: "Poppin";
+      margin-bottom: 20px;
     }
     .searchpage-best-lists {
       padding: 24px 12px;
@@ -366,9 +423,13 @@ li {
   .searchpage-all-results {
     width: 85%;
     margin-top: 36px;
+    margin-bottom: 20vh;
     .searchpage__all__title {
       margin-bottom: 36px;
-      font-size: 24px;
+      color: #8ab6f7c7;
+      font-size: 26px;
+      font-weight: 600;
+      font-family: "Poppin";
     }
     .searchpage__all__lists {
       display: flex;
@@ -378,9 +439,14 @@ li {
         align-items: center;
         justify-content: space-around;
         width: 90%;
-        height: 48px;
-        font-size: 14px;
-        border: 1px solid #eee;
+        height: 60px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        font-family: "Poppin";
+        border-bottom: 2px solid rgba(238, 238, 238, 0.2);
+        div {
+          color: rgba(255, 255, 255, 0.7);
+        }
       }
     }
   }
@@ -467,17 +533,20 @@ li {
 // Component - SearchResult
 .searchResult {
   width: 90%;
-  height: 48px;
+  height: 60px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-size: 14px;
-  border: 1px solid #eee;
+  border-bottom: 1px solid rgba(238, 238, 238, 0.1);
   &:hover {
     transform: scale(1.01);
     background-color: $main;
   }
   div {
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: "poppin";
+    color: rgba(255, 255, 255, 0.6);
     text-align: center;
   }
   .searchResult__name {
@@ -910,6 +979,9 @@ li {
   align-items: center;
   height: 100vh;
   .surpinModal__back-btn {
+    position: relative;
+    top: 1.8%;
+    left: -1.2%;
     font-size: 36px;
     align-self: flex-start;
     margin: 48px 24px 0 0;
@@ -917,7 +989,8 @@ li {
       color: $main;
     }
     img {
-      width: 20px;
+      width: 24px;
+      opacity: 0.5;
       pointer-events: none;
     }
   }
@@ -945,9 +1018,10 @@ li {
       top: 16%;
       left: 16%;
       font-size: 24px;
-      ::-webkit-input-placeholder {
+      &::-webkit-input-placeholder {
         color: #828692;
         vertical-align: top;
+        word-wrap: break-word;
       }
     }
     .sidebar__listinfo__writer {

@@ -142,6 +142,9 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
                 }}
               >
                 My Info
+                <div className="wave -one"></div>
+                <div className="wave -two"></div>
+                <div className="wave -three"></div>
               </button>
               <button
                 className={`navbar__btn ${isSignPage} ${showBtns}`}

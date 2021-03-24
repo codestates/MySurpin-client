@@ -87,10 +87,6 @@ const SearchPage = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setReqCount(parseInt(Number(data.surpinCount) / 5) + 1);
-          setPagenumber(2);
-          setPagenumber(0);
-          setReqCount(1);
           dispatch(getTagLists(data));
         });
     }
@@ -108,7 +104,7 @@ const SearchPage = () => {
         <div className="searchbar">
           <input
             className="searchbar__input"
-            placeholder="search for"
+            placeholder="search for..."
             value={tag}
             onKeyPress={onKeyPress}
             onChange={onChangeSearchTag}
@@ -140,10 +136,10 @@ const SearchPage = () => {
           <div className="searchpage__all__title">All Surpins</div>
           <div className="searchpage__all__lists">
             <div className="searchpage__all__lists__topbar">
-              <div className="topbar__name">Surpin 이름</div>
-              <div className="topbar__description">요약</div>
-              <div className="topbar__numbOfUrls">URL 개수</div>
-              <div className="topbar__createdAt">생성일</div>
+              <div className="topbar__name">Surpin Name</div>
+              <div className="topbar__description">Description</div>
+              <div className="topbar__numbOfUrls">Writer</div>
+              <div className="topbar__createdAt">Created At</div>
             </div>
 
             <ul

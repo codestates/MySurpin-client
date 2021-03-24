@@ -38,8 +38,8 @@ const SurpinModal = ({ location }) => {
     desc: "no description",
     tags: [],
     thumbnail: "",
-    created_At: "",
-    modified_At: "",
+    createdAt: "",
+    modifiedAt: "",
   };
 
   const [editmode, setEditMode] = useState(false);
