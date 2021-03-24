@@ -8,20 +8,26 @@ const ScrollBtn = () => {
   // alert("Current scroll from the top: " + window.pageYOffset);
 
   const handleToMain = useCallback(() => {
-    setScrollToMain(window.scrollTo({ behavior: "smooth", top: "location" }));
+    setScrollToMain(
+      document
+        .querySelector(".mainSection")
+        .scrollIntoView({ behavior: "smooth" })
+    );
   }, []);
 
   const handleToBest = useCallback(() => {
     setScorllToBestTags(
       document
-        .querySelector(".scroll-buttons__bestTags")
+        .querySelector(".besttagsSection")
         .scrollIntoView({ behavior: "smooth" })
     );
   }, []);
 
   const handleToNew = useCallback(() => {
     setScrollToNewLists(
-      window.scrollTo({ top: 2500, left: 0, behavior: "smooth" })
+      document
+        .querySelector(".newListsSection")
+        .scrollIntoView({ behavior: "smooth" })
     );
   }, []);
 
