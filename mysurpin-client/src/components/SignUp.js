@@ -92,7 +92,7 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
     },
     [passwordcheck]
   );
-
+  
   const handleClick = useCallback(() => {
     if (name === "") {
       setMessage("이름을 입력해주세요.");
@@ -277,7 +277,7 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
             <button className="signup__btn" onClick={() => handleClick()}>
               sign up
             </button>
-            <span>{message}</span>
+            <span className="signup__message">{message}</span>
           </div>
         </div>
       )}

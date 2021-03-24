@@ -450,6 +450,18 @@ li {
     width: 50%;
   }
 }
+// Page - SignPage
+.signPage {
+  height: 100vh;
+  display: flex;
+  .signin-section {
+    width: 50%;
+    background-color: $main;
+  }
+  .signup-section {
+    width: 50%;
+  }
+}
 // Component - SignIn
 .signIn {
   transition: all 1s ease;
@@ -607,6 +619,9 @@ li {
         background-color: rgba(255, 255, 255, 0.8);
         color: $main;
       }
+    }
+    .signup__message {
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 }
