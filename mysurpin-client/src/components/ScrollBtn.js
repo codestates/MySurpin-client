@@ -27,21 +27,29 @@ const ScrollBtn = () => {
 
   return (
     <div className="scroll-buttons">
-      <button
-        className="scroll-buttons__main"
-        value={scrollToMain}
-        onClick={handleToMain}
-      ></button>
-      <button
-        className="scroll-buttons__bestTags"
-        value={scrollToBestTags}
-        onClick={handleToBest}
-      ></button>
-      <button
-        className="scroll-buttons__newLists"
-        value={scrollToNewLists}
-        onClick={handleToNew}
-      ></button>
+      <div className="scroll-box">
+        <button
+          className="scroll-buttons__main"
+          value={scrollToMain}
+          onClick={handleToMain}
+        >
+          MAIN
+        </button>
+        <button
+          className="scroll-buttons__bestTags"
+          value={scrollToBestTags}
+          onClick={handleToBest}
+        >
+          BEST
+        </button>
+        <button
+          className="scroll-buttons__newLists"
+          value={scrollToNewLists}
+          onClick={handleToNew}
+        >
+          NEW
+        </button>
+      </div>
     </div>
   );
 };

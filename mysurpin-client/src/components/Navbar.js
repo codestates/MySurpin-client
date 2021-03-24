@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists, getGoogleToken } from "../actions/index";
 import AlertModal from "./AlertModal";
-
+// import "/images/";
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
@@ -109,54 +109,56 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
         comment={alertModalComment}
       />
       <Link to="/">
-        <img
-          className="navbar__logo-img"
-          src="../../public/images/loupe.png"
-          alt=""
-        />
+        <img className="navbar__logo-img" src="/images/loupe.png" alt="" />
       </Link>
-      {history.location.pathname !== "/" ? (
-        <div className="hidden"></div>
-      ) : (
-        <div className={`navbar__searchbar ${navBarState}`}>
-          <input
-            className="navbar__searchbar__input"
-            onChange={onChangeSearchTag}
-            onKeyPress={onKeyPress}
-            value={tag}
-          ></input>
+      <div className="navbar__utils">
+        {history.location.pathname !== "/" ? (
+          <div className="hidden"></div>
+        ) : (
+          <div className={`navbar__searchbar ${navBarState}`}>
+            <input
+              className="navbar__searchbar__input"
+              placeholder="Search"
+              onChange={onChangeSearchTag}
+              onKeyPress={onKeyPress}
+              value={tag}
+            ></input>
 
-          <button className="navbar__searchbar__btn" onClick={handleSearchBtn}>
-            <img src="../../public/images/loupe.png" alt="" />
-          </button>
-        </div>
-      )}
-      {token ? (
-        <div className="navbar__btns">
-          <button
-            className={`navbar__btn ${isSignPage}`}
-            onClick={handleMySurpinBtn}
-          >
-            My Surpin
-          </button>
-          <button
-            className={`navbar__btn ${isSignPage}`}
-            onClick={handleEditProfileBtn}
-          >
-            Edit Profile
-          </button>
-          <button
-            className={`navbar__btn ${isSignPage}`}
-            onClick={handleLogOutBtn}
-          >
-            LOG OUT
-          </button>
-        </div>
-      ) : (
-        <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
-          <button>LOG IN / SIGN UP</button>
-        </Link>
-      )}
+            <button
+              className="navbar__searchbar__btn"
+              onClick={handleSearchBtn}
+            >
+              {/* <img src="/images/loupe.png" alt="" /> */}
+            </button>
+          </div>
+        )}
+        {token ? (
+          <div className="navbar__btns">
+            <button
+              className={`navbar__btn ${isSignPage}`}
+              onClick={handleMySurpinBtn}
+            >
+              My Surpin
+            </button>
+            <button
+              className={`navbar__btn ${isSignPage}`}
+              onClick={handleEditProfileBtn}
+            >
+              Edit Profile
+            </button>
+            <button
+              className={`navbar__btn ${isSignPage}`}
+              onClick={handleLogOutBtn}
+            >
+              LOG OUT
+            </button>
+          </div>
+        ) : (
+          <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
+            <button>LOG IN / SIGN UP</button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };

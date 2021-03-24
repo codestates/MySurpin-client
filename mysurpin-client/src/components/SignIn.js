@@ -175,18 +175,18 @@ const SignIn = ({ isSignInOn, handlePageState }) => {
             ></input>
           </div>
           <button className="signin__btn" onClick={handleSignIn}>
-            sign in
+            log in
           </button>
         </div>
       ) : (
         <div className="signin-formOff">
-          <div className="signin__title">Sign In Surpin!</div>
+          <div className="signin__title">Log In Surpin!</div>
           <div className="signin__ment">
             To keep connected with us, please login with your personal
             information
           </div>
           <button className="signin__btn" onClick={() => handlePageState()}>
-            sign in
+            log in
           </button>
         </div>
       )}
