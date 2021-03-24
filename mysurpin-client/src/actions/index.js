@@ -4,6 +4,7 @@ export const SIGN_IN = "SIGN_IN";
 export const SIGN_OUT = "SIGN_OUT";
 export const USER_EDIT = "USER_EDIT";
 export const WITHDRAWAL = "WITHDRAWAL";
+export const GET_GOOGLE_TOKEN = "GET_GOOGLE_TOKEN";
 // surpin
 export const GET_NEW_LISTS = "GET_NEW_LISTS";
 export const GET_BEST_TAGS = "GET_BEST_TAGS";
@@ -63,6 +64,15 @@ export const withdrawal = (email, password) => {
     payload: {
       email,
       password,
+    },
+  };
+};
+
+export const getGoogleToken = (data) => {
+  return {
+    type: GET_GOOGLE_TOKEN,
+    payload: {
+      data,
     },
   };
 };
