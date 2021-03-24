@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
-import Tag from "../components/Tag";
-
 const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
   const [gradient, setGradient] = useState("");
-
   useEffect(() => {
     var ctx = document.getElementById("myChart").getContext("2d");
     var gradient = ctx.createLinearGradient(200, 100, 300, 500);
@@ -16,14 +13,27 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
     gradient.addColorStop(1, "rgba(138, 181, 247, 0)");
     setGradient(gradient);
   }, []);
-
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
+      <div className="besttags__rank">
+        <button>left</button>
+        <ul className="besttags__rank__elements">
+          {chartlabel.map((label, idx) => {
+            return (
+              <li className="besttags__rank__element" key={idx}>
+                <div>{`${idx + 1}등`}</div>
+                <div>{label}</div>
+              </li>
+            );
+          })}
+        </ul>
+        <button>right</button>
+      </div>
       <div {...animatedItem} className="besttags__chart">
         <Line
-          id="myChart"
           className="bestChart"
+          id="myChart"
           data={{
             labels: chartlabel,
             datasets: [
@@ -84,11 +94,6 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
             ],
           }}
         />
-        {/* <div className="besttags__rank">
-          {chartlabel.map((label) => {
-            return <Tag tag={label}></Tag>;
-          })}
-        </div> */}
       </div>
     </div>
   );

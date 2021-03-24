@@ -121,6 +121,7 @@ li {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 2;
   .scroll-box {
     width: 4vw;
     height: 40vh;
@@ -195,20 +196,19 @@ li {
     display: flex;
     height: 100vh;
     width: 100vw;
-    // border: 1px solid #fff;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     .besttags__title {
+      color: rgba(255, 255, 255, 0.8);
       margin-bottom: 24px;
       width: 80vw;
       font-size: 1.4rem;
-      color: $main;
       font-family: "Poppin";
       font-weight: 700;
     }
     .besttags__chart {
-      // border: 1px solid #fff;
+      margin-right: 36vw;
+      border: 1px solid #fff;
       width: 50vw;
       height: 70vh;
       background-color: #242830;
@@ -216,14 +216,21 @@ li {
       justify-content: center;
       align-items: center;
       border-radius: 4px;
-      #myChart {
+      .bestChart {
         transform: scale(0.8);
       }
     }
     .besttags__rank {
+      display: flex;
+      justify-content: space-between;
+      button {
+        border: 1px solid #fff;
+      }
+      position: absolute;
+      margin-left: 50vw;
+      margin-top: 10vh;
+      width: 30vw;
       border: 1px solid #fff;
-      width: 150px;
-      height: 70vh;
     }
   }
   .newListsSection {
@@ -430,6 +437,7 @@ li {
     width: 200px;
   }
 }
+
 // Page - SignPage
 .signPage {
   height: 100vh;
@@ -497,35 +505,34 @@ li {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: $dark;
     .signin__title {
       font-weight: 700;
-      color: #fff;
+      color: $main;
       font-size: 36px;
     }
     .signin__ment {
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
+      color: $main;
       padding: 48px;
     }
     .signin__btn {
-      color: rgba(255, 255, 255, 0.8);
+      color: $main;
       width: 240px;
       height: 48px;
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      border: 1px solid$main;
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: rgba(255, 255, 255, 0.8);
-        color: $main;
+        background-color: $main;
+        color: rgba(255, 255, 255, 0.8);
       }
     }
   }
 }
-
 // Component - SignUp
 .signUp {
-  background-color: $signpage;
   .signup__formOff {
     display: flex;
     flex-direction: column;
@@ -561,18 +568,20 @@ li {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: $main;
     .signup__title {
       font-weight: 700;
       font-size: 36px;
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
     }
     .google-login__logo {
       font-size: 32px;
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
     }
     .signup__ment {
       font-size: 14px;
       margin: 30px 0 30px 0;
+      color: rgba(255, 255, 255, 0.8);
     }
     .signup-form {
       display: flex;
@@ -582,21 +591,21 @@ li {
         padding: 0 20px;
         width: 360px;
         height: 48px;
-        background-color: #07679f13;
+        background-color: rgba(255, 255, 255, 0.8);
         margin: 4px;
       }
     }
     .signup__btn {
-      color: $main;
+      color: rgba(255, 255, 255, 0.8);
       width: 240px;
       height: 48px;
-      border: 1px solid $main;
+      border: 1px solid rgba(255, 255, 255, 0.8);
       border-radius: 24px;
       transition: all 0.5s ease;
       font-size: 16px;
       &:hover {
-        background-color: $main;
-        color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.8);
+        color: $main;
       }
     }
   }

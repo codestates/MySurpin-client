@@ -14,7 +14,7 @@ const ScrollBtn = () => {
   const handleToBest = useCallback(() => {
     setScorllToBestTags(
       document
-        .querySelector(".scroll-buttons__bestTags")
+        .querySelector(".besttagsSection")
         .scrollIntoView({ behavior: "smooth" })
     );
   }, []);

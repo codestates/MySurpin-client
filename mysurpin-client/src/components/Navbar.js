@@ -123,7 +123,6 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
               onKeyPress={onKeyPress}
               value={tag}
             ></input>
-
             <button
               className="navbar__searchbar__btn"
               onClick={handleSearchBtn}
@@ -155,7 +154,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           </div>
         ) : (
           <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
-            <button>LOG IN / SIGN UP</button>
+            <button className="navbar__btn">LOG IN / SIGN UP</button>
           </Link>
         )}
       </div>
