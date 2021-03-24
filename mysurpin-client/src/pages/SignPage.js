@@ -3,9 +3,10 @@ import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 import Navbar from "../components/Navbar";
 import AlertModal from "../components/AlertModal";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getGoogleToken, signIn } from "../actions/index";
+import { signIn } from "../actions/index";
+require("dotenv").config();
 
 const SignPage = () => {
   const [isSignInOn, setIsSignInOn] = useState(true);
@@ -14,23 +15,16 @@ const SignPage = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const googleTokenState = useSelector((state) => state.userReducer);
-  const { googleToken } = googleTokenState;
 
   useEffect(() => {
     document.title = "SignPage";
   }, []);
 
   useEffect(() => {
-    console.log("SignPage 일단 확인한다!", window.location.hash);
     let state = window.location.hash.slice(7, 13);
-    console.log("SignPage 제대로 잘랐나?", state);
 
-    // 구글 버튼을 누른 곳이 회원가입 일 때
     if (state === "signUp") {
-      console.log("회원가입 일 경우 잘 들어와야 한다~?");
-      fetch("http://localhost:4000/user/googleSignUp", {
-        //googleSignUp or googleSignIn 상황에 따라 다르게 요청해야 함
+      fetch(`${process.env.REACT_APP_SERVER_URL}/user/googleSignUp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +42,7 @@ const SignPage = () => {
         })
         .then((data) => {
           if (data === "ok") {
-            fetch("http://localhost:4000/user/googleSignIn", {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/user/googleSignIn`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -85,9 +79,8 @@ const SignPage = () => {
           }
         })
         .catch((err) => console.error(err));
-    } // 구글 버튼을 누른 곳이 로그인 일 때
-    else if (state === "signIn") {
-      fetch("http://localhost:4000/user/googleSignIn", {
+    } else if (state === "signIn") {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/user/googleSignIn`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +119,7 @@ const SignPage = () => {
     // Parameters to pass to OAuth 2.0 endpoint.
     var params = {
       client_id: process.env.REACT_APP_CLIENT_ID,
-      redirect_uri: "http://localhost:3000/signpage",
+      redirect_uri: `${process.env.REACT_APP_CLIENT_URL}/signpage`,
       response_type: "token",
       scope:
         "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",

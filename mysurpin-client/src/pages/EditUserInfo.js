@@ -12,14 +12,13 @@ const EditUserInfo = () => {
 
   const openModal = useCallback(() => {
     setAlertModalOpen(true);
-    setAlertModalComment("로그인 암호 만료. 재 로그인 부탁~!");
+    setAlertModalComment("로그인 암호 만료. 다시 로그인 해주세요");
   }, []);
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
   }, []);
 
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "Edit User Info";
   }, []);

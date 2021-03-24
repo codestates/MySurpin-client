@@ -37,7 +37,9 @@ const Surpin = ({ surpin }) => {
             backgroundSize: `cover`,
           }}
         ></div>
-        <button className="surpin__addBtn">+</button>
+        <button className="surpin__addBtn" onClick={() => {}}>
+          +
+        </button>
       </div>
     </Link>
   );

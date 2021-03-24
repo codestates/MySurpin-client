@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import AlertModal from "../components/AlertModal";
 
 const awsController = require("../aws_controller/aws_controller");
+require("dotenv").config();
 
 const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const history = useHistory();
@@ -43,7 +44,7 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
 
     awsController.deleteFolder(email);
 
-    return fetch(`http://localhost:4000/user/withdrawal`, {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/user/withdrawal`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${token}`,
@@ -55,12 +56,10 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          // alert("탈퇴가 완료되었습니다.");
           setAlertModalOpen(true);
           setAlertModalComment("탈퇴가 완료되었습니다.");
           history.push("/");
         } else {
-          // alert("정보를 다시 입력하세요.");
           setAlertModalOpen(true);
           setAlertModalComment("정보를 다시 입력하세요.");
         }

@@ -29,7 +29,11 @@ body {
   background-color: $dark;
 }
 
-/* react transition group */
+::-webkit-scrollbar {
+  display: none;
+}
+
+// react transition group
 .fade-enter {
   opacity: 0.01;
 }
@@ -66,12 +70,11 @@ li {
 
 // Component - Navbar
 .navbar {
-  // background-color: $dark;
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100vw;
+  width: 95vw;
   height: 8%;
   min-height: 60px;
   z-index: 3;
@@ -79,7 +82,7 @@ li {
     width: 30px;
     opacity: 0.7;
     margin-left: 28px;
-    margin-top: 24px;
+    margin-top: 28px;
   }
   .navbar__utils {
     display: flex;
@@ -103,7 +106,8 @@ li {
     }
     .navbar__btn__show-all {
       background-color: $main;
-      color: #fff;
+      font-weight: 700;
+      color: $dark;
       width: 120px;
       height: 36px;
       border-radius: 3px;
@@ -111,6 +115,7 @@ li {
     .navbar__btn,
     .navbar__btns {
       background-color: $medium;
+      font-weight: 700;
       color: $main;
       font-size: 12px;
       margin-right: 8%;
@@ -163,17 +168,13 @@ li {
     height: 100vh;
     overflow: hidden;
     position: relative;
-    // box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
     .main__title {
-      // position: fixed;
       font-weight: 800;
       top: 30vh;
       margin-left: 10%;
       width: 50%;
       height: 130px;
-      // overflow: hidden;
       .main__title__text {
-        // border: 1px solid #eee;
         height: 300px;
         font-size: 80px;
         color: rgba(255, 255, 255, 0.95);
@@ -215,13 +216,6 @@ li {
       width: 60%;
       margin-left: 500px;
       z-index: -1;
-      // .video__shadow {
-      //   position: relative;
-      //   background-color: $main;
-      //   box-shadow: inset 0 0 0 1000px rgba(22, 24, 27, 0.8);
-      //   width: 100vw;
-      //   height: 100vh;
-      // }
     }
   }
   .besttagsSection {
@@ -269,7 +263,7 @@ li {
   .newListsSection {
     background-color: $dark;
     display: flex;
-    margin-left: 160px;
+    margin-left: 150px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -280,14 +274,16 @@ li {
       font-weight: 700;
       font-size: 1.4rem;
       color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 36px;
     }
     .newlists__lists_first,
     .newlists__lists_second {
       position: relative;
-      left: 500px;
+      left: 550px;
       width: 140vw;
-      height: 30vh;
-      padding: 48px;
+      height: 320px;
+      padding: 48px -10px;
+      margin-top: 16px;
       display: flex;
       overflow-x: scroll;
       margin-left: 2px;
@@ -437,10 +433,9 @@ li {
     width: 85%;
     margin-top: 0.2rem;
     .list__tag {
-      color: #fff;
+      color: $main;
       position: relative;
       font-size: 0.8rem;
-      // padding: 3px 6px;
       border-radius: 30px;
       text-align: center;
       margin-right: 8px;
@@ -929,7 +924,6 @@ li {
   .surpinModal__sidebar {
     display: flex;
     flex-direction: column;
-    // border: 1px solid $border;
     width: 16vw;
     height: 90vh;
     padding: 0 24px;
@@ -939,26 +933,33 @@ li {
       margin-top: 36px;
       height: 35%;
       overflow: hidden;
-      box-shadow: inset 0 0 0 1000px #587fb986;
-      .sidebar__listinfo__title {
-        color: #fff;
-        width: 70%;
-        height: 205px;
-        position: relative;
-        top: 16%;
-        left: 16%;
-        font-size: 24px;
+      box-shadow: inset 0 0 0 1000px #405a8086;
+    }
+    .sidebar__listinfo__title {
+      color: rgba(255, 255, 255, 0.9);
+      width: 60%;
+      word-break: break-all;
+      height: 205px;
+      font-weight: 600;
+      position: relative;
+      top: 16%;
+      left: 16%;
+      font-size: 24px;
+      ::-webkit-input-placeholder {
+        color: #828692;
+        vertical-align: top;
       }
-      .sidebar__listinfo__writer {
-        color: #fff;
-        z-index: 100;
-        cursor: pointer;
-        align-self: flex-end;
-        justify-self: flex-end;
-        margin-bottom: 36px;
-        margin-right: 12px;
-        font-size: 14px;
-      }
+    }
+    .sidebar__listinfo__writer {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 700;
+      z-index: 1;
+      cursor: pointer;
+      align-self: flex-end;
+      justify-self: flex-end;
+      margin-bottom: 36px;
+      margin-right: 12px;
+      font-size: 14px;
     }
     .sidebar__thumbnail__input {
       margin: 24px 0px;
@@ -994,7 +995,7 @@ li {
         font-size: 1rem;
         font-family: "Poppin";
         font-weight: 800;
-        margin-bottom: 12px;
+        margin-bottom: 18px;
       }
       .taglists__form {
         display: flex;
@@ -1003,10 +1004,13 @@ li {
         margin-bottom: 18px;
         input {
           width: 70%;
-          font-size: 0.8rem;
+          font-size: 0.7rem;
           margin-left: 8px;
           padding: 4px;
           border-bottom: 1px solid $border;
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+          }
         }
         button {
           margin-left: 0.7rem;
@@ -1040,7 +1044,7 @@ li {
       top: 85%;
       width: 0.1px;
       height: 0.1px;
-      // opacity: 0;
+
       overflow: hidden;
       position: absolute;
       z-index: -1;
@@ -1064,7 +1068,6 @@ li {
     }
   }
   .surpinModal__main {
-    // border: 1px solid $border;
     border-left: none;
     display: flex;
     flex-direction: column;
@@ -1088,6 +1091,15 @@ li {
           transition: 0.1s ease all;
         }
       }
+    }
+    .surpinModal__url__title {
+      align-self: flex-start;
+      margin-top: -24px;
+      margin-bottom: 36px;
+      margin-left: 60px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.658);
     }
     .surpinModal__show-contents__topbar {
       color: #fff;
@@ -1160,7 +1172,7 @@ li {
         padding: 0 24px;
         margin-right: 8px;
         &::placeholder {
-          color: #505050;
+          color: rgba(255, 255, 255, 0.7);
         }
       }
       button {
@@ -1211,11 +1223,13 @@ li {
     font-family: "Poppin";
     font-weight: 700;
     width: 40%;
+    text-overflow: ellipsis;
   }
   .urlList__url {
     font-family: "Poppin";
     font-weight: 400;
     width: 40%;
+    text-overflow: ellipsis;
   }
 }
 
@@ -1232,4 +1246,9 @@ li {
   opacity: 0;
   pointer-events: none;
   transition: 0.2s all ease;
+}
+
+.highlight {
+  border-radius: 2px;
+  background-color: rgba(202, 202, 202, 0.281);
 }

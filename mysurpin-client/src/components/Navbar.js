@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signOut, getTagLists, getGoogleToken } from "../actions/index";
 import AlertModal from "./AlertModal";
-// import "/images/";
+require("dotenv").config();
+
 const Navbar = ({ navBarState, isSignPage = "" }) => {
   const userState = useSelector((state) => state.userReducer);
   const {
@@ -37,7 +38,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
     const payload = JSON.stringify({
       email,
     });
-    return fetch(`http://localhost:4000/user/signout`, {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/user/signout`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
@@ -47,7 +48,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       body: payload,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => data)
       .catch((err) => console.error(err));
   };
 
@@ -72,7 +73,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       pagenumber: 1,
       tag: tag,
     });
-    fetch(`http://localhost:4000/surpin/searchlists`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,14 +82,11 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
       body: payload,
     })
       .then((res) => {
-        console.log(res);
         return res;
       })
       .then((res) => res.json())
       .then((body) => {
-        console.log(body.message);
         if (body.message === "Unsufficient info") {
-          // alert("검색어 입력 하세요. (궁서체)");
           setAlertModalOpen(true);
           setAlertModalComment("검색어를 입력하세요.");
         } else if (body.message === "No surpin with request tag") {
@@ -167,7 +165,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           </>
         ) : (
           <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
-            <button>LOG IN / SIGN UP</button>
+            <button className="navbar__btn">LOG IN | SIGN UP</button>
           </Link>
         )}
       </div>

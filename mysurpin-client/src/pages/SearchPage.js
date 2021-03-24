@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useScrollEventListener from "../hooks/useScrollEventListener";
 import AlertModal from "../components/AlertModal";
+require("dotenv").config();
 
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
@@ -19,42 +20,17 @@ const SearchPage = () => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  // console.log(
-  //   "렌더링",
-  //   "요청가능횟수",
-  //   reqCount,
-  //   "앞으로 요청할 페이지",
-  //   pagenumber
-  // );
-
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
   }, [alertModalOpen]);
 
-  // 최상단으로 이동하는 함수
-  function ScrollToTopOnMount() {
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
-    return null;
-  }
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "SearchPage";
+    window.scrollTo(0, 0);
   }, []);
 
   const fetchMoreLists = useCallback(() => {
-    // setFetching(true);
-    console.log(
-      "fetchMore",
-      "요청가능횟수",
-      reqCount,
-      "앞으로 요청할 페이지",
-      pagenumber
-    );
-    // if (Number(reqCount) >= Number(pagenumber)) {
-    console.log("POST 요청감");
-    fetch(`http://localhost:4000/surpin/searchlists`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,31 +45,12 @@ const SearchPage = () => {
       .then((data) => {
         setMergedData(mergedData.concat(data.surpins));
       });
-    // } else {
-    // console.log("POST 요청 불가");
-    // }
+
     setPagenumber((pagenumber) => pagenumber + 1);
   }, [tag, pagenumber]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // fetch(`http://localhost:4000/surpin/searchlists`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     credentials: "include",
-    //   },
-    //   body: JSON.stringify({
-    //     pagenumber: pagenumber,
-    //     tag: tag,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setReqCount(parseInt(Number(data.surpinCount) / 5) + 1);
-    //     setPagenumber(pagenumber + 1);
-    //     setMergedData(mergedData.concat(data.surpins));
-    //   });
   }, []);
 
   const onChangeSearchTag = useCallback(
@@ -117,8 +74,7 @@ const SearchPage = () => {
       setAlertModalOpen(true);
       setAlertModalComment("검색어를 입력하세요.");
     } else {
-      console.log("첫 요청");
-      fetch(`http://localhost:4000/surpin/searchlists`, {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,11 +87,6 @@ const SearchPage = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("총개수", data.surpinCount);
-          console.log(
-            "요청가능횟수",
-            parseInt(Number(data.surpinCount) / 5) + 1
-          );
           setReqCount(parseInt(Number(data.surpinCount) / 5) + 1);
           setPagenumber(2);
           setPagenumber(0);
@@ -152,7 +103,6 @@ const SearchPage = () => {
         close={closeModal}
         comment={alertModalComment}
       />
-      <ScrollToTopOnMount />
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">

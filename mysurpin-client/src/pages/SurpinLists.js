@@ -5,10 +5,7 @@ import Navbar from "../components/Navbar";
 import Surpin from "../components/Surpin";
 import Tag from "../components/Tag";
 import { showUserLists, showUserTags } from "../actions/index";
-
-// get fakedata
-// import { fakeData } from "../reducers/initialState";
-// const fakeTags = ["다들", "힘내세요", "1", "2", "3", "4", "5", "6", "7", "8"];
+require("dotenv").config();
 
 const SurpinLists = () => {
   const { writer } = useParams();
@@ -21,7 +18,6 @@ const SurpinLists = () => {
   const [filteredUserLists, setFilteredUserLists] = useState([]);
   const [newShowUserTags, setNewShowUserTags] = useState([]);
 
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "Surpin Lists";
   }, []);
@@ -32,7 +28,6 @@ const SurpinLists = () => {
 
   const handleFilterTags = useCallback(
     (targetTag) => {
-      console.log(targetTag, filteredUserLists);
       if (targetTag === "all") {
         setFilteredUserLists(newShowUserLists);
       } else {

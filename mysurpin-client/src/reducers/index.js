@@ -18,5 +18,4 @@ const rootReducer = combineReducers({
   tagsReducer,
 });
 
-// export default rootReducer;
 export default persistReducer(persistConfig, rootReducer);

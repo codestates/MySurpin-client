@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
-
+require("dotenv").config();
 const awsController = require("../aws_controller/aws_controller");
 
 const SurpinModal = ({ location }) => {
@@ -54,12 +54,11 @@ const SurpinModal = ({ location }) => {
     )}/1600x900?blue,water`
   );
 
-  const [inputListname, setInputListname] = useState("");
-  const [inputDesc, setInputDesc] = useState("");
+  const [inputListname, setInputListname] = useState(title || "New Surpin");
+  const [inputDesc, setInputDesc] = useState(desc || "no description");
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState();
   const [inputUrl, setInputUrl] = useState("");
-  // const [inputThumbnail, setInputThumbnail] = useState("");
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
@@ -67,12 +66,13 @@ const SurpinModal = ({ location }) => {
     setAlertModalOpen(false);
   };
 
+  const copySurpin = () => {};
+
   useCheckToken([editmode]);
 
   useEffect(() => {
     document.title = "Surpin Modal";
     if (!location.surpin) {
-      console.log("edit mode on");
       setEditMode(true);
     }
   });
@@ -80,13 +80,16 @@ const SurpinModal = ({ location }) => {
   // showexiststag
   useEffect(() => {
     if (inputTag.length > 0) {
-      fetch(`http://localhost:4000/tag/showexiststags?inputText=${inputTag}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-      })
+      fetch(
+        `${process.env.REACT_APP_SERVER_URL}/tag/showexiststags?inputText=${inputTag}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            credentials: "include",
+          },
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           setNewExistTags(data.tags);
@@ -97,16 +100,19 @@ const SurpinModal = ({ location }) => {
 
   // showsurpin/listid
   useEffect(() => {
-    fetch(`http://localhost:4000/surpin/showsurpin?listId=${surpinId}`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify({ email }),
-    })
+    fetch(
+      `${process.env.REACT_APP_SERVER_URL}/surpin/showsurpin?listId=${surpinId}`,
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ email }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setNewUrls([...data.urls]);
@@ -118,10 +124,10 @@ const SurpinModal = ({ location }) => {
   const setInputThumbnail = () => {
     if (
       document.querySelector("#sidebar__thumbnail__input").files[0].size >
-      20 * 1024 * 8
+      20 * 1024 * 1024
     ) {
       setAlertModalOpen(true);
-      setAlertModalComment("20MB 이하의 파일만 등록가능합니다.");
+      setAlertModalComment("2MB 이하의 파일만 등록가능합니다.");
     }
   };
 
@@ -131,7 +137,7 @@ const SurpinModal = ({ location }) => {
 
   const handleInputUrlBtn = () => {
     if (!inputUrlname || inputUrlname.length === 0) {
-      fetch(`http://localhost:4000/surpin/showurltitle`, {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/showurltitle`, {
         method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
@@ -152,7 +158,7 @@ const SurpinModal = ({ location }) => {
 
   const createSurpin = async (listname, desc) => {
     setEditMode(!editmode);
-    // aws s3 request
+
     let thumbnail = newThumbnail;
     if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
       thumbnail = await awsController.uploadSurpinThumbnail(
@@ -169,8 +175,7 @@ const SurpinModal = ({ location }) => {
       urls: newUrls,
     };
 
-    //mysurpin server request
-    fetch(`http://localhost:4000/surpin/createmysurpin`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/createmysurpin`, {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
@@ -183,10 +188,13 @@ const SurpinModal = ({ location }) => {
       .then((body) => {
         if (body.message === "done") {
           setAlertModalOpen(true);
-          setAlertModalComment("생성 완료");
+          setAlertModalComment("서핀 생성 완료");
+          setTimeout(() => {
+            history.push(`/surpinlists/${nickname}`);
+          }, 800);
         } else {
           setAlertModalOpen(true);
-          setAlertModalComment("생성 실패");
+          setAlertModalComment(body.message);
         }
       })
       .catch((err) => console.log(err));
@@ -203,13 +211,11 @@ const SurpinModal = ({ location }) => {
           thumbnail,
           document.querySelector("#sidebar__thumbnail__input").files
         );
-        console.log("changed", changeThumbnail);
       } else {
         changeThumbnail = await awsController.uploadSurpinThumbnail(
           email,
           document.querySelector("#sidebar__thumbnail__input").files
         );
-        console.log("created", changeThumbnail);
       }
     }
 
@@ -221,7 +227,7 @@ const SurpinModal = ({ location }) => {
       urls: newUrls,
     };
 
-    fetch(`http://localhost:4000/surpin/editmysurpin`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/editmysurpin`, {
       method: "PATCH",
       headers: {
         authorization: `Bearer ${token}`,
@@ -234,17 +240,20 @@ const SurpinModal = ({ location }) => {
       .then((body) => {
         if (body.message === "edit done!") {
           setAlertModalOpen(true);
-          setAlertModalComment("수정 완료");
+          setAlertModalComment("서핀 수정 완료");
+          setTimeout(() => {
+            history.push(`/surpinlists/${nickname}`);
+          }, 800);
         } else {
           setAlertModalOpen(true);
-          setAlertModalComment("정보 부족");
+          setAlertModalComment(body.message);
         }
       })
       .catch((err) => console.log(err));
   };
 
   const handleRemoveSurpin = () => {
-    fetch(`http://localhost:4000/surpin/removemysurpin`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/removemysurpin`, {
       method: "DELETE",
       headers: {
         authorization: `Bearer ${token}`,
@@ -300,7 +309,7 @@ const SurpinModal = ({ location }) => {
         close={closeModal}
         comment={alertModalComment}
       />
-      <button className="surpinModal__back-btn" onClick={() => history.go(-2)}>
+      <button className="surpinModal__back-btn" onClick={() => history.go(-1)}>
         <img src="/images/go_back_Button.png" alt=""></img>
       </button>
       <section className="surpinModal__sidebar">
@@ -349,8 +358,10 @@ const SurpinModal = ({ location }) => {
             <div className="taglists__form">
               <input
                 type="text"
-                className="taglists__form__input"
-                placeholder="태그 추가"
+                className={`${
+                  inputTag === "" ? "highlight" : ""
+                } taglists__form__input`}
+                placeholder="태그를 추가하세요 *"
                 onChange={(e) => setInputTag(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === "Enter") {
@@ -388,11 +399,7 @@ const SurpinModal = ({ location }) => {
                         className="tagaList__delete-btn"
                         onClick={handleDeleteTag}
                       >
-                        <img
-                          className="tagList__delete-btn-img"
-                          src="/images/X_Button.png"
-                          alt=""
-                        />
+                        X
                       </button>
                     ) : (
                       <></>
@@ -422,7 +429,6 @@ const SurpinModal = ({ location }) => {
       <section className="surpinModal__main">
         <div className="surpinModal__header">
           {writer === nickname ? (
-            // 내 서핀일때 - 기존 서핀 편집
             <button
               className="surpinModal__edit-btn"
               onClick={() => setEditMode(!editmode)}
@@ -431,16 +437,17 @@ const SurpinModal = ({ location }) => {
               {editmode ? "EDIT DONE" : "EDIT MODE"}
             </button>
           ) : (
-            // 남의 서핀일때 - 새로운 서핀 생성
             <button
               className="surpinModal__edit-btn"
               onClick={() => setEditMode(!editmode)}
             >
-              <img src="" alt="" />
-              서핀 퍼가기
+              <img src="" alt="" />내 서핀에 저장하기
             </button>
           )}
         </div>
+        <span className="surpinModal__url__title">
+          {editmode ? "URL 리스트 수정하기" : "URL 리스트"}
+        </span>
         <div className="surpinModal__show-contents__topbar">
           <div className="show-contents__urlname">URL NAME</div>
           <div className="show-contents__url">URL</div>
@@ -450,7 +457,12 @@ const SurpinModal = ({ location }) => {
             {newUrls.length > 0 ? (
               newUrls.map((urlinfo) => {
                 return (
-                  <li className="surpinModal__url-list">
+                  <li
+                    className="surpinModal__url-list"
+                    onClick={() => {
+                      window.open(urlinfo.url);
+                    }}
+                  >
                     <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
                     {editmode ? (
                       <button
@@ -475,7 +487,7 @@ const SurpinModal = ({ location }) => {
             <input
               type="text"
               className="input-content__urlname"
-              placeholder="name"
+              placeholder="이름을 지정하세요"
               onChange={(e) => setInputUrlname(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
@@ -486,8 +498,10 @@ const SurpinModal = ({ location }) => {
             />
             <input
               type="text"
-              className="input-content__url"
-              placeholder="url"
+              className={`${
+                inputUrl === "" ? "highlight" : ""
+              } input-content__url `}
+              placeholder="url을 입력하세요 *"
               onChange={(e) => setInputUrl(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {

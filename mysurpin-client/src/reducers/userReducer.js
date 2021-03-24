@@ -10,7 +10,6 @@ import { initialState } from "./initialState";
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_IN:
-      console.log(action.payload);
       return Object.assign({}, state, {
         user: action.payload,
       });
