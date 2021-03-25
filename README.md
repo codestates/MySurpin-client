@@ -35,10 +35,10 @@ IM 26기 4명이 모인 👩‍💻👨‍💻👨‍💻👨‍💻 be-Dev 입�
 <img width="988" alt="스크린샷 2021-03-25 오후 1 46 55" src="https://user-images.githubusercontent.com/73514971/112420466-97595600-8d70-11eb-8b4a-709a0c43e16e.png">
 
 ## Front-end
-<img width="716" alt="스크린샷 2021-03-25 오후 3 12 32" src="https://user-images.githubusercontent.com/73514971/112428540-a7783200-8d7e-11eb-9c7b-e705eca12377.png">
+<img width="850" alt="스크린샷 2021-03-25 오후 3 43 02" src="https://user-images.githubusercontent.com/73514971/112430698-d93ec800-8d81-11eb-8488-930656f9b35e.png">
 
 ## Back-end
-<img width="850" alt="스크린샷 2021-03-25 오후 3 43 02" src="https://user-images.githubusercontent.com/73514971/112430698-d93ec800-8d81-11eb-8488-930656f9b35e.png">
+<img width="634" alt="스크린샷 2021-03-25 오후 3 39 45" src="https://user-images.githubusercontent.com/73514971/112430933-291d8f00-8d82-11eb-85d2-506586feed57.png">
 
 ## Member Infomation
 
