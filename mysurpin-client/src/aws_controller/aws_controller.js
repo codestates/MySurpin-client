@@ -9,10 +9,9 @@ const {
   ListObjectsCommand,
   DeleteObjectCommand,
   DeleteObjectsCommand,
+  CopyObjectCommand,
 } = require("@aws-sdk/client-s3");
-
 const REGION = process.env.REACT_APP_CLIENT_AWS_REGION;
-
 // Initialize the Amazon Cognito credentials provider
 const s3 = new S3Client({
   region: REGION,
@@ -21,23 +20,18 @@ const s3 = new S3Client({
     identityPoolId: process.env.REACT_APP_CLIENT_AWS_POOLID,
   }),
 });
-
 const bucketName = process.env.REACT_APP_CLIENT_AWS_BUCKETNAME;
-
 /**
 새로 만들 파일의 인덱스를 제공해줍니다.
 입력값으로 주어진 folder가 없으면 foler를 생성하고 
 초기 인덱스인 1을 반환합니다.
-
 @param {string} folder: 새로 생성할 폴더 이름
-
 @returns
 -1 : 리스트를 가져오는 것에서 오류가 나거나 폴더 생성하는데서 오류 발생
 0< : 다음 파일 인덱스 번호 
 */
 const getNextFileIndex = async (folder) => {
   const folderKey = folder + "/";
-
   try {
     const originData = await s3.send(
       new ListObjectsCommand({
@@ -46,7 +40,6 @@ const getNextFileIndex = async (folder) => {
       })
     );
     const data = originData.Contents;
-
     if (data) {
       if (data.length === 1) return 1;
       else {
@@ -61,7 +54,6 @@ const getNextFileIndex = async (folder) => {
           Bucket: bucketName,
         })
       );
-
       return 1;
     }
   } catch (err) {
@@ -69,16 +61,13 @@ const getNextFileIndex = async (folder) => {
     return -1;
   }
 };
-
 /**
 개별 파일을 업로드합니다.
 중복된 이름의 파일이 있는 경우 덮어쓰기가 됩니다.
-
 @param {string} folder 저장할 디렉토리 정보
 @param {FileList} files 파일 정보(`<input type=file />`의 files를 넣어주면 됩니다.)
 @param {string} fileName 업로드 시 사용할 파일이름(확장자는 넣지 않습니다.)
 확장자의 경우 files에서 가져와서 사용할 것입니다.
-
 @returns {}
 -1: 파일이 존재하지 않는 경우
 -2: 업로드 구문에 에러 발생
@@ -108,12 +97,30 @@ const uploadFile = async (folder, files, fileName) => {
     return -2;
   }
 };
-
+/**
+ * 파일을 버킷으로 복사
+ * @param {*} original  원본의 경로(버킷/키)로 지정되어야 한다.
+ * @param {*} newFileLocation 복사할 경로
+ * @returns 성공시 1, 실패시 -1
+ */
+const copyFile = async (original, newFileLocation) => {
+  try {
+    await s3.send(
+      new CopyObjectCommand({
+        Bucket: bucketName,
+        ACL: "public-read",
+        CopySource: original,
+        Key: newFileLocation,
+      })
+    );
+    return 1;
+  } catch (err) {
+    return -1;
+  }
+};
 /**
 개별 파일을 삭제합니다.
-
 @param {stirng} fileName : 파일 경로 (형식 폴더명/파일이름.확장자)
-
 @returns
 1: 정상 삭제
 -1: 오류 발생
@@ -132,13 +139,10 @@ const deleteFile = async (fileName) => {
     return -1;
   }
 };
-
 /**
 folder를 삭제합니다.
 folder안에 있는 파일 또한 같이 삭제됩니다.
-
 @param {string} folder : 폴더명
-
 @returns
 1: 정상 삭제
 -1: 폴더 조회 중 오류 발생
@@ -146,7 +150,6 @@ folder안에 있는 파일 또한 같이 삭제됩니다.
 */
 const deleteFolder = async (folder) => {
   const folderKey = folder + "/";
-
   try {
     const data = await s3.send(
       new ListObjectsCommand({ Bucket: bucketName, Prefix: folderKey })
@@ -170,7 +173,6 @@ const deleteFolder = async (folder) => {
     return -1;
   }
 };
-
 /**
  * email주소와 input태그의 files를 넘겨주면
  * 이메일을 폴더명으로 한 폴더를 생성하거나 찾아내어 해당 폴더에 파일을 저장합니다.
@@ -183,14 +185,12 @@ const uploadSurpinThumbnail = async (email, files) => {
   if (!files.length) return -1;
   try {
     const filename = await getNextFileIndex(email);
-
     const savedFileLocation = await uploadFile(email, files, filename);
-    return `https://${bucketName}/${savedFileLocation}`;
+    return `http://${bucketName}/${savedFileLocation}`;
   } catch (err) {
     return -2;
   }
 };
-
 /**
  * 기존 썸내일 경로와 새로운 파일이 담긴 input태그의 files를 넘겨주면
  * 기존 썸내일 파일을 삭제하고 동일한 파일명으로 파일을 업로드합니다.
@@ -204,21 +204,39 @@ const changeSurpinThumbnail = async (route, files) => {
   try {
     const targetLocation = new URL(route).pathname.substring(1);
     await deleteFile(targetLocation);
-
     const splitDataOfLocation = targetLocation.split("/");
-
     const fullFilename = splitDataOfLocation.pop();
     const filename = fullFilename.substring(0, fullFilename.lastIndexOf("."));
-
     const folder = splitDataOfLocation.join("/");
-
     const savedFileLocation = await uploadFile(folder, files, filename);
     return `https://${bucketName}/${savedFileLocation}`;
   } catch (err) {
     return -2;
   }
 };
-
+/**
+ * 썸네일 복사 다른 사람의 surpin을 내 서핀으로 만들 때 사용합니다.
+ * @param {*} originalURL 다른사람의 썸내일 경로(s3의 경로여야합니다.)
+ * @param {*} email (현재 로그인한 사용자의 이메일 주소를 입력합니다.)
+ * @returns 성공 시 1 실패 시 -1을 출력합니다.
+ */
+const copyThumbnail = async (originalURL, email) => {
+  try {
+    const originalLocation = new URL(originalURL).pathname;
+    const targetLocation =
+      email +
+      "/" +
+      (await getNextFileIndex(email)) +
+      originalLocation.substring(originalLocation.lastIndexOf(1) + 1);
+    const result = await copyFile(
+      bucketName + originalLocation,
+      targetLocation
+    );
+    return result;
+  } catch (err) {
+    return -1;
+  }
+};
 export {
   getNextFileIndex,
   uploadFile,
@@ -226,4 +244,5 @@ export {
   deleteFolder,
   uploadSurpinThumbnail,
   changeSurpinThumbnail,
+  copyThumbnail,
 };

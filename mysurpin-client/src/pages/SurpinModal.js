@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getShowSurpin, getTagLists } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 require("dotenv").config();
 const awsController = require("../aws_controller/aws_controller");
 
@@ -57,10 +58,12 @@ const SurpinModal = ({ location, match }) => {
       )}/1600x900?blue,water`
   );
 
+  const [droptags, setDropTags] = useState([]);
+
   const [inputListname, setInputListname] = useState(title || "New Surpin");
   const [inputDesc, setInputDesc] = useState(desc || "no description");
   const [inputTag, setInputTag] = useState("");
-  const [inputUrlname, setInputUrlname] = useState();
+  const [inputUrlname, setInputUrlname] = useState("");
   const [inputUrl, setInputUrl] = useState("");
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
@@ -171,6 +174,11 @@ const SurpinModal = ({ location, match }) => {
   };
 
   const handleInputUrlBtn = () => {
+    if (inputUrl.length === 0) {
+      setAlertModalOpen(true);
+      setAlertModalComment("URL을 입력해주세요");
+      return;
+    }
     if (!inputUrlname || inputUrlname.length === 0) {
       fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/showurltitle`, {
         method: "POST",
@@ -184,7 +192,9 @@ const SurpinModal = ({ location, match }) => {
         .then((body) => {
           if (body.message === "Unsufficient info") {
             setAlertModalOpen(true);
-            setAlertModalComment("URL 이름을 입력해주세요");
+            setAlertModalComment(
+              "올바른 URL이 아닙니다. 이름을 직접 지정해주세요."
+            );
           } else {
             setNewUrls([...newUrls, { name: body.title, url: inputUrl }]);
           }
@@ -339,12 +349,23 @@ const SurpinModal = ({ location, match }) => {
       .catch((err) => console.log(err));
   };
 
-  const handleSaveSurpin = () => {
+  const handleSaveSurpin = async () => {
+    if (newTags && newTags.length === 0) {
+      setAlertModalOpen(true);
+      setAlertModalComment("태그를 한 개 이상 입력해주세요");
+      return;
+    }
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
     if (!location.surpin || writer !== nickname) {
       createSurpin(inputListname, inputDesc);
+      // if (writer !== nickname && thumbnail.split("/")[2] === "photo.mysurpin.com") {
+      //     changeThumbnail = await awsController.changeSurpinThumbnail(
+      //       thumbnail,
+      //       document.querySelector("#sidebar__thumbnail__input").files
+      //     );
+      // }
     } else editSurpin(inputListname, inputDesc);
   };
 
@@ -366,6 +387,7 @@ const SurpinModal = ({ location, match }) => {
   };
 
   const handleGoBack = () => {
+    console.log(history);
     if (!location.surpin) {
       history.go(-2);
     } else {
@@ -373,8 +395,44 @@ const SurpinModal = ({ location, match }) => {
     }
   };
 
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const currentTags = [...newUrls];
+    const draggingItemIndex = result.source.index;
+    const afterDragItemIndex = result.destination.index;
+    const removeTag = currentTags.splice(draggingItemIndex, 1);
+
+    currentTags.splice(afterDragItemIndex, 0, removeTag[0]);
+
+    setNewUrls(currentTags);
+  };
+
+  const handleCopy = () => {
+    var dummy = document.createElement("input");
+    var text = process.env.REACT_APP_CLIENT_URL + location.pathname;
+    // console.log(location);
+
+    document.body.appendChild(dummy);
+    dummy.value = text;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+  };
+
   return (
     <div className="surpinModal">
+      <Link className="modal__logo" to="/">
+        HOME
+      </Link>
+      {editmode ? (
+        <></>
+      ) : (
+        <button className="modal__clipboard" onClick={handleCopy}>
+          클립보드 복사하기
+        </button>
+      )}
+
       <AlertModal
         open={alertModalOpen}
         close={closeModal}
@@ -508,7 +566,6 @@ const SurpinModal = ({ location, match }) => {
               className="surpinModal__edit-btn"
               onClick={() => setEditMode(!editmode)}
             >
-              <img src="" alt="" />
               {token && editmode ? "" : "EDIT MODE"}
             </button>
           ) : token ? (
@@ -517,7 +574,7 @@ const SurpinModal = ({ location, match }) => {
                 className="surpinModal__edit-btn"
                 onClick={() => setEditMode(!editmode)}
               >
-                <img src="" alt="" />내 서핀에 저장하기
+                {token && editmode ? "" : "내 서핀에 저장하기"}
               </button>
             </>
           ) : (
@@ -532,33 +589,53 @@ const SurpinModal = ({ location, match }) => {
           <div className="show-contents__url">URL</div>
         </div>
         <div className="surpinModal__show-contents">
-          <ul className="surpinModal__url-lists">
-            {newUrls.length > 0 ? (
-              newUrls.map((urlinfo, idx) => {
-                return (
-                  <li key={idx} className="surpinModal__url-list">
-                    <UrlList
-                      key={idx}
-                      name={urlinfo.name}
-                      url={urlinfo.url}
-                    ></UrlList>
-                    {token && editmode ? (
-                      <button
-                        className="urlList__delete-btn"
-                        onClick={handleDeleteUrl}
-                      >
-                        삭제
-                      </button>
-                    ) : (
-                      <></>
-                    )}
-                  </li>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </ul>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="tags" direction="vertical">
+              {(provided) => (
+                <ul
+                  className="tags surpinModal__url-lists"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {newUrls.length > 0 ? (
+                    newUrls.map((urlinfo, idx) => {
+                      return (
+                        <Draggable key={idx} draggableId={`${idx}`} index={idx}>
+                          {(provided) => (
+                            <li
+                              key={idx}
+                              className="surpinModal__url-list"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <UrlList
+                                key={idx}
+                                name={urlinfo.name}
+                                url={urlinfo.url}
+                              ></UrlList>
+                              {token && editmode ? (
+                                <button
+                                  className="urlList__delete-btn"
+                                  onClick={handleDeleteUrl}
+                                >
+                                  삭제
+                                </button>
+                              ) : (
+                                <></>
+                              )}
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    })
+                  ) : (
+                    <></>
+                  )}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
         {token && editmode ? (
           <div className="surpinModal__input-contents">
@@ -579,7 +656,7 @@ const SurpinModal = ({ location, match }) => {
               className={`${
                 inputUrl === "" ? "highlight" : ""
               } input-content__url `}
-              placeholder="url을 입력하세요 *"
+              placeholder="url을 입력하세요. 이름은 자동으로 지정됩니다."
               onChange={(e) => setInputUrl(e.target.value)}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {

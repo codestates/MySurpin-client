@@ -12,12 +12,12 @@ const MainSection = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [show, setShow] = useState("");
-
-  const closeModal = useCallback(() => {
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [alertModalComment, setAlertModalComment] = useState("");
+  const closeModal = () => {
     setAlertModalOpen(false);
-  }, [alertModalOpen]);
+  };
 
   const onChangeSearchTag = useCallback(
     (e) => {
@@ -36,6 +36,12 @@ const MainSection = () => {
   );
 
   const handleSearchTag = () => {
+    if (tag.length === 0) {
+      setAlertModalOpen(true);
+      setAlertModalComment("검색어를 입력해주세요.");
+      return;
+    }
+
     const payload = JSON.stringify({
       pagenumber: 1,
       tag: tag,

@@ -70,6 +70,12 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
   );
 
   const handleSearchBtn = () => {
+    if (tag.length === 0) {
+      setAlertModalOpen(true);
+      setAlertModalComment("검색어를 입력해주세요.");
+      return;
+    }
+
     const payload = JSON.stringify({
       pagenumber: 1,
       tag: tag,

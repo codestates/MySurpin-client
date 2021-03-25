@@ -24,11 +24,16 @@ const SearchPage = () => {
   const [propsTag, setPropsTag] = useState(undefined);
 
   const location = useLocation();
+
   useEffect(() => {
-    if (!newTag) {
-      setPropsTag(location.state.searchTag);
-    } else {
-      setPropsTag(undefined);
+    if (location.state) {
+      if (!newTag) {
+        setPropsTag(location.state.searchTag);
+        return;
+      } else {
+        setPropsTag(undefined);
+        return;
+      }
     }
   }, [newTag, propsTag]);
 
@@ -46,6 +51,8 @@ const SearchPage = () => {
       setPagenumber(0);
     }
   }, []);
+
+  console.log(newSurpinCount);
 
   useEffect(() => {
     if (pagenumber < parseInt(newSurpinCount / 10)) {
@@ -107,7 +114,7 @@ const SearchPage = () => {
         .then((data) => {
           dispatch(getTagLists(data));
           setNewTag(tag);
-          setNewSurpinCount(data.surpinCount);
+          setNewSurpinCount(data.surpinCount || 0);
           setTag("");
         });
     }
@@ -134,7 +141,18 @@ const SearchPage = () => {
             <img src="/images/Magnifying Glass.png" alt=""></img>
           </button>
         </div>
-        <div className="searchpage-best-results">
+        <div
+          className={`searchpage-no-results ${
+            !newSurpinCount || newSurpinCount === 0 ? "" : "hidden"
+          }`}
+        >
+          검색결과가 없습니다.
+        </div>
+        <div
+          className={`searchpage-best-results ${
+            !newSurpinCount || newSurpinCount === 0 ? "hidden" : ""
+          }`}
+        >
           <div className="searchpage-result-title">
             ' {propsTag || newTag} ' 에 대한 {newSurpinCount || 0}
             건의 검색결과
@@ -157,7 +175,11 @@ const SearchPage = () => {
             )}
           </ul>
         </div>
-        <div className="searchpage-all-results">
+        <div
+          className={`searchpage-all-results ${
+            !newSurpinCount || newSurpinCount === 0 ? "hidden" : ""
+          }`}
+        >
           <div className="searchpage__all__title">All Surpins</div>
           <div className="searchpage__all__lists">
             <div className="searchpage__all__lists__topbar">
