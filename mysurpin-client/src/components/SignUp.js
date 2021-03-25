@@ -120,7 +120,7 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
         })
         .catch((err) => console.log(err));
     } else {
-      handleGoogleLogin();
+      handleGoogleLogin("signUp");
     }
   };
 
