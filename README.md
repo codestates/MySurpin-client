@@ -38,11 +38,11 @@ If you find a place you like while surfing, put a pin on it! And share your own 
 
 |**Member**|Role|E-mail|
 |:---:|:---:|:---:|
-|김주혜|Front-end|kjh960215@gmail.com|
-|장유빈|Back-end|developersurfer@gmail.com|
-|연제원|Front-end|yjw9852@gmail.com|
-|하윤택|Front-end|yuntaek.ha@gmail.com|
+|👩‍💻 김주혜|Front-end|kjh960215@gmail.com|
+|👨‍💻 장유빈|Back-end|developersurfer@gmail.com|
+|👨‍💻 연제원|Front-end|yjw9852@gmail.com|
+|👨‍💻 하윤택|Front-end|yuntaek.ha@gmail.com|
 
 ## For More Details
 
-<a href="https://github.com/codestates/MySurpin-client/wiki">Check out Our Wiki page</a>
+<a href="https://github.com/codestates/MySurpin-client/wiki">Check out Our Wiki page 🙏</a>
