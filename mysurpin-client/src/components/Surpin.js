@@ -22,7 +22,11 @@ const Surpin = ({ surpin }) => {
           {title}
           <ul className="list__tags">
             {tags.length ? (
-              tags.map((tag) => <li className="list__tag">{`#${tag}`}</li>)
+              tags
+                .slice(0, 3)
+                .map((tag, idx) => (
+                  <li key={idx} className="list__tag">{`#${tag}`}</li>
+                ))
             ) : (
               <li />
             )}
@@ -37,7 +41,9 @@ const Surpin = ({ surpin }) => {
             backgroundSize: `cover`,
           }}
         ></div>
-        <button className="surpin__addBtn">+</button>
+        <button className="surpin__addBtn" onClick={() => {}}>
+          +
+        </button>
       </div>
     </Link>
   );

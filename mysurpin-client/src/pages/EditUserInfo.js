@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useCallback, useState, useEffect } from "react";
 import ChangeInfo from "../components/ChangeInfo";
 import Withdrawal from "../components/Withdrawal";
@@ -6,20 +7,19 @@ import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
 
 const EditUserInfo = () => {
-  const [editState, setEditState] = useState(true);
+  const [editState, setEditState] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  const openModal = useCallback(() => {
+  const openModal = () => {
     setAlertModalOpen(true);
-    setAlertModalComment("로그인 암호 만료. 재 로그인 부탁~!");
-  }, []);
+    setAlertModalComment("로그인 암호 만료. 다시 로그인 해주세요");
+  };
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
   }, []);
 
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "Edit User Info";
   }, []);
@@ -27,8 +27,6 @@ const EditUserInfo = () => {
   const handlePageState = () => {
     setEditState(!editState);
   };
-
-  useCheckToken([editState], openModal);
 
   return (
     <>

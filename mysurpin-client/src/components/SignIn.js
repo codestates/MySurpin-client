@@ -1,15 +1,15 @@
+/* eslint-disable */
 import React, { useState, useRef, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getGoogleToken, signIn } from "../actions/index";
+import { signIn } from "../actions/index";
 import AlertModal from "./AlertModal";
+require("dotenv").config();
 
 const SignIn = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const googleTokenState = useSelector((state) => state.userReducer);
-  const { googleToken } = googleTokenState;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alertModalOpen, setAlertModalOpen] = useState(false);
@@ -41,7 +41,7 @@ const SignIn = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
       handleSignIn();
     }
   };
-  // 구글 로그인
+
   const handleSignInWithGoogle = () => {
     handleGoogleLogin("signIn");
   };
@@ -57,7 +57,7 @@ const SignIn = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
       email,
       password,
     });
-    return fetch(`http://localhost:4000/user/signIn`, {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/user/signIn`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,6 @@ const SignIn = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.accessToken) {
-          console.log(body);
           dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/");
         } else {

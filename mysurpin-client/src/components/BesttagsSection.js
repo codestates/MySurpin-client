@@ -1,7 +1,9 @@
+/* eslint-disable */
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
 import { useHistory } from "react-router-dom";
+import { getTagLists } from "../actions/index";
 const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
@@ -10,7 +12,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const slideRef = useRef(null);
   const total_slides = chartlabel.length - 1;
   const history = useHistory();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     var ctx = document.getElementById("myChart").getContext("2d");
     var gradient = ctx.createLinearGradient(200, 100, 300, 500);
@@ -22,11 +24,10 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
 
   useEffect(() => {
     slideRef.current.style.transition = "all 1s ease-in-out";
-    slideRef.current.style.transform = `translateX(-${currentSlide}0%)`;
+    slideRef.current.style.transform = `translateX(-${currentSlide * 22}vw)`;
   }, [currentSlide]);
 
   const nextSlide = () => {
-    console.log(slideRef);
     if (currentSlide >= total_slides) {
       setCurrentSlide(0);
     } else {
@@ -43,12 +44,11 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   };
 
   const handleSearch = (label) => {
-    console.log("확인~!");
     const payload = JSON.stringify({
       pagenumber: 1,
-      tag: label, // 클릭한 div안의 내용
+      tag: label,
     });
-    fetch(`http://localhost:4000/surpin/searchlists`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,41 +57,34 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
       body: payload,
     })
       .then((res) => {
-        console.log(res);
         return res;
       })
       .then((res) => res.json())
       .then((body) => {
-        console.log(body.message);
-
-        if (body.message === "No surpin with request tag") {
-          history.push("/searchpage");
-        } else {
-          history.push("/searchpage");
-        }
+        dispatch(getTagLists(body));
+        history.push("/searchpage");
       })
       .catch((err) => console.error(err));
   };
 
   return (
     <div className="besttagsSection">
-      <div className="besttags__title">Best Tags</div>
+      <div className="besttags__title">Trend Now</div>
       <div className="besttags__rank">
         <div className="besttags__rank__elements" ref={slideRef}>
           {chartlabel.map((label, idx) => {
             return (
-              <div className="besttags__rank__element" key={idx}>
+              <div
+                className="besttags__rank__element"
+                key={idx}
+                onClick={() => handleSearch(label)}
+              >
+                <div className="ranking">Search Rank #{idx + 1}</div>
+                <div className="ranking__tag">{label}</div>
                 <div className="rank__container">
-                  <div class="wave -one"></div>
-                  <div class="wave -two"></div>
-                  <div class="wave -three"></div>
-                  <div className="ranking">검색 순위 {idx + 1}</div>
-                  <div
-                    className="ranking__tag"
-                    onClick={() => handleSearch(label)}
-                  >
-                    {label}
-                  </div>
+                  <div className="wave -one"></div>
+                  <div className="wave -two"></div>
+                  <div className="wave -three"></div>
                 </div>
               </div>
             );
@@ -108,7 +101,17 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
           </button>
         </div>
       </div>
-
+      <div className="besttags__search-rank">
+        <span className="besttags__search-rank__title">실시간 TOP 10</span>
+        {chartlabel.map((label, idx) => {
+          return (
+            <div key={idx} className="besttags__search-ranks">
+              <div className="besttags__search-rank__idx">{idx + 1}</div>
+              <div className="besttags__search-rank__label">{label} </div>
+            </div>
+          );
+        })}
+      </div>
       <div {...animatedItem} className="besttags__chart">
         <Line
           className="bestChart"

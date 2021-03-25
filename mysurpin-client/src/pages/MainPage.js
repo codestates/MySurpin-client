@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import MainSection from "../components/MainSection";
@@ -8,6 +9,7 @@ import useScrollFadeIn from "../hooks/useScrollFadeIn";
 import useScrollEventListener from "../hooks/useScrollEventListener";
 import { getBestTags, getNewLists } from "../actions/index";
 import { useDispatch } from "react-redux";
+require("dotenv").config();
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -17,14 +19,14 @@ const MainPage = () => {
   let newChartlabel = [];
   let newChartdata = [];
 
-  // 페이지 타이틀
   useEffect(() => {
+    window.scrollTo(0, 0);
     document.title = "My Surpin";
   }, []);
 
   // besttag
   useEffect(() => {
-    fetch(`http://localhost:4000/surpin/bestTags`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/bestTags`)
       .then((res) => res.json())
       .then((data) => {
         dispatch(getBestTags(data));
@@ -41,7 +43,7 @@ const MainPage = () => {
 
   // newlists
   useEffect(() => {
-    fetch(`http://localhost:4000/surpin/newlists`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/newlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +53,6 @@ const MainPage = () => {
       .then((res) => res.json())
       .then((data) => {
         dispatch(getNewLists(data));
-        console.log(data);
       })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,7 +61,6 @@ const MainPage = () => {
   const handleChartdata = useCallback(() => {
     setChartlabel(newChartlabel);
     setChartdata(newChartdata);
-    // setChartdata([12, 19, 3, 5, 2, 3]);
   }, [newChartlabel, newChartdata]);
 
   useEffect(() => {
@@ -87,9 +87,7 @@ const MainPage = () => {
           chartdata={chartdata}
           chartlabel={chartlabel}
         ></BestTagsSection>
-        <NewListsSection
-          animatedItem={useScrollFadeIn("up", 1.5, 0)}
-        ></NewListsSection>
+        <NewListsSection></NewListsSection>
       </ul>
     </div>
   );

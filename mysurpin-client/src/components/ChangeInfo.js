@@ -1,8 +1,10 @@
+/* eslint-disable */
 import React, { useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { userEdit } from "../actions/index";
 import AlertModal from "./AlertModal";
+require("dotenv").config();
 
 const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const history = useHistory();
@@ -78,15 +80,13 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   );
 
   const handleChangeInfo = () => {
-    console.log(user);
     if (user.email === email && password === checkpassword) {
-      console.log("good");
       const payload = JSON.stringify({
         email,
         password,
         nickname,
       });
-      fetch(`http://localhost:4000/user/useredit`, {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/user/useredit`, {
         method: "PATCH",
         headers: {
           authorization: `Bearer ${user.token}`,
@@ -99,18 +99,8 @@ const ChangeInfo = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
         .then((body) => {
           if (body.accessToken) {
             dispatch(userEdit(body.accessToken, email, password, nickname));
-            alert("정보가 변경되었습니다.");
-            history.push({
-              pathname: "/",
-              state: {
-                confirm: "제대로 오니???????????",
-              },
-            });
-            // setAlertModalOpen(true);
-            // setAlertModalComment("회원 정보가 변경되었습니다.");
-            // 리다이렉트 필요. userinfo로 이동해야함. 아마 에러 있는듯.
+            history.push("/");
           } else {
-            // alert("Bad Request");
             setAlertModalOpen(true);
             setAlertModalComment("입력하신 정보가 올바르지 않습니다.");
           }

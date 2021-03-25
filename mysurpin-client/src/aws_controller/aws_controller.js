@@ -213,13 +213,13 @@ const changeSurpinThumbnail = async (route, files) => {
     const folder = splitDataOfLocation.join("/");
 
     const savedFileLocation = await uploadFile(folder, files, filename);
-    return `http://${bucketName}/${savedFileLocation}`;
+    return `https://${bucketName}/${savedFileLocation}`;
   } catch (err) {
     return -2;
   }
 };
 
-module.exports = {
+export {
   getNextFileIndex,
   uploadFile,
   deleteFile,

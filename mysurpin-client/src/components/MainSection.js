@@ -1,9 +1,11 @@
+/* eslint-disable */
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import { useHistory } from "react-router-dom";
 import AlertModal from "./AlertModal";
 import useScrollEventListener from "../hooks/useScrollEventListener";
+require("dotenv").config();
 
 const MainSection = () => {
   const [tag, setTag] = useState("");
@@ -38,7 +40,7 @@ const MainSection = () => {
       pagenumber: 1,
       tag: tag,
     });
-    fetch(`http://localhost:4000/surpin/searchlists`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,39 +49,29 @@ const MainSection = () => {
       body: payload,
     })
       .then((res) => {
-        console.log(res);
         return res;
       })
       .then((res) => res.json())
       .then((body) => {
-        console.log(body.message);
         if (body.message === "Unsufficient info") {
-          // alert("검색어 입력 하세요. (궁서체)");
           setAlertModalOpen(true);
         } else if (body.message === "No surpin with request tag") {
           dispatch(getTagLists({}));
           history.push("/searchpage");
         } else {
-          dispatch(getTagLists(body));
+          dispatch(getTagLists({ ...body, tag }));
           history.push("/searchpage");
         }
       })
       .catch((err) => console.error(err));
   };
 
-  const handleTitleScroll = () => {
-    setShow("scroll-to-top");
-  };
-
   return (
-    <div
-      className="mainSection"
-      {...useScrollEventListener(handleTitleScroll, 1)}
-    >
+    <div className="mainSection">
       <AlertModal
         open={alertModalOpen}
         close={closeModal}
-        comment={"검색어를 제대로 입력하세요."}
+        comment={"검색어를 입력하세요."}
       />
       <div className="main__title">
         <div className={`main__title__text ${show}`}>My Surpin</div>
@@ -94,11 +86,11 @@ const MainSection = () => {
           value={tag}
         ></input>
         <button className="main__search-bar__btn" onClick={handleSearchTag}>
-          검색
+          {" "}
+          <img src="/images/Magnifying Glass.png" alt="" />
         </button>
       </div>
       <video className="video" autoPlay muted loop>
-        {/* <div className="video__shadow"></div> */}
         <source src="/Videos/surf.mp4" type="video/mp4"></source>
       </video>
     </div>

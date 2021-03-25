@@ -7,94 +7,58 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useScrollEventListener from "../hooks/useScrollEventListener";
 import AlertModal from "../components/AlertModal";
+require("dotenv").config();
 
 const SearchPage = () => {
   const searchTagState = useSelector((state) => state.surpinReducer);
   const { searchTagLists } = searchTagState;
   const dispatch = useDispatch();
   const [tag, setTag] = useState([]);
-  const [reqCount, setReqCount] = useState(0);
+  const [newTag, setNewTag] = useState("...");
+  const [newSurpinCount, setNewSurpinCount] = useState(0);
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  // console.log(
-  //   "렌더링",
-  //   "요청가능횟수",
-  //   reqCount,
-  //   "앞으로 요청할 페이지",
-  //   pagenumber
-  // );
-
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
   }, [alertModalOpen]);
 
-  // 최상단으로 이동하는 함수
-  function ScrollToTopOnMount() {
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
-    return null;
-  }
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "SearchPage";
+    window.scrollTo(0, 0);
+    if (searchTagLists) {
+      setNewSurpinCount(searchTagLists.surpinCount);
+      setMergedData(searchTagLists.surpins);
+      setNewTag(searchTagLists.tag);
+      setPagenumber(0);
+    }
   }, []);
-
-  const fetchMoreLists = useCallback(() => {
-    // setFetching(true);
-    console.log(
-      "fetchMore",
-      "요청가능횟수",
-      reqCount,
-      "앞으로 요청할 페이지",
-      pagenumber
-    );
-    // if (Number(reqCount) >= Number(pagenumber)) {
-    console.log("POST 요청감");
-    fetch(`http://localhost:4000/surpin/searchlists`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify({
-        pagenumber: pagenumber,
-        tag: tag,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMergedData(mergedData.concat(data.surpins));
-      });
-    // } else {
-    // console.log("POST 요청 불가");
-    // }
-    setPagenumber((pagenumber) => pagenumber + 1);
-  }, [tag, pagenumber]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    // fetch(`http://localhost:4000/surpin/searchlists`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     credentials: "include",
-    //   },
-    //   body: JSON.stringify({
-    //     pagenumber: pagenumber,
-    //     tag: tag,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setReqCount(parseInt(Number(data.surpinCount) / 5) + 1);
-    //     setPagenumber(pagenumber + 1);
-    //     setMergedData(mergedData.concat(data.surpins));
-    //   });
-  }, []);
+    if (pagenumber < parseInt(newSurpinCount / 10)) {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({
+          pagenumber: pagenumber,
+          tag: tag,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setMergedData(mergedData.concat(data.surpins));
+        });
+    }
+  }, [pagenumber]);
+
+  const fetchMoreLists = () => {
+    // setPagenumber((pagenumber) => pagenumber + 1);
+  };
 
   const onChangeSearchTag = useCallback(
     (e) => {
@@ -112,13 +76,17 @@ const SearchPage = () => {
     [tag]
   );
 
+  const handlepageCount = () => {
+    setPagenumber((pagenumber) => pagenumber + 1);
+    fetchMoreLists();
+  };
+
   const handleSearchBtn = useCallback(() => {
     if (tag.length === 0) {
       setAlertModalOpen(true);
       setAlertModalComment("검색어를 입력하세요.");
     } else {
-      console.log("첫 요청");
-      fetch(`http://localhost:4000/surpin/searchlists`, {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,16 +99,9 @@ const SearchPage = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("총개수", data.surpinCount);
-          console.log(
-            "요청가능횟수",
-            parseInt(Number(data.surpinCount) / 5) + 1
-          );
-          setReqCount(parseInt(Number(data.surpinCount) / 5) + 1);
-          setPagenumber(2);
-          setPagenumber(0);
-          setReqCount(1);
           dispatch(getTagLists(data));
+          setNewTag(tag);
+          setNewSurpinCount(data.surpinCount);
         });
     }
   }, [tag, pagenumber]);
@@ -152,37 +113,39 @@ const SearchPage = () => {
         close={closeModal}
         comment={alertModalComment}
       />
-      <ScrollToTopOnMount />
       <Navbar></Navbar>
       <div className="searchPage">
         <div className="searchbar">
           <input
             className="searchbar__input"
-            placeholder="search for"
+            placeholder="search for..."
             value={tag}
             onKeyPress={onKeyPress}
             onChange={onChangeSearchTag}
           ></input>
-          <button className="sarchbar__button" onClick={handleSearchBtn}>
-            <img src="../../public/images/search.png"></img>
+          <button className="searchbar__button" onClick={handleSearchBtn}>
+            <img src="/images/Magnifying Glass.png" alt=""></img>
           </button>
         </div>
         <div className="searchpage-best-results">
+          <div className="searchpage-result-title">
+            ' {newTag} ' 에 대한 {newSurpinCount} 건의 검색결과
+          </div>
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">
             {searchTagLists.top ? (
-              searchTagLists.top.map((searchTagList) => {
+              searchTagLists.top.map((searchTagList, idx) => {
                 return (
                   <li
                     className="searchpage-best-list"
                     key={searchTagList.surpinId}
                   >
-                    <Surpin surpin={searchTagList}></Surpin>
+                    <Surpin key={idx} surpin={searchTagList}></Surpin>
                   </li>
                 );
               })
             ) : (
-              <li className="searchpage-best-list">검색어 결과가 없습니닷!</li>
+              <li className="searchpage-best-list">검색어 결과가 없습니다.</li>
             )}
           </ul>
         </div>
@@ -190,30 +153,30 @@ const SearchPage = () => {
           <div className="searchpage__all__title">All Surpins</div>
           <div className="searchpage__all__lists">
             <div className="searchpage__all__lists__topbar">
-              <div className="topbar__name">Surpin 이름</div>
-              <div className="topbar__description">요약</div>
-              <div className="topbar__numbOfUrls">URL 개수</div>
-              <div className="topbar__createdAt">생성일</div>
+              <div className="topbar__name">Surpin Name</div>
+              <div className="topbar__description">Description</div>
+              <div className="topbar__numbOfUrls">Writer</div>
+              <div className="topbar__createdAt">Created At</div>
             </div>
 
             <ul
               className="searchpage-all-results__lists"
-              {...useScrollEventListener(fetchMoreLists, 1)}
+              {...useScrollEventListener(handlepageCount, 1)}
             >
               {mergedData ? (
-                mergedData.map((surpin) => {
+                mergedData.map((surpin, idx) => {
                   return (
                     <li
                       className="searchpage-all-result__list"
                       key={surpin.surpinId}
                     >
-                      <SearchResult surpin={surpin}></SearchResult>
+                      <SearchResult key={idx} surpin={surpin}></SearchResult>
                     </li>
                   );
                 })
               ) : (
                 <li className="searchpage-all-result__list">
-                  검색 결과가 없습니닷!
+                  검색 결과가 없습니다.
                 </li>
               )}
             </ul>
