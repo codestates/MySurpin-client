@@ -36,6 +36,11 @@ If you find a place you like while surfing, put a pin on it! And share your own 
 ## Back-end
 ---이미지 추가 필요---
 
+## Work Flow
+
+<img width="716" alt="스크린샷 2021-03-25 오후 3 12 32" src="https://user-images.githubusercontent.com/73514971/112428540-a7783200-8d7e-11eb-9c7b-e705eca12377.png">
+
+
 ## Member Infomation
 
 |**Member**|Role|E-mail|
