@@ -1227,7 +1227,7 @@ li {
     }
     .sidebar__description {
       height: 15%;
-      margin-top: 26px;
+      margin-top: 48px;
       margin-bottom: 16px;
       .description__title {
         font-size: 1rem;
@@ -1309,26 +1309,28 @@ li {
     }
     #sidebar__thumbnail__input {
       position: absolute;
-      top: 85%;
+      top: 42%;
+      left: 24%;
       width: 0.1px;
       height: 0.1px;
-
       overflow: hidden;
       position: absolute;
       z-index: -1;
     }
     label {
       position: absolute;
-      top: 89%;
+      top: 42%;
+      left: 24%;
       width: 80px;
       text-align: center;
       height: 20px;
-      border: 1px solid $main;
+      border: 1px solid $border;
       border-radius: 4px;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 0.7rem;
       outline: none;
       &:hover {
+        transition: all 0.7s ease;
         cursor: pointer;
         background-color: $main;
         color: $dark;
@@ -1401,11 +1403,12 @@ li {
           padding: 0px 24px;
           &:hover {
             div {
-              color: $dark;
+              color: #8ab5f7;
             }
-            transform: scale(1.01);
+            transform: scale(1.01, 1.1);
             transition: 0.5s ease all;
-            background-color: $main;
+            background-color: rgba(202, 202, 202, 0.1);
+            border: none;
           }
         }
         .urlList__delete-btn {
