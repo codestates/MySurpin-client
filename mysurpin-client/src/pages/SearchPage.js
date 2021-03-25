@@ -21,8 +21,6 @@ const SearchPage = () => {
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  console.log(searchTagLists.label);
-
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
   }, [alertModalOpen]);

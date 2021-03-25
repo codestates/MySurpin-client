@@ -4,7 +4,7 @@ import UrlList from "../components/UrlList";
 import Tag from "../components/Tag";
 import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getShowSurpin } from "../actions/index";
+import { getShowSurpin, getTagLists } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
 require("dotenv").config();
@@ -19,7 +19,7 @@ const SurpinModal = ({ location }) => {
   const {
     user: { nickname, token, email },
   } = userState;
-  const { showSurpin } = surpinState;
+  const { showSurpin, searchTagLists } = surpinState;
 
   const moveToUrl = useRef();
 
@@ -292,9 +292,37 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          setAlertModalOpen(true);
-          setAlertModalComment("삭제 완료");
-          history.goBack();
+          // setAlertModalOpen(true);
+          // setAlertModalComment("삭제 완료");
+          // searchTagLists
+          const payload = JSON.stringify({
+            pagenumber: 1,
+            tag: searchTagLists.tag,
+          });
+          fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              credentials: "include",
+            },
+            body: payload,
+          })
+            .then((res) => {
+              return res;
+            })
+            .then((res) => res.json())
+            .then((body) => {
+              if (body.message === "Unsufficient info") {
+                setAlertModalOpen(true);
+              } else if (body.message === "No surpin with request tag") {
+                dispatch(getTagLists({}));
+                history.push("/searchpage");
+              } else {
+                dispatch(getTagLists({ ...body, tag: searchTagLists.tag }));
+                history.push("/searchpage");
+              }
+            })
+            .catch((err) => console.error(err));
         } else {
           setAlertModalOpen(true);
           setAlertModalComment("삭제 실패");
@@ -493,9 +521,6 @@ const SurpinModal = ({ location }) => {
                       key={idx}
                       name={urlinfo.name}
                       url={urlinfo.url}
-                      onClick={() => {
-                        window.open(urlinfo.url);
-                      }}
                     ></UrlList>
                     {editmode ? (
                       <button
