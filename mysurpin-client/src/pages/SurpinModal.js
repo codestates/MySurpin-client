@@ -201,6 +201,7 @@ const SurpinModal = ({ location }) => {
       desc,
       tags: newTags,
       urls: newUrls,
+      listId: surpinId,
     };
 
     fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/createmysurpin`, {

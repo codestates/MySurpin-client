@@ -218,6 +218,7 @@ li {
     .main__search-bar {
       margin-left: 10%;
       border: 2px solid rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.05);
       height: 5.4vh;
       width: 30%;
       border-radius: 3vh;
@@ -1037,8 +1038,6 @@ li {
       color: $main;
       margin-bottom: 36px;
     }
-    .withdrawal__img {
-    }
     .withdrawal-form {
       display: flex;
       flex-direction: column;
@@ -1388,7 +1387,7 @@ li {
       display: flex;
       flex-direction: column;
       align-items: center;
-      li {
+      .surpinModal__url-list {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -1406,6 +1405,7 @@ li {
           }
         }
         .urlList__delete-btn {
+          z-index: 4;
           font-family: "Poppin";
           position: relative;
           font-weight: 600;
