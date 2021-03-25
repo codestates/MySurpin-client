@@ -1405,7 +1405,6 @@ li {
           }
         }
         .urlList__delete-btn {
-          z-index: 4;
           font-family: "Poppin";
           position: relative;
           font-weight: 600;
@@ -1416,10 +1415,6 @@ li {
           &:hover {
             transform: scale(1.01);
             color: rgba(255, 255, 255, 0.7);
-          }
-          img {
-            width: 20px;
-            pointer-events: none;
           }
         }
       }
