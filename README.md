@@ -1,5 +1,5 @@
 # My Surpin🌊
-<img width="953" alt="스크린샷 2021-03-25 오후 1 45 26" src="https://user-images.githubusercontent.com/73514971/112420324-5d884f80-8d70-11eb-9bc2-7c5946425439.png">
+<img width="850" alt="스크린샷 2021-03-25 오후 1 45 26" src="https://user-images.githubusercontent.com/73514971/112420324-5d884f80-8d70-11eb-9bc2-7c5946425439.png">
 
 ##
 
@@ -32,13 +32,13 @@ IM 26기 4명이 모인 👩‍💻👨‍💻👨‍💻👨‍💻 be-Dev 입�
 
 ## 🔧 사용 스택 및 스택 아키텍처
 
-<img width="988" alt="스크린샷 2021-03-25 오후 1 46 55" src="https://user-images.githubusercontent.com/73514971/112420466-97595600-8d70-11eb-8b4a-709a0c43e16e.png">
+<img width="850" alt="스크린샷 2021-03-25 오후 1 46 55" src="https://user-images.githubusercontent.com/73514971/112420466-97595600-8d70-11eb-8b4a-709a0c43e16e.png">
 
 ## Front-end
 <img width="850" alt="스크린샷 2021-03-25 오후 3 43 02" src="https://user-images.githubusercontent.com/73514971/112430698-d93ec800-8d81-11eb-8488-930656f9b35e.png">
 
 ## Back-end
-<img width="634" alt="스크린샷 2021-03-25 오후 3 39 45" src="https://user-images.githubusercontent.com/73514971/112430933-291d8f00-8d82-11eb-85d2-506586feed57.png">
+<img width="850" alt="스크린샷 2021-03-25 오후 3 39 45" src="https://user-images.githubusercontent.com/73514971/112430933-291d8f00-8d82-11eb-85d2-506586feed57.png">
 
 ## Member Infomation
 
