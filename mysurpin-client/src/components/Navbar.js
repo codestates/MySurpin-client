@@ -16,6 +16,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
   const dispatch = useDispatch();
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
+  const [showBtns, setShowBtns] = useState("hidden");
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -109,7 +110,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
         comment={alertModalComment}
       />
       <Link to="/">
-        <img className="navbar__logo-img" src="/images/loupe.png" alt="" />
+        <img className="navbar__logo-img" src="/images/mysurpin.png" alt="" />
       </Link>
       <div className="navbar__utils">
         {history.location.pathname !== "/" ? (
@@ -132,26 +133,37 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           </div>
         )}
         {token ? (
-          <div className="navbar__btns">
-            <button
-              className={`navbar__btn ${isSignPage}`}
-              onClick={handleMySurpinBtn}
-            >
-              My Surpin
-            </button>
-            <button
-              className={`navbar__btn ${isSignPage}`}
-              onClick={handleEditProfileBtn}
-            >
-              Edit Profile
-            </button>
-            <button
-              className={`navbar__btn ${isSignPage}`}
-              onClick={handleLogOutBtn}
-            >
-              LOG OUT
-            </button>
-          </div>
+          <>
+            <div className="navbar__btns">
+              <button
+                className="navbar__btn__show-all"
+                onClick={() => {
+                  if (showBtns === "") setShowBtns("hidden");
+                  else setShowBtns("");
+                }}
+              >
+                My Info
+              </button>
+              <button
+                className={`navbar__btn ${isSignPage} ${showBtns}`}
+                onClick={handleMySurpinBtn}
+              >
+                My Surpin
+              </button>
+              <button
+                className={`navbar__btn ${isSignPage} ${showBtns}`}
+                onClick={handleEditProfileBtn}
+              >
+                Edit Profile
+              </button>
+              <button
+                className={`navbar__btn ${isSignPage} ${showBtns}`}
+                onClick={handleLogOutBtn}
+              >
+                LOG OUT
+              </button>
+            </div>
+          </>
         ) : (
           <Link className={`navbar__btn ${isSignPage}`} to="/signpage">
             <button className="navbar__btn">LOG IN / SIGN UP</button>

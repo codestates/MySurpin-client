@@ -49,7 +49,10 @@ const MainPage = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => dispatch(getNewLists(data)))
+      .then((data) => {
+        dispatch(getNewLists(data));
+        console.log(data);
+      })
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

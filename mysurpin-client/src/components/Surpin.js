@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Surpin = ({ surpin }) => {
-  const {
+  let {
     surpinId,
     title,
     desc,
@@ -21,7 +21,7 @@ const Surpin = ({ surpin }) => {
         <div className="surpin-title">
           {title}
           <ul className="list__tags">
-            {tags ? (
+            {tags.length ? (
               tags.map((tag) => <li className="list__tag">{`#${tag}`}</li>)
             ) : (
               <li />
@@ -33,7 +33,7 @@ const Surpin = ({ surpin }) => {
         <div
           className="surpin__img"
           style={{
-            backgroundImage: `url(https://ca.slack-edge.com/TR5603XSB-U01GVG58R5W-00ded8765867-512)`,
+            backgroundImage: `url(${thumbnail})`,
             backgroundSize: `cover`,
           }}
         ></div>

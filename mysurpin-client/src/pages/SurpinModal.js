@@ -7,6 +7,8 @@ import { getShowSurpin } from "../actions/index";
 import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
 
+const awsController = require("../aws_controller/aws_controller");
+
 const SurpinModal = ({ location }) => {
   const history = useHistory();
   const { listId } = useParams();
@@ -33,7 +35,7 @@ const SurpinModal = ({ location }) => {
     writer: nickname,
     desc: "no description",
     tags: [],
-    thumbnail: "thumbnail",
+    thumbnail: "",
     created_At: "",
     modified_At: "",
   };
@@ -41,32 +43,34 @@ const SurpinModal = ({ location }) => {
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
   const [newDesc, setNewDesc] = useState(desc);
-  const [newTags, setNewTags] = useState([]);
+  const [newTags, setNewTags] = useState(tags);
   const [newUrls, setNewUrls] = useState([]);
   const [newExistTags, setNewExistTags] = useState(["tag"]);
+  const [newThumbnail, setNewThumbnail] = useState(
+    `https://source.unsplash.com/random?${Math.floor(
+      Math.random() * 100
+    )}/1600x900?blue,water`
+  );
 
   const [inputListname, setInputListname] = useState("");
   const [inputDesc, setInputDesc] = useState("");
   const [inputTag, setInputTag] = useState("");
   const [inputUrlname, setInputUrlname] = useState();
   const [inputUrl, setInputUrl] = useState("");
+  // const [inputThumbnail, setInputThumbnail] = useState("");
 
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
-
   const closeModal = () => {
     setAlertModalOpen(false);
   };
 
   useCheckToken([editmode]);
 
-  // 페이지 타이틀
   useEffect(() => {
     document.title = "Surpin Modal";
-  }, []);
-
-  useEffect(() => {
-    if (listId === nickname) {
+    if (!location.surpin) {
+      console.log("edit mode on");
       setEditMode(true);
     }
   });
@@ -109,6 +113,16 @@ const SurpinModal = ({ location }) => {
       .catch((err) => console.log(err));
   }, []);
 
+  const setInputThumbnail = () => {
+    if (
+      document.querySelector("#sidebar__thumbnail__input").files[0].size >
+      20 * 1024 * 8
+    ) {
+      setAlertModalOpen(true);
+      setAlertModalComment("20MB 이하의 파일만 등록가능합니다.");
+    }
+  };
+
   const handleInputTagBtn = () => {
     setNewTags([...newTags, inputTag]);
   };
@@ -134,15 +148,26 @@ const SurpinModal = ({ location }) => {
     }
   };
 
-  const createSurpin = () => {
+  const createSurpin = async (listname, desc) => {
     setEditMode(!editmode);
+    // aws s3 request
+    let thumbnail = newThumbnail;
+    if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
+      thumbnail = await awsController.uploadSurpinThumbnail(
+        email,
+        document.querySelector("#sidebar__thumbnail__input").files
+      );
+    }
+
     const newSurpinState = {
-      thumbnail: "thumbnail",
-      desc: newDesc,
+      thumbnail,
+      listname,
+      desc,
       tags: newTags,
       urls: newUrls,
-      listname: newListname,
     };
+
+    //mysurpin server request
     fetch(`http://localhost:4000/surpin/createmysurpin`, {
       method: "POST",
       headers: {
@@ -157,7 +182,6 @@ const SurpinModal = ({ location }) => {
         if (body.message === "done") {
           setAlertModalOpen(true);
           setAlertModalComment("생성 완료");
-          // alert("생성 완료");
         } else {
           setAlertModalOpen(true);
           setAlertModalComment("생성 실패");
@@ -166,11 +190,29 @@ const SurpinModal = ({ location }) => {
       .catch((err) => console.log(err));
   };
 
-  const editSurpin = (desc, listname) => {
+  const editSurpin = async (listname, desc) => {
     setEditMode(!editmode);
 
+    let changeThumbnail = newThumbnail;
+
+    if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
+      if (thumbnail.split("/")[2] === "photo.mysurpin.com") {
+        changeThumbnail = await awsController.changeSurpinThumbnail(
+          thumbnail,
+          document.querySelector("#sidebar__thumbnail__input").files
+        );
+        console.log("changed", changeThumbnail);
+      } else {
+        changeThumbnail = await awsController.uploadSurpinThumbnail(
+          email,
+          document.querySelector("#sidebar__thumbnail__input").files
+        );
+        console.log("created", changeThumbnail);
+      }
+    }
+
     const newSurpinState = {
-      thumbnail: "thumbnail",
+      thumbnail: changeThumbnail,
       listname,
       desc,
       tags: newTags,
@@ -191,9 +233,7 @@ const SurpinModal = ({ location }) => {
         if (body.message === "edit done!") {
           setAlertModalOpen(true);
           setAlertModalComment("수정 완료");
-          // alert("수정 완료");
         } else {
-          // alert("정보 부족");
           setAlertModalOpen(true);
           setAlertModalComment("정보 부족");
         }
@@ -214,12 +254,10 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          // alert("삭제 완료");
           setAlertModalOpen(true);
           setAlertModalComment("삭제 완료");
           history.goBack();
         } else {
-          // alert("삭제 실패");
           setAlertModalOpen(true);
           setAlertModalComment("삭제 실패");
         }
@@ -231,8 +269,9 @@ const SurpinModal = ({ location }) => {
     setEditMode(false);
     setNewListname(inputListname);
     setNewDesc(inputDesc);
-    if (!location.surpin || writer !== nickname) createSurpin();
-    else editSurpin(inputDesc, inputListname);
+    if (!location.surpin || writer !== nickname) {
+      createSurpin(inputListname, inputDesc);
+    } else editSurpin(inputListname, inputDesc);
   };
 
   const handleDeleteTag = (e) => {
@@ -263,7 +302,13 @@ const SurpinModal = ({ location }) => {
         {"<"}
       </button>
       <section className="surpinModal__sidebar">
-        <div className="sidebar__listinfo__thumbnail">
+        <div
+          className="sidebar__listinfo__thumbnail"
+          style={{
+            backgroundImage: `url(${thumbnail})`,
+            backgroundSize: `cover`,
+          }}
+        >
           {editmode ? (
             <input
               className="sidebar__listinfo__title"
@@ -356,7 +401,11 @@ const SurpinModal = ({ location }) => {
         {editmode ? (
           <>
             <label for="sidebar__thumbnail__input">썸네일 등록</label>
-            <input type="file" id="sidebar__thumbnail__input" />
+            <input
+              type="file"
+              id="sidebar__thumbnail__input"
+              onChange={setInputThumbnail}
+            ></input>
           </>
         ) : (
           <></>
@@ -372,7 +421,7 @@ const SurpinModal = ({ location }) => {
               onClick={() => setEditMode(!editmode)}
             >
               <img src="" alt="" />
-              내서핀 편집
+              {editmode ? "EDIT DONE" : "EDIT MODE"}
             </button>
           ) : (
             // 남의 서핀일때 - 새로운 서핀 생성
@@ -391,25 +440,27 @@ const SurpinModal = ({ location }) => {
         </div>
         <div className="surpinModal__show-contents">
           <ul className="surpinModal__url-lists">
-            {newUrls.length > 0
-              ? newUrls.map((urlinfo) => {
-                  return (
-                    <li className="surpinModal__url-list">
-                      <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
-                      {editmode ? (
-                        <button
-                          className="urlList__delete-btn"
-                          onClick={handleDeleteUrl}
-                        >
-                          X
-                        </button>
-                      ) : (
-                        <></>
-                      )}
-                    </li>
-                  );
-                })
-              : console.log("no urls")}
+            {newUrls.length > 0 ? (
+              newUrls.map((urlinfo) => {
+                return (
+                  <li className="surpinModal__url-list">
+                    <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
+                    {editmode ? (
+                      <button
+                        className="urlList__delete-btn"
+                        onClick={handleDeleteUrl}
+                      >
+                        X
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                  </li>
+                );
+              })
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
         {editmode ? (
@@ -438,7 +489,7 @@ const SurpinModal = ({ location }) => {
         {editmode ? (
           <>
             <div className="surpinModal__revise-btn__wrapper">
-              {writer === nickname ? (
+              {writer === nickname && location.surpin ? (
                 <button
                   className="surpinModal__revise-btn"
                   onClick={handleSaveSurpin}
@@ -453,7 +504,7 @@ const SurpinModal = ({ location }) => {
                   내 서핀에 추가
                 </button>
               )}
-              {writer === nickname ? (
+              {writer === nickname && location.surpin ? (
                 <button
                   className="surpinModal__revise-btn"
                   onClick={handleRemoveSurpin}

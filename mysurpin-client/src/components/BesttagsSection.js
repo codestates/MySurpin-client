@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Line } from "@reactchartjs/react-chart.js";
+import { useHistory } from "react-router-dom";
 const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { tags } = state;
   const [gradient, setGradient] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideRef = useRef(null);
+  const total_slides = chartlabel.length - 1;
+  const history = useHistory();
+
   useEffect(() => {
     var ctx = document.getElementById("myChart").getContext("2d");
     var gradient = ctx.createLinearGradient(200, 100, 300, 500);
@@ -13,23 +19,96 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
     gradient.addColorStop(1, "rgba(138, 181, 247, 0)");
     setGradient(gradient);
   }, []);
+
+  useEffect(() => {
+    slideRef.current.style.transition = "all 1s ease-in-out";
+    slideRef.current.style.transform = `translateX(-${currentSlide}0%)`;
+  }, [currentSlide]);
+
+  const nextSlide = () => {
+    console.log(slideRef);
+    if (currentSlide >= total_slides) {
+      setCurrentSlide(0);
+    } else {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentSlide === 0) {
+      setCurrentSlide(total_slides);
+    } else {
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
+
+  const handleSearch = (label) => {
+    console.log("확인~!");
+    const payload = JSON.stringify({
+      pagenumber: 1,
+      tag: label, // 클릭한 div안의 내용
+    });
+    fetch(`http://localhost:4000/surpin/searchlists`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+      body: payload,
+    })
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .then((res) => res.json())
+      .then((body) => {
+        console.log(body.message);
+
+        if (body.message === "No surpin with request tag") {
+          history.push("/searchpage");
+        } else {
+          history.push("/searchpage");
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Best Tags</div>
       <div className="besttags__rank">
-        <button>{"<"}</button>
-        <ul className="besttags__rank__elements">
+        <div className="besttags__rank__elements" ref={slideRef}>
           {chartlabel.map((label, idx) => {
             return (
-              <li className="besttags__rank__element" key={idx}>
-                <div>{`${idx + 1}등`}</div>
-                <div>{label}</div>
-              </li>
+              <div className="besttags__rank__element" key={idx}>
+                <div className="rank__container">
+                  <div class="wave -one"></div>
+                  <div class="wave -two"></div>
+                  <div class="wave -three"></div>
+                  <div className="ranking">검색 순위 {idx + 1}</div>
+                  <div
+                    className="ranking__tag"
+                    onClick={() => handleSearch(label)}
+                  >
+                    {label}
+                  </div>
+                </div>
+              </div>
             );
           })}
-        </ul>
-        <button>{">"}</button>
+        </div>
+        <div className="besttags__btn__left">
+          <button className="left" onClick={prevSlide}>
+            {"<"}
+          </button>
+        </div>
+        <div className="besttags__btn__right">
+          <button className="right" onClick={nextSlide}>
+            {">"}
+          </button>
+        </div>
       </div>
+
       <div {...animatedItem} className="besttags__chart">
         <Line
           className="bestChart"
