@@ -61,7 +61,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
       })
       .then((res) => res.json())
       .then((body) => {
-        dispatch(getTagLists(body));
+        dispatch(getTagLists({ ...body, label }));
         history.push("/searchpage");
       })
       .catch((err) => console.error(err));
@@ -105,7 +105,11 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
         <span className="besttags__search-rank__title">실시간 TOP 10</span>
         {chartlabel.map((label, idx) => {
           return (
-            <div key={idx} className="besttags__search-ranks">
+            <div
+              key={idx}
+              className="besttags__search-ranks"
+              onClick={() => handleSearch(label)}
+            >
               <div className="besttags__search-rank__idx">{idx + 1}</div>
               <div className="besttags__search-rank__label">{label} </div>
             </div>

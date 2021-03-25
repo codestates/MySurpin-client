@@ -14,12 +14,14 @@ const SearchPage = () => {
   const { searchTagLists } = searchTagState;
   const dispatch = useDispatch();
   const [tag, setTag] = useState([]);
-  const [newTag, setNewTag] = useState("...");
+  const [newTag, setNewTag] = useState(searchTagLists.label || "...");
   const [newSurpinCount, setNewSurpinCount] = useState(0);
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
+
+  console.log(searchTagLists.label);
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -56,10 +58,6 @@ const SearchPage = () => {
     }
   }, [pagenumber]);
 
-  const fetchMoreLists = () => {
-    // setPagenumber((pagenumber) => pagenumber + 1);
-  };
-
   const onChangeSearchTag = useCallback(
     (e) => {
       setTag(e.target.value);
@@ -78,7 +76,6 @@ const SearchPage = () => {
 
   const handlepageCount = () => {
     setPagenumber((pagenumber) => pagenumber + 1);
-    fetchMoreLists();
   };
 
   const handleSearchBtn = useCallback(() => {
@@ -129,7 +126,8 @@ const SearchPage = () => {
         </div>
         <div className="searchpage-best-results">
           <div className="searchpage-result-title">
-            ' {newTag} ' 에 대한 {newSurpinCount} 건의 검색결과
+            ' {searchTagLists.label || newTag} ' 에 대한 {newSurpinCount} 건의
+            검색결과
           </div>
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">

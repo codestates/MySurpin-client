@@ -7,6 +7,8 @@ const NewListsSection = ({ animatedItem }) => {
   const state = useSelector((state) => state.surpinReducer);
   const { newLists } = state;
 
+  console.log("newList", newLists);
+
   return (
     <div className="newListsSection" {...animatedItem}>
       <div className="newlists__title">New Surpins</div>
