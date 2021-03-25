@@ -78,7 +78,6 @@ const SurpinModal = ({ location }) => {
   useEffect(() => {
     setEditMode(false);
     if (!location || !location.surpin) {
-      setEditMode(true);
       fetch(
         `${process.env.REACT_APP_SERVER_URL}/surpin/showsurpin?listId=${listId}`,
         {
