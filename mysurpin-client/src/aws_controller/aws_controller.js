@@ -185,7 +185,7 @@ const uploadSurpinThumbnail = async (email, files) => {
     const filename = await getNextFileIndex(email);
 
     const savedFileLocation = await uploadFile(email, files, filename);
-    return `http://${bucketName}/${savedFileLocation}`;
+    return `https://${bucketName}/${savedFileLocation}`;
   } catch (err) {
     return -2;
   }

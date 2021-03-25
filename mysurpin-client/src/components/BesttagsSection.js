@@ -61,9 +61,13 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
       })
       .then((res) => res.json())
       .then((body) => {
-        dispatch(getTagLists({ ...body, label }));
-        history.push("/searchpage");
+        dispatch(getTagLists(body));
+        history.push({
+          pathname: "/searchpage",
+          state: { searchTag: label },
+        });
       })
+
       .catch((err) => console.error(err));
   };
 
