@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
@@ -58,7 +59,7 @@ const MainSection = () => {
           dispatch(getTagLists({}));
           history.push("/searchpage");
         } else {
-          dispatch(getTagLists(body));
+          dispatch(getTagLists({ ...body, tag }));
           history.push("/searchpage");
         }
       })
@@ -85,7 +86,8 @@ const MainSection = () => {
           value={tag}
         ></input>
         <button className="main__search-bar__btn" onClick={handleSearchTag}>
-          검색
+          {" "}
+          <img src="/images/Magnifying Glass.png" alt="" />
         </button>
       </div>
       <video className="video" autoPlay muted loop>

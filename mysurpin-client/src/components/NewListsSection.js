@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from "react";
 import Surpin from "../components/Surpin";
 import { useSelector, useDispatch } from "react-redux";

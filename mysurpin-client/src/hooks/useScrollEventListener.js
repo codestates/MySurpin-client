@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useRef, useEffect, useCallback } from "react";
 
 const useScrollEventListener = (func, threshold, style) => {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useCallback, useState, useEffect } from "react";
 import ChangeInfo from "../components/ChangeInfo";
 import Withdrawal from "../components/Withdrawal";

@@ -4,7 +4,7 @@ $signpage: #242830;
 $medium: rgb(53, 53, 59);
 $dark: #202225;
 $main: #8ab5f7;
-$border: #8ab5f7;
+$border: #8ab6f78e;
 
 html,
 body {
@@ -75,7 +75,7 @@ li {
   align-items: center;
   justify-content: space-between;
   width: 95vw;
-  height: 8%;
+  height: 10%;
   min-height: 60px;
   z-index: 3;
   .navbar__logo-img {
@@ -89,6 +89,8 @@ li {
     height: 100%;
     align-items: center;
     .navbar__searchbar {
+      display: flex;
+      align-items: center;
       margin-right: 8px;
       background-color: $medium;
       width: 300px;
@@ -96,26 +98,24 @@ li {
       padding: 4px 10px;
       border-radius: 3px;
       transition: 1s all ease;
+      background-color: rgba(238, 238, 238, 0.1);
       input {
         width: 80%;
         margin-left: 20px;
-        background-color: rgba(0, 0, 0, 0);
       }
       img {
-        width: 20px;
-        height: 20px;
+        height: 22px;
       }
     }
     .navbar__btn__show-all {
       font-weight: 800;
-      color: $dark;
+      color: rgba(238, 238, 238, 0.8);
       width: 120px;
       height: 36px;
       border-radius: 3px;
       padding: 7px;
       position: relative;
       overflow: hidden;
-      transform: translate3d(0, 0, 0);
       &::after {
         content: "";
         display: block;
@@ -124,33 +124,6 @@ li {
         width: 100%;
         height: 100%;
         z-index: 11;
-        transform: translate3d(0, 0, 0);
-      }
-
-      .wave {
-        z-index: -1;
-        opacity: 0.4;
-        position: absolute;
-        top: 3%;
-        left: 50%;
-        background: #8ab6f773;
-        width: 250px;
-        height: 250px;
-        margin-left: -120px;
-        margin-top: 15px;
-        transform-origin: 50% 48%;
-        border-radius: 43%;
-        animation: drift 5s infinite linear;
-      }
-
-      .wave.-three {
-        z-index: -1;
-        animation: drift 7s infinite linear;
-      }
-
-      .wave.-two {
-        animation: drift 10s infinite linear;
-        opacity: 0.1;
       }
     }
     @keyframes drift {
@@ -244,20 +217,26 @@ li {
 
     .main__search-bar {
       margin-left: 10%;
-      border: 1px solid #fff;
-      height: 36px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      height: 5.4vh;
       width: 30%;
-      border-radius: 18px;
+      border-radius: 3vh;
       margin-top: 20px;
       display: flex;
-      input {
+      justify-content: space-between;
+      .main__search-bar__input {
         background-color: rgba(0, 0, 0, 0);
         margin-left: 16px;
         width: 80%;
         &::placeholder {
-          color: rgba(238, 238, 238, 0.7);
+          color: rgba(238, 238, 238, 0.6);
           font-size: 12px;
         }
+      }
+      .main__search-bar__btn img {
+        width: 26px;
+        height: 26px;
+        margin-right: 24px;
       }
     }
     .video {
@@ -274,74 +253,72 @@ li {
     flex-direction: column;
     align-items: center;
     .besttags__title {
+      margin-top: 12vh;
       color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 24px;
+      margin-bottom: 7vh;
       width: 80vw;
-      font-size: 1.4rem;
+      font-size: 2rem;
       font-family: "Poppin";
       font-weight: 700;
     }
     .besttags__chart {
+      padding: 0vw 5vw;
       margin-right: 36vw;
-      border: 1px solid #fff;
-      width: 50vw;
-      height: 70vh;
+      width: 36vw;
+      height: 62vh;
       background-color: #242830;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 4px;
       .bestChart {
-        transform: scale(0.8);
+        transform: scale(0.6);
       }
     }
+
     .besttags__rank {
       display: flex;
-      // justify-content: space-between;
       color: #fff;
-      // overflow: hidden;
-      // align-items: center;
       position: absolute;
-      margin-left: 50vw;
-      margin-top: 30vh;
-      width: 30vw;
-      height: 40vh;
-      // border: 1px solid #fff;
+      margin-left: 44vw;
+      margin-top: 24vh;
+      width: 22vw;
+      height: 21vh;
       overflow: hidden;
       .besttags__btn__right {
         position: absolute;
         width: 20%;
         height: 50%;
-        margin-left: 24vw;
+        margin-left: 17.5vw;
         text-align: center;
         border-radius: 12px;
         button {
-          margin-top: 8vh;
+          margin-top: 3.5vh;
           font-size: 30px;
-          color: lighten(($dark), 10%);
+          color: rgba(255, 255, 255, 0.3);
           cursor: pointer;
           &:hover {
-            color: #fff;
+            color: rgba(255, 255, 255, 0.7);
             transform: scale(1.3);
-            transition: all 1.5s ease;
+            transition: all 1s ease;
           }
         }
       }
       .besttags__btn__left {
         position: absolute;
         width: 20%;
-        height: 50%;
+        height: 100%;
         text-align: center;
         border-radius: 12px;
         button {
-          margin-top: 8vh;
+          margin-top: 3.5vh;
           font-size: 30px;
-          color: lighten(($dark), 10%);
+          color: rgba(255, 255, 255, 0.3);
           cursor: pointer;
           &:hover {
-            color: #fff;
+            color: rgba(255, 255, 255, 0.7);
             transform: scale(1.3);
-            transition: all 1.5s ease;
+            transition: all 1s ease;
           }
         }
       }
@@ -350,16 +327,15 @@ li {
         flex-wrap: nowrap;
         width: 300vw;
         height: 50%;
-        // pointer-events: none;
         border-radius: 12px;
         .besttags__rank__element {
           display: inline-block;
-          width: 30vw;
+          width: 22vw;
           height: 100%;
           text-align: center;
-          border-radius: 12px;
+          border-radius: 4px;
           position: relative;
-          background: lighten(($dark), 10%);
+          background-color: #242830;
           position: relative;
           overflow: hidden;
           transform: translate3d(0, 0, 0);
@@ -394,20 +370,21 @@ li {
             justify-content: center;
           }
           .ranking {
-            height: 20%;
-            font-size: 0.8rem;
+            color: #828692;
+            font-size: 0.9rem;
             font-family: "Poppin";
+            font-weight: 600;
             display: block;
-            color: #fff;
-            padding-top: 5%;
+            color: rgba(255, 255, 255, 0.74);
+            padding-top: 6.5%;
+            margin-bottom: 8px;
             background-color: rgba(0, 0, 0, 0);
           }
           .ranking__tag {
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-family: "Poppin";
             font-weight: 700;
-            padding-top: 5vh;
             display: inline-block;
             background-color: rgba(0, 0, 0, 0);
             color: rgba(255, 255, 255, 0.7);
@@ -415,6 +392,56 @@ li {
             vertical-align: center;
             border-radius: 12px;
             z-index: 100;
+          }
+        }
+      }
+    }
+    .besttags__search-rank {
+      position: absolute;
+      margin-left: 44vw;
+      margin-top: 36vh;
+      padding: 20px;
+      perspective: 1000px;
+      overflow-y: auto;
+
+      .besttags__search-rank__title {
+        position: sticky;
+        font-size: 1.1rem;
+        font-weight: 800;
+        font-family: "Poppin";
+        color: rgba(255, 255, 255, 0.7);
+        padding-bottom: 20px;
+      }
+      .besttags__search-ranks {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        margin-top: 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 18vw;
+        border-radius: 3px;
+        &:hover {
+          background-color: #8ab6f77a;
+          color: $dark;
+          cursor: pointer;
+          transform: scale(1.02, 1.05);
+          transition: 1s all ease;
+        }
+        .besttags__search-rank__idx {
+          margin-left: 1.2rem;
+          font-size: 0.9rem;
+          font-weight: 700;
+          font-family: "Poppin";
+          color: rgba(255, 255, 255, 0.6);
+        }
+        .besttags__search-rank__label {
+          margin-left: 1.2rem;
+          font-size: 0.9rem;
+          font-weight: 400;
+          font-family: "Poppin";
+          color: rgba(255, 255, 255, 0.6);
+          &:hover {
+            border-bottom: 1px solid rgba(238, 238, 238, 0.2);
           }
         }
       }
@@ -428,13 +455,14 @@ li {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden;
     margin-bottom: 20vh;
     .newlists__title {
+      margin-top: 12vh;
       width: 85vw;
       font-family: "Poppin";
       font-weight: 700;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       color: rgba(255, 255, 255, 0.8);
       margin-bottom: 36px;
     }
@@ -443,18 +471,16 @@ li {
       position: relative;
       left: 550px;
       width: 140vw;
-      height: 320px;
+      height: 40vh;
       padding: 48px -10px;
-      margin-top: 16px;
       display: flex;
-      overflow-x: scroll;
       margin-left: 2px;
     }
     .newlists__lists_first {
-      animation: move-to-right 20s linear infinite;
+      animation: move-to-right 25s linear infinite;
     }
     .newlists__lists_second {
-      animation: move-to-left 20s linear infinite;
+      animation: move-to-left 25s linear infinite;
     }
     .newlists__list {
       margin-bottom: 16px;
@@ -472,7 +498,7 @@ li {
     left: -150px;
   }
   50% {
-    left: 350px;
+    left: 700px;
   }
   100% {
     left: -150px;
@@ -481,13 +507,13 @@ li {
 
 @keyframes move-to-left {
   0% {
-    left: 350px;
+    left: 700px;
   }
   50% {
     left: -150px;
   }
   100% {
-    left: 350px;
+    left: 700px;
   }
 }
 
@@ -524,6 +550,11 @@ li {
       font-weight: 600;
       font-family: "Poppin";
       margin-bottom: 20px;
+    }
+    .searchpage-result-title {
+      font-size: 0.9rem;
+      color: #828692;
+      margin-bottom: 0.8rem;
     }
     .searchpage-best-lists {
       padding: 24px 12px;
@@ -868,7 +899,10 @@ li {
       }
     }
     .signup__message {
-      background-color: rgba(255, 255, 255, 0.8);
+      color: #24283079;
+      font-family: "Poppin";
+      font-weight: 600;
+      margin-top: 20px;
     }
   }
 }
@@ -1038,32 +1072,61 @@ li {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 60px;
-  left: 60px;
-  font-size: 30px;
-  font-weight: 700;
+  top: 12vh;
+  left: 12vh;
+  .surpinLists__title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    position: static;
+    color: rgba(238, 238, 238, 0.9);
+    margin-bottom: 2rem;
+  }
+
   .surpinlists__tags {
-    margin: 16px 0;
+    margin: 1.4rem 0.3rem;
     font-size: 20px;
+
+    .surpinlists__tags__title {
+      color: rgba(238, 238, 238, 0.6);
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding-bottom: 1rem;
+      width: 80vw;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
     .surpinlists__tags__tags {
       margin-top: 20px;
       display: flex;
       .surpinlist__tags__tag .tag {
+        font-size: 0.9rem;
+        color: rgba(238, 238, 238, 0.6);
+        border-radius: 0;
         font-weight: 400;
-        margin-right: 6px;
+        margin-right: 2px;
+        padding: 4px 10px;
+        border: none;
+        // border: 1px solid rgba(0, 0, 0, 2);
         &:hover {
-          border: 1px solid rgba(0, 0, 0, 0);
-          background-color: $main;
-          color: #fff;
+          border: none;
+          font-weight: 600;
+          border-bottom: #8ab5f7 2px solid;
+          // background-color: $main;
+          color: #8ab5f7;
+          // color: rgba(255, 255, 255, 0.8);
         }
       }
     }
   }
   .surpinlists__lists {
-    margin-top: 36px;
+    margin: 1.4rem 0.3rem;
     .surpinlists__lists__title {
-      font-size: 20px;
       margin-bottom: 20px;
+      color: rgba(238, 238, 238, 0.6);
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding-bottom: 1.2rem;
+      width: 80vw;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
     .surpinlists__lists__lists {
       display: flex;
@@ -1075,11 +1138,21 @@ li {
   }
   .surpinlists__btn {
     align-self: flex-end;
-    border: 1px solid #555;
-    width: 160px;
-    height: 60px;
-    margin-right: 160px;
-    margin-bottom: 60px;
+    width: 130px;
+    height: 40px;
+    border-radius: 3px;
+    position: absolute;
+    margin-top: -3vh;
+    margin-left: 72vw;
+    background-color: #e3e9f150;
+    color: $dark;
+    font-size: 0.95rem;
+    font-weight: 700;
+    &:hover {
+      transform: scale(1.02);
+      transition: 0.7s all ease;
+      background-color: #8ab6f7be;
+    }
   }
 }
 
@@ -1192,14 +1265,14 @@ li {
           font-size: 0.7rem;
           margin-left: 8px;
           padding: 4px;
-          border-bottom: 1px solid $border;
+          border-bottom: #8ab6f7a8 1px solid;
           &::placeholder {
             color: rgba(255, 255, 255, 0.7);
           }
         }
         button {
           margin-left: 0.7rem;
-          border: 1px solid $main;
+          border: #8ab6f7a8 1px solid;
           height: 26px;
           padding: 4px 20px;
           border-radius: 16px;
@@ -1216,11 +1289,18 @@ li {
         flex-wrap: wrap;
         li {
           margin-bottom: 12px;
-          margin-right: 8px;
-          .tag {
-            padding: 4px 10px;
+          margin-right: 6px;
+          .taglists__show__tag {
+            font-family: "Poppin";
+            border: #8ab6f7a8 1px solid;
+            font-size: 0.8rem;
+            padding: 4px 12px;
             cursor: auto;
           }
+        }
+        .tagList__delete-btn {
+          font-weight: 700;
+          z-index: 100;
         }
       }
     }
@@ -1285,6 +1365,7 @@ li {
       font-size: 1.8rem;
       font-weight: 700;
       color: rgba(255, 255, 255, 0.658);
+      color: #8ab5f7;
     }
     .surpinModal__show-contents__topbar {
       color: #fff;
@@ -1327,11 +1408,11 @@ li {
         .urlList__delete-btn {
           font-family: "Poppin";
           position: relative;
-          font-weight: 800;
+          font-weight: 600;
           margin-left: 10px;
-          font-size: 1rem;
+          font-size: 0.8rem;
           color: $main;
-          z-index: 100;
+          z-index: 101;
           &:hover {
             transform: scale(1.01);
             color: rgba(255, 255, 255, 0.7);
@@ -1396,21 +1477,21 @@ li {
 
 // Component - UrlList
 .urlList {
-  color: $main;
-  border: 1px solid $main;
+  border-bottom: 1px solid rgba(238, 238, 238, 0.2);
   display: flex;
   align-items: center;
   height: 46px;
   font-size: 0.85rem;
-  border-radius: 4px;
 
   .urlList__urlName {
+    color: rgba(255, 255, 255, 0.7);
     font-family: "Poppin";
     font-weight: 700;
     width: 40%;
     text-overflow: ellipsis;
   }
   .urlList__url {
+    color: rgba(255, 255, 255, 0.7);
     font-family: "Poppin";
     font-weight: 400;
     width: 40%;

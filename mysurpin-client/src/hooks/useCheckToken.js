@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { signOut } from "../actions/index";

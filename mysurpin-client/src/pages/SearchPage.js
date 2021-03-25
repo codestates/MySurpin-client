@@ -14,7 +14,8 @@ const SearchPage = () => {
   const { searchTagLists } = searchTagState;
   const dispatch = useDispatch();
   const [tag, setTag] = useState([]);
-  const [reqCount, setReqCount] = useState(0);
+  const [newTag, setNewTag] = useState("...");
+  const [newSurpinCount, setNewSurpinCount] = useState(0);
   const [pagenumber, setPagenumber] = useState(1);
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
@@ -27,31 +28,37 @@ const SearchPage = () => {
   useEffect(() => {
     document.title = "SearchPage";
     window.scrollTo(0, 0);
+    if (searchTagLists) {
+      setNewSurpinCount(searchTagLists.surpinCount);
+      setMergedData(searchTagLists.surpins);
+      setNewTag(searchTagLists.tag);
+      setPagenumber(0);
+    }
   }, []);
-
-  const fetchMoreLists = useCallback(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify({
-        pagenumber: pagenumber,
-        tag: tag,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMergedData(mergedData.concat(data.surpins));
-      });
-
-    setPagenumber((pagenumber) => pagenumber + 1);
-  }, [tag, pagenumber]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (pagenumber < parseInt(newSurpinCount / 10)) {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({
+          pagenumber: pagenumber,
+          tag: tag,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setMergedData(mergedData.concat(data.surpins));
+        });
+    }
+  }, [pagenumber]);
+
+  const fetchMoreLists = () => {
+    // setPagenumber((pagenumber) => pagenumber + 1);
+  };
 
   const onChangeSearchTag = useCallback(
     (e) => {
@@ -68,6 +75,11 @@ const SearchPage = () => {
     },
     [tag]
   );
+
+  const handlepageCount = () => {
+    setPagenumber((pagenumber) => pagenumber + 1);
+    fetchMoreLists();
+  };
 
   const handleSearchBtn = useCallback(() => {
     if (tag.length === 0) {
@@ -88,6 +100,8 @@ const SearchPage = () => {
         .then((res) => res.json())
         .then((data) => {
           dispatch(getTagLists(data));
+          setNewTag(tag);
+          setNewSurpinCount(data.surpinCount);
         });
     }
   }, [tag, pagenumber]);
@@ -114,6 +128,9 @@ const SearchPage = () => {
           </button>
         </div>
         <div className="searchpage-best-results">
+          <div className="searchpage-result-title">
+            ' {newTag} ' 에 대한 {newSurpinCount} 건의 검색결과
+          </div>
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">
             {searchTagLists.top ? (
@@ -128,7 +145,7 @@ const SearchPage = () => {
                 );
               })
             ) : (
-              <li className="searchpage-best-list">검색어 결과가 없습니닷!</li>
+              <li className="searchpage-best-list">검색어 결과가 없습니다.</li>
             )}
           </ul>
         </div>
@@ -144,7 +161,7 @@ const SearchPage = () => {
 
             <ul
               className="searchpage-all-results__lists"
-              {...useScrollEventListener(fetchMoreLists, 1)}
+              {...useScrollEventListener(handlepageCount, 1)}
             >
               {mergedData ? (
                 mergedData.map((surpin, idx) => {
@@ -159,7 +176,7 @@ const SearchPage = () => {
                 })
               ) : (
                 <li className="searchpage-all-result__list">
-                  검색 결과가 없습니닷!
+                  검색 결과가 없습니다.
                 </li>
               )}
             </ul>

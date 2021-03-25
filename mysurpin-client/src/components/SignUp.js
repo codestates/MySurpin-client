@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useCallback, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import AlertModal from "./AlertModal";

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useHistory } from "react-router-dom";
@@ -42,15 +43,18 @@ const SurpinLists = () => {
   );
 
   useEffect(() => {
-    fetch(`http://localhost:4000/surpin/showuserlists?nickname=${writer}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-        authentication: token,
-      },
-      body: JSON.stringify({ email }),
-    })
+    fetch(
+      `${process.env.REACT_APP_SERVER_URL}/surpin/showuserlists?nickname=${writer}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+          authentication: token,
+        },
+        body: JSON.stringify({ email }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         dispatch(showUserLists(data));
@@ -58,14 +62,17 @@ const SurpinLists = () => {
         setFilteredUserLists(data.surpins);
       });
 
-    fetch(`http://localhost:4000/tag/showusertags?nickname=${writer}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-        authentication: token,
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_SERVER_URL}/tag/showusertags?nickname=${writer}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+          authentication: token,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         dispatch(showUserTags(data));
@@ -77,7 +84,16 @@ const SurpinLists = () => {
     <>
       <Navbar></Navbar>
       <div className="surpinLists">
-        {writer}의 Surpin Lists
+        <div className="surpinLists__title"> {writer}의 Surpin Lists</div>
+        {user.nickname === writer ? (
+          <Link to={{ pathname: `/surpinmodal/${writer}` }}>
+            <button className="surpinlists__btn" onClick={handleCreateSurpin}>
+              + New Supin
+            </button>
+          </Link>
+        ) : (
+          <div></div>
+        )}
         <div className="surpinlists__tags">
           <div className="surpinlists__tags__title">태그별로 보기</div>
           <ul className="surpinlists__tags__tags">
@@ -112,15 +128,6 @@ const SurpinLists = () => {
             })}
           </ul>
         </div>
-        {user.nickname === writer ? (
-          <Link to={{ pathname: `/surpinmodal/${writer}` }}>
-            <button className="surpinlists__btn" onClick={handleCreateSurpin}>
-              Supin 추가하기
-            </button>
-          </Link>
-        ) : (
-          <div></div>
-        )}
       </div>
     </>
   );

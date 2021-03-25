@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -93,7 +94,7 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           dispatch(getTagLists({}));
           history.push("/searchpage");
         } else {
-          dispatch(getTagLists(body));
+          dispatch(getTagLists({ ...body, tag }));
           history.push("/searchpage");
         }
       })
@@ -122,12 +123,11 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
               onKeyPress={onKeyPress}
               value={tag}
             ></input>
-
             <button
               className="navbar__searchbar__btn"
               onClick={handleSearchBtn}
             >
-              {/* <img src="/images/loupe.png" alt="" /> */}
+              <img src="/images/Magnifying Glass.png" alt="" />
             </button>
           </div>
         )}
@@ -142,9 +142,6 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
                 }}
               >
                 My Info
-                <div className="wave -one"></div>
-                <div className="wave -two"></div>
-                <div className="wave -three"></div>
               </button>
               <button
                 className={`navbar__btn ${isSignPage} ${showBtns}`}
