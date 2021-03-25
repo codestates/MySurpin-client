@@ -3,7 +3,7 @@
 
 ##
 
- ![version](https://img.shields.io/badge/Version-v1.0.0-blue) ![npm](https://img.shields.io/npm/v/npm) ![node](https://img.shields.io/badge/node-v15.11.0-green)
+ ![version](https://img.shields.io/badge/Version-v1.0.0-orange) ![npm](https://img.shields.io/npm/v/npm) ![node](https://img.shields.io/badge/node-v15.11.0-green)
 
 ## 🏄‍♂️ CREATE YOUR OWN BOOKMARK! 🏄‍♀️
 Myserpin is a combination of My + surfing + pin. You know MY, but you're probably wondering what Suffin means. A combination of 🏄‍♂️ and 📌 in Web surfing.
