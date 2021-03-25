@@ -32,7 +32,7 @@ IM 26기 4명이 모인 👩‍💻👨‍💻👨‍💻👨‍💻 be-Dev 입�
 
 ## 🔧 사용 스택 및 스택 아키텍처
 
-![스크린샷 2021-03-25 오후 9 28 15](https://user-images.githubusercontent.com/73514971/112473565-dfe53380-8db1-11eb-99ff-4df66a277265.png)
+<img width="850" alt="스크린샷 2021-03-25 오후 3 43 02" src="https://user-images.githubusercontent.com/73514971/112473565-dfe53380-8db1-11eb-99ff-4df66a277265.png">
 
 ## Front-end
 <img width="850" alt="스크린샷 2021-03-25 오후 3 43 02" src="https://user-images.githubusercontent.com/73514971/112430698-d93ec800-8d81-11eb-8488-930656f9b35e.png">
