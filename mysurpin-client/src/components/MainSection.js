@@ -57,7 +57,10 @@ const MainSection = () => {
           setAlertModalOpen(true);
         } else if (body.message === "No surpin with request tag") {
           dispatch(getTagLists({}));
-          history.push("/searchpage");
+          history.push({
+            pathname: "/searchpage",
+            state: { searchTag: tag },
+          });
         } else {
           dispatch(getTagLists({ ...body, tag }));
           history.push("/searchpage");

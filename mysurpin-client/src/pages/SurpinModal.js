@@ -10,7 +10,7 @@ import AlertModal from "../components/AlertModal";
 require("dotenv").config();
 const awsController = require("../aws_controller/aws_controller");
 
-const SurpinModal = ({ location }) => {
+const SurpinModal = ({ location, match }) => {
   const history = useHistory();
   const { listId } = useParams();
   const dispatch = useDispatch();
@@ -76,7 +76,11 @@ const SurpinModal = ({ location }) => {
   }, []);
 
   useEffect(() => {
-    setEditMode(false);
+    if (location.pathname.split("/")[2] === nickname) {
+      setEditMode(true);
+    } else {
+      setEditMode(false);
+    }
     if (!location || !location.surpin) {
       fetch(
         `${process.env.REACT_APP_SERVER_URL}/surpin/showsurpin?listId=${listId}`,
@@ -174,8 +178,9 @@ const SurpinModal = ({ location }) => {
           if (body.message === "Unsufficient info") {
             setAlertModalOpen(true);
             setAlertModalComment("URL 이름을 입력해주세요");
+          } else {
+            setNewUrls([...newUrls, { name: body.title, url: inputUrl }]);
           }
-          setNewUrls([...newUrls, { name: body.title, url: inputUrl }]);
         })
         .catch((err) => console.log(err));
     } else {
@@ -292,9 +297,6 @@ const SurpinModal = ({ location }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
-          // setAlertModalOpen(true);
-          // setAlertModalComment("삭제 완료");
-          // searchTagLists
           const payload = JSON.stringify({
             pagenumber: 1,
             tag: searchTagLists.tag,
@@ -316,10 +318,10 @@ const SurpinModal = ({ location }) => {
                 setAlertModalOpen(true);
               } else if (body.message === "No surpin with request tag") {
                 dispatch(getTagLists({}));
-                history.push("/searchpage");
+                history.go(-1);
               } else {
                 dispatch(getTagLists({ ...body, tag: searchTagLists.tag }));
-                history.push("/searchpage");
+                history.go(-1);
               }
             })
             .catch((err) => console.error(err));
@@ -357,6 +359,14 @@ const SurpinModal = ({ location }) => {
     );
   };
 
+  const handleGoBack = () => {
+    if (!location.surpin) {
+      history.go(-2);
+    } else {
+      history.go(-1);
+    }
+  };
+
   return (
     <div className="surpinModal">
       <AlertModal
@@ -364,7 +374,7 @@ const SurpinModal = ({ location }) => {
         close={closeModal}
         comment={alertModalComment}
       />
-      <button className="surpinModal__back-btn" onClick={() => history.go(-1)}>
+      <button className="surpinModal__back-btn" onClick={handleGoBack}>
         <img src="/images/go_back_Button.png" alt=""></img>
       </button>
       <section className="surpinModal__sidebar">
@@ -375,7 +385,7 @@ const SurpinModal = ({ location }) => {
             backgroundSize: `cover`,
           }}
         >
-          {editmode ? (
+          {token && editmode ? (
             <input
               className="sidebar__listinfo__title"
               type="text"
@@ -391,7 +401,7 @@ const SurpinModal = ({ location }) => {
             className="sidebar__listinfo__writer"
             onClick={() => history.push(`/surpinlists/${newWriter}`)}
           >
-            {editmode ? nickname : writer}
+            {token && editmode ? nickname : writer}
           </div>
         </div>
         <div className="sidebar__description">
@@ -409,7 +419,7 @@ const SurpinModal = ({ location }) => {
         </div>
         <div className="sidebar__taglists">
           <div className="taglists__form__text">Tags</div>
-          {editmode ? (
+          {token && editmode ? (
             <div className="taglists__form">
               <input
                 type="text"
@@ -471,7 +481,7 @@ const SurpinModal = ({ location }) => {
             )}
           </ul>
         </div>
-        {editmode ? (
+        {token && editmode ? (
           <>
             <label htmlFor="sidebar__thumbnail__input">썸네일 등록</label>
             <input
@@ -493,19 +503,23 @@ const SurpinModal = ({ location }) => {
               onClick={() => setEditMode(!editmode)}
             >
               <img src="" alt="" />
-              {editmode ? "EDIT DONE" : "EDIT MODE"}
+              {token && editmode ? "" : "EDIT MODE"}
             </button>
+          ) : token ? (
+            <>
+              <button
+                className="surpinModal__edit-btn"
+                onClick={() => setEditMode(!editmode)}
+              >
+                <img src="" alt="" />내 서핀에 저장하기
+              </button>
+            </>
           ) : (
-            <button
-              className="surpinModal__edit-btn"
-              onClick={() => setEditMode(!editmode)}
-            >
-              <img src="" alt="" />내 서핀에 저장하기
-            </button>
+            <></>
           )}
         </div>
         <span className="surpinModal__url__title">
-          {editmode ? "URL 목록 수정하기" : "URL 목록"}
+          {token && editmode ? "URL 목록 수정하기" : "URL 목록"}
         </span>
         <div className="surpinModal__show-contents__topbar">
           <div className="show-contents__urlname">URL NAME</div>
@@ -522,7 +536,7 @@ const SurpinModal = ({ location }) => {
                       name={urlinfo.name}
                       url={urlinfo.url}
                     ></UrlList>
-                    {editmode ? (
+                    {token && editmode ? (
                       <button
                         className="urlList__delete-btn"
                         onClick={handleDeleteUrl}
@@ -540,7 +554,7 @@ const SurpinModal = ({ location }) => {
             )}
           </ul>
         </div>
-        {editmode ? (
+        {token && editmode ? (
           <div className="surpinModal__input-contents">
             <input
               type="text"
@@ -578,7 +592,7 @@ const SurpinModal = ({ location }) => {
         ) : (
           <></>
         )}
-        {editmode ? (
+        {token && editmode ? (
           <>
             <div className="surpinModal__revise-btn__wrapper">
               {writer === nickname && location.surpin ? (
@@ -593,7 +607,7 @@ const SurpinModal = ({ location }) => {
                   className="surpinModal__revise-btn"
                   onClick={handleSaveSurpin}
                 >
-                  내 서핀에 추가
+                  내 서핀으로 추가
                 </button>
               )}
               {writer === nickname && location.surpin ? (

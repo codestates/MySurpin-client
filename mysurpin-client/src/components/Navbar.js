@@ -91,10 +91,12 @@ const Navbar = ({ navBarState, isSignPage = "" }) => {
           setAlertModalOpen(true);
           setAlertModalComment("검색어를 입력하세요.");
         } else if (body.message === "No surpin with request tag") {
-          dispatch(getTagLists({}));
-          history.push("/searchpage");
+          history.push({
+            pathname: "/searchpage",
+            state: { searchTag: tag },
+          });
         } else {
-          dispatch(getTagLists({ ...body, tag }));
+          dispatch(getTagLists({ ...body, label: tag }));
           history.push("/searchpage");
         }
       })

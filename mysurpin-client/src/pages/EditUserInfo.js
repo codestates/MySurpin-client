@@ -7,7 +7,7 @@ import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
 
 const EditUserInfo = () => {
-  const [editState, setEditState] = useState(false);
+  const [editState, setEditState] = useState(true);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 

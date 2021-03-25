@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTagLists } from "../actions/index";
 import useScrollEventListener from "../hooks/useScrollEventListener";
 import AlertModal from "../components/AlertModal";
+import { useLocation } from "react-router-dom";
 require("dotenv").config();
 
 const SearchPage = () => {
@@ -20,6 +21,16 @@ const SearchPage = () => {
   const [mergedData, setMergedData] = useState(searchTagLists.surpins);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
+  const [propsTag, setPropsTag] = useState(undefined);
+
+  const location = useLocation();
+  useEffect(() => {
+    if (!newTag) {
+      setPropsTag(location.state.searchTag);
+    } else {
+      setPropsTag(undefined);
+    }
+  }, [newTag, propsTag]);
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -97,6 +108,7 @@ const SearchPage = () => {
           dispatch(getTagLists(data));
           setNewTag(tag);
           setNewSurpinCount(data.surpinCount);
+          setTag("");
         });
     }
   }, [tag, pagenumber]);
@@ -124,8 +136,8 @@ const SearchPage = () => {
         </div>
         <div className="searchpage-best-results">
           <div className="searchpage-result-title">
-            ' {searchTagLists.label || newTag} ' 에 대한 {newSurpinCount} 건의
-            검색결과
+            ' {propsTag || newTag} ' 에 대한 {newSurpinCount || 0}
+            건의 검색결과
           </div>
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">

@@ -92,16 +92,20 @@ li {
       display: flex;
       align-items: center;
       margin-right: 8px;
-      background-color: $medium;
       width: 300px;
       height: 28px;
       padding: 4px 10px;
       border-radius: 3px;
       transition: 1s all ease;
-      background-color: rgba(238, 238, 238, 0.1);
+      background-color: rgba(238, 238, 238, 0.4);
+
       input {
         width: 80%;
         margin-left: 20px;
+        color: $dark;
+        &::placeholder {
+          color: $dark;
+        }
       }
       img {
         height: 22px;
@@ -1479,17 +1483,24 @@ li {
   font-size: 0.85rem;
 
   .urlList__urlName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: rgba(255, 255, 255, 0.7);
     font-family: "Poppin";
     font-weight: 700;
     width: 40%;
     text-overflow: ellipsis;
+    margin-right: 1rem;
   }
   .urlList__url {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: rgba(255, 255, 255, 0.7);
     font-family: "Poppin";
     font-weight: 400;
-    width: 40%;
+    width: 45%;
     text-overflow: ellipsis;
   }
 }
