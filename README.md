@@ -1,10 +1,3 @@
-# beDev
-![image](https://user-images.githubusercontent.com/73514971/112421018-a5f43d00-8d71-11eb-8d09-e2a68ef1079a.png)
-
-IM 26기 4명이 모인 👩‍💻👨‍💻👨‍💻👨‍💻 be-Dev 입니다.
-
-개발자가 되고싶은 우리들의 염원을 담아 be + developer를 합쳐 beDev 팀 명이 탄생했습니다. 😄
-
 # My Surpin🌊
 <img width="953" alt="스크린샷 2021-03-25 오후 1 45 26" src="https://user-images.githubusercontent.com/73514971/112420324-5d884f80-8d70-11eb-9bc2-7c5946425439.png">
 
@@ -25,6 +18,13 @@ If you find a place you like while surfing, put a pin on it! And share your own 
   여러직군 수많은 다양한 사람의 북마크 모음을 한곳에서 모아서 볼 수 있다면 유용한 사이트가 되지 않을까? 그런 북마크 모음을 작은 미니홈페이지 양식으로해서 구경할 수 있으면 재밌지 않을까? 이런 생각에서 시작하여 마이 서핀이 탄생했습니다.
 
   서핑을 하다 마음에 드는 장소를 발견하면 핀을 꽂아두세요! 그리고 나만의 장소인 My Surpin을 공유해보세요! 다른 사람의 장소가 궁금하다구요? 다른 사람의 Surpin도 구경해보세요! 혹시 좋은 팁을 얻을 수 있지 않을까요?
+  
+# beDev
+![image](https://user-images.githubusercontent.com/73514971/112421018-a5f43d00-8d71-11eb-8d09-e2a68ef1079a.png)
+
+IM 26기 4명이 모인 👩‍💻👨‍💻👨‍💻👨‍💻 be-Dev 입니다.
+
+개발자가 되고싶은 우리들의 염원을 담아 be + developer를 합쳐 beDev 팀 명이 탄생했습니다. 😄
 
 ## 🔧 사용 스택 및 스택 아키텍처
 
