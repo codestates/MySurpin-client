@@ -1,6 +1,10 @@
 # My Surpin🌊
 <img width="953" alt="스크린샷 2021-03-25 오후 1 45 26" src="https://user-images.githubusercontent.com/73514971/112420324-5d884f80-8d70-11eb-9bc2-7c5946425439.png">
 
+##
+
+ ![version](https://img.shields.io/badge/Version-v1.0.0-blue) ![npm](https://img.shields.io/npm/v/npm) ![node](https://img.shields.io/badge/node-v15.11.0-green)
+
 ## 🏄‍♂️ CREATE YOUR OWN BOOKMARK! 🏄‍♀️
 Myserpin is a combination of My + surfing + pin. You know MY, but you're probably wondering what Suffin means. A combination of 🏄‍♂️ and 📌 in Web surfing.
 
@@ -19,7 +23,7 @@ If you find a place you like while surfing, put a pin on it! And share your own 
 
   서핑을 하다 마음에 드는 장소를 발견하면 핀을 꽂아두세요! 그리고 나만의 장소인 My Surpin을 공유해보세요! 다른 사람의 장소가 궁금하다구요? 다른 사람의 Surpin도 구경해보세요! 혹시 좋은 팁을 얻을 수 있지 않을까요?
   
-# beDev
+## beDev
 ![image](https://user-images.githubusercontent.com/73514971/112421018-a5f43d00-8d71-11eb-8d09-e2a68ef1079a.png)
 
 IM 26기 4명이 모인 👩‍💻👨‍💻👨‍💻👨‍💻 be-Dev 입니다.
