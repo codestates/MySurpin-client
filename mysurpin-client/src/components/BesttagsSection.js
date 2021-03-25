@@ -15,7 +15,7 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     var ctx = document.getElementById("myChart").getContext("2d");
-    var gradient = ctx.createLinearGradient(200, 100, 300, 500);
+    var gradient = ctx.createLinearGradient(0, 50, 200, 400);
     gradient.addColorStop(0, "rgba(138, 181, 247, 0.5)");
     gradient.addColorStop(0.35, "rgba(138, 181, 247, 0.25)");
     gradient.addColorStop(1, "rgba(138, 181, 247, 0)");
