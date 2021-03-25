@@ -280,7 +280,6 @@ li {
         transform: scale(0.6);
       }
     }
-
     .besttags__rank {
       display: flex;
       color: #fff;
@@ -333,17 +332,15 @@ li {
         width: 300vw;
         height: 50%;
         border-radius: 12px;
-        .besttags__rank__element {
-          display: inline-block;
-          width: 22vw;
-          height: 100%;
-          text-align: center;
+        overflow: hidden;
+        .wave__container {
+          z-index: 999;
+          position: absolute;
+          display: flex;
+          height: 100vh;
           border-radius: 4px;
-          position: relative;
-          background-color: #242830;
-          position: relative;
-          overflow: hidden;
-          transform: translate3d(0, 0, 0);
+          flex-direction: column;
+          justify-content: center;
           .wave {
             z-index: -1;
             opacity: 0.4;
@@ -353,8 +350,8 @@ li {
             background: #8ab6f7a2;
             width: 900px;
             height: 900px;
-            margin-left: -500px;
-            margin-top: 100px;
+            margin-left: -15vw;
+            margin-top: 80px;
             transform-origin: 60% 50%;
             border-radius: 43%;
             animation: drift 5s infinite linear;
@@ -367,13 +364,114 @@ li {
             opacity: 0.1;
             background: $main;
           }
-          .rank__container {
-            display: flex;
-            height: 100%;
-            border-radius: 4px;
-            flex-direction: column;
-            justify-content: center;
+        }
+        .wave__container2 {
+          z-index: 999;
+          position: absolute;
+          display: flex;
+          height: 100vh;
+          border-radius: 4px;
+          flex-direction: column;
+          justify-content: center;
+          .wave2 {
+            z-index: -1;
+            opacity: 0.4;
+            position: absolute;
+            top: 3%;
+            left: 50%;
+            background: #8ab6f7a2;
+            width: 900px;
+            height: 900px;
+            margin-left: 80vw;
+            margin-top: 80px;
+            transform-origin: 60% 50%;
+            border-radius: 43%;
+            animation: drift 5s infinite linear;
           }
+          .wave2.-three {
+            animation: drift 7s infinite linear;
+          }
+          .wave2.-two {
+            animation: drift 9s infinite linear;
+            opacity: 0.1;
+            background: $main;
+          }
+        }
+        .wave__container3 {
+          z-index: 999;
+          position: absolute;
+          display: flex;
+          height: 100vh;
+          border-radius: 4px;
+          flex-direction: column;
+          justify-content: center;
+          .wave3 {
+            z-index: -1;
+            opacity: 0.4;
+            position: absolute;
+            top: 3%;
+            left: 50%;
+            background: #8ab6f7a2;
+            width: 900px;
+            height: 900px;
+            margin-left: 140vw;
+            margin-top: 80px;
+            transform-origin: 60% 50%;
+            border-radius: 43%;
+            animation: drift 5s infinite linear;
+          }
+          .wave3.-three {
+            animation: drift 7s infinite linear;
+          }
+          .wave3.-two {
+            animation: drift 9s infinite linear;
+            opacity: 0.1;
+            background: $main;
+          }
+        }
+        .wave__container4 {
+          z-index: 999;
+          position: absolute;
+          display: flex;
+          height: 100vh;
+          border-radius: 4px;
+          flex-direction: column;
+          justify-content: center;
+          .wave4 {
+            z-index: -1;
+            opacity: 0.4;
+            position: absolute;
+            top: 3%;
+            left: 50%;
+            background: #8ab6f7a2;
+            width: 900px;
+            height: 900px;
+            margin-left: 200vw;
+            margin-top: 80px;
+            transform-origin: 60% 50%;
+            border-radius: 43%;
+            animation: drift 5s infinite linear;
+          }
+          .wave4.-three {
+            animation: drift 7s infinite linear;
+          }
+          .wave4.-two {
+            animation: drift 9s infinite linear;
+            opacity: 0.1;
+            background: $main;
+          }
+        }
+        .besttags__rank__element {
+          display: inline-block;
+          width: 22vw;
+          height: 100%;
+          text-align: center;
+          border-radius: 4px;
+          position: relative;
+          background-color: #242830;
+          position: relative;
+          overflow: hidden;
+          transform: translate3d(0, 0, 0);
           .ranking {
             color: #828692;
             font-size: 0.9rem;
@@ -408,7 +506,6 @@ li {
       padding: 20px;
       perspective: 1000px;
       overflow-y: auto;
-
       .besttags__search-rank__title {
         position: sticky;
         font-size: 1.1rem;
@@ -709,6 +806,7 @@ li {
     width: 200px;
   }
 }
+
 // Page - SignPage
 .signPage {
   height: 100vh;

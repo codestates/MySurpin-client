@@ -74,8 +74,29 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
   return (
     <div className="besttagsSection">
       <div className="besttags__title">Trend Now</div>
+
       <div className="besttags__rank">
         <div className="besttags__rank__elements" ref={slideRef}>
+          <div className="wave__container">
+            <div className="wave -one"></div>
+            <div className="wave -two"></div>
+            <div className="wave -three"></div>
+          </div>
+          <div className="wave__container2">
+            <div className="wave2 -one"></div>
+            <div className="wave2 -two"></div>
+            <div className="wave2 -three"></div>
+          </div>
+          <div className="wave__container3">
+            <div className="wave3 -one"></div>
+            <div className="wave3 -two"></div>
+            <div className="wave3 -three"></div>
+          </div>
+          <div className="wave__container4">
+            <div className="wave4 -one"></div>
+            <div className="wave4 -two"></div>
+            <div className="wave4 -three"></div>
+          </div>
           {chartlabel.map((label, idx) => {
             return (
               <div
@@ -85,11 +106,6 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
               >
                 <div className="ranking">Search Rank #{idx + 1}</div>
                 <div className="ranking__tag">{label}</div>
-                <div className="rank__container">
-                  <div className="wave -one"></div>
-                  <div className="wave -two"></div>
-                  <div className="wave -three"></div>
-                </div>
               </div>
             );
           })}
@@ -120,7 +136,6 @@ const BesttagsSection = ({ animatedItem, chartdata, chartlabel }) => {
           );
         })}
       </div>
-
       <div {...animatedItem} className="besttags__chart">
         <Line
           className="bestChart"
