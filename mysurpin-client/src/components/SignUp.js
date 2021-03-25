@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const googleTokenState = useSelector((state) => state.userReducer);
   const { googleToken } = googleTokenState;
 
@@ -111,13 +112,13 @@ const SignUp = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
           } else if (body.message === "Successfully processed") {
             setAlertModalOpen(true);
             setAlertModalComment("로그인을 진행해주세요.");
-            history.push("/signpage");
+            setTimeout(() => history.push("/signpage"), 800);
             handlePageState();
           }
         })
         .catch((err) => console.log(err));
     } else {
-      handleGoogleLogin();
+      handleGoogleLogin("signUp");
     }
   };
 

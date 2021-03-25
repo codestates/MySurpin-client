@@ -44,6 +44,7 @@ const SurpinModal = ({ location }) => {
 
   const [editmode, setEditMode] = useState(false);
   const [newListname, setNewListname] = useState(title);
+  const [newWriter, setNewWriter] = useState(writer);
   const [newDesc, setNewDesc] = useState(desc);
   const [newTags, setNewTags] = useState(tags);
   const [newUrls, setNewUrls] = useState([]);
@@ -77,7 +78,52 @@ const SurpinModal = ({ location }) => {
     }
   });
 
-  // showexiststag
+  useEffect(() => {
+    if (!location || !location.surpin) {
+      fetch(
+        `${process.env.REACT_APP_SERVER_URL}/surpin/showsurpin?listId=${listId}`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            credentials: "include",
+          },
+          body: JSON.stringify({ email, needFullData: true }),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setNewListname(data.surpin.title);
+          setNewDesc(data.surpin.desc);
+          setNewWriter(data.surpin.writer);
+          setNewThumbnail(data.surpin.thumbnail);
+          setNewTags(data.surpin.tags);
+          setNewUrls(data.urls);
+          dispatch(getShowSurpin(data.urls));
+        })
+        .catch((err) => console.log(err));
+    } else {
+      fetch(`http://localhost:4000/surpin/showsurpin?listId=${surpinId}`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify({ email }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setNewUrls([...data.urls]);
+          dispatch(getShowSurpin(data.urls));
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
   useEffect(() => {
     if (inputTag.length > 0) {
       fetch(
@@ -98,29 +144,6 @@ const SurpinModal = ({ location }) => {
     }
   }, [inputTag]);
 
-  // showsurpin/listid
-  useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_SERVER_URL}/surpin/showsurpin?listId=${surpinId}`,
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: JSON.stringify({ email }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setNewUrls([...data.urls]);
-        dispatch(getShowSurpin(data.urls));
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   const setInputThumbnail = () => {
     if (
       document.querySelector("#sidebar__thumbnail__input").files[0].size >
@@ -140,7 +163,6 @@ const SurpinModal = ({ location }) => {
       fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/showurltitle`, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           credentials: "include",
         },
@@ -148,6 +170,10 @@ const SurpinModal = ({ location }) => {
       })
         .then((res) => res.json())
         .then((body) => {
+          if (body.message === "Unsufficient info") {
+            setAlertModalOpen(true);
+            setAlertModalComment("URL 이름을 입력해주세요");
+          }
           setNewUrls([...newUrls, { name: body.title, url: inputUrl }]);
         })
         .catch((err) => console.log(err));
@@ -373,8 +399,12 @@ const SurpinModal = ({ location }) => {
                 list="existTagsList"
               />
               <datalist id="existTagsList">
-                {newExistTags.map((existTag) => {
-                  return <option value={existTag.name}> </option>;
+                {newExistTags.map((existTag, idx) => {
+                  return (
+                    <option key={idx} value={existTag.name}>
+                      {" "}
+                    </option>
+                  );
                 })}
               </datalist>
               <button
@@ -390,10 +420,10 @@ const SurpinModal = ({ location }) => {
 
           <ul className="taglists__show">
             {newTags.length > 0 ? (
-              newTags.map((tag) => {
+              newTags.map((tag, idx) => {
                 return (
                   <li className="taglists__show__tag">
-                    <Tag tag={tag}></Tag>
+                    <Tag tag={tag} key={idx}></Tag>
                     {editmode ? (
                       <button
                         className="tagaList__delete-btn"
@@ -414,7 +444,7 @@ const SurpinModal = ({ location }) => {
         </div>
         {editmode ? (
           <>
-            <label for="sidebar__thumbnail__input">썸네일 등록</label>
+            <label htmlFor="sidebar__thumbnail__input">썸네일 등록</label>
             <input
               type="file"
               id="sidebar__thumbnail__input"
@@ -455,15 +485,20 @@ const SurpinModal = ({ location }) => {
         <div className="surpinModal__show-contents">
           <ul className="surpinModal__url-lists">
             {newUrls.length > 0 ? (
-              newUrls.map((urlinfo) => {
+              newUrls.map((urlinfo, idx) => {
                 return (
                   <li
+                    key={idx}
                     className="surpinModal__url-list"
                     onClick={() => {
                       window.open(urlinfo.url);
                     }}
                   >
-                    <UrlList name={urlinfo.name} url={urlinfo.url}></UrlList>
+                    <UrlList
+                      key={idx}
+                      name={urlinfo.name}
+                      url={urlinfo.url}
+                    ></UrlList>
                     {editmode ? (
                       <button
                         className="urlList__delete-btn"

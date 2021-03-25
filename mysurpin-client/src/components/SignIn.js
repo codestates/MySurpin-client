@@ -69,7 +69,7 @@ const SignIn = ({ isSignInOn, handlePageState, handleGoogleLogin }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.accessToken) {
-          dispatch(signIn(body.accessToken, body.email, body.nickname));
+          dispatch(signIn(body.accessToken, email, body.nickname));
           history.push("/");
         } else {
           setAlertModalOpen(true);

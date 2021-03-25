@@ -13,7 +13,6 @@ const SearchResult = ({ surpin }) => {
     modifiedAt,
     tags,
   } = surpin;
-  console.log(surpin);
   return (
     <Link to={{ pathname: `/surpinmodal/${surpinId}`, surpin }}>
       <div className="searchResult">

@@ -24,7 +24,9 @@ const Surpin = ({ surpin }) => {
             {tags.length ? (
               tags
                 .slice(0, 3)
-                .map((tag) => <li className="list__tag">{`#${tag}`}</li>)
+                .map((tag, idx) => (
+                  <li key={idx} className="list__tag">{`#${tag}`}</li>
+                ))
             ) : (
               <li />
             )}

@@ -87,13 +87,14 @@ const SurpinLists = () => {
             >
               <Tag tag={"All"}></Tag>
             </li>
-            {newShowUserTags.map((tag) => {
+            {newShowUserTags.map((tag, idx) => {
               return (
                 <li
+                  key={idx}
                   className="surpinlist__tags__tag"
                   onClick={() => handleFilterTags(tag.tagName)}
                 >
-                  <Tag tag={tag.tagName}></Tag>
+                  <Tag key={idx} tag={tag.tagName}></Tag>
                 </li>
               );
             })}
@@ -102,10 +103,10 @@ const SurpinLists = () => {
         <div className="surpinlists__lists">
           <div className="surpinlists__lists__title">Surpins</div>
           <ul className="surpinlists__lists__lists">
-            {filteredUserLists.map((surpin) => {
+            {filteredUserLists.map((surpin, idx) => {
               return (
-                <li className="surpinlists__lists__list">
-                  <Surpin surpin={surpin}></Surpin>
+                <li key={idx} className="surpinlists__lists__list">
+                  <Surpin key={idx} surpin={surpin}></Surpin>
                 </li>
               );
             })}

@@ -4,7 +4,7 @@ import { signOut } from "../actions/index";
 import { useHistory } from "react-router-dom";
 require("dotenv").config();
 
-const useCheckToken = (param = [], func) => {
+const useCheckToken = (param = [], func = () => {}) => {
   const userState = useSelector((state) => state.userReducer);
   const { user } = userState;
   const history = useHistory();

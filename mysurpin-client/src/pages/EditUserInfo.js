@@ -6,14 +6,14 @@ import useCheckToken from "../hooks/useCheckToken";
 import AlertModal from "../components/AlertModal";
 
 const EditUserInfo = () => {
-  const [editState, setEditState] = useState(true);
+  const [editState, setEditState] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [alertModalComment, setAlertModalComment] = useState("");
 
-  const openModal = useCallback(() => {
+  const openModal = () => {
     setAlertModalOpen(true);
     setAlertModalComment("로그인 암호 만료. 다시 로그인 해주세요");
-  }, []);
+  };
 
   const closeModal = useCallback(() => {
     setAlertModalOpen(false);
@@ -26,8 +26,6 @@ const EditUserInfo = () => {
   const handlePageState = () => {
     setEditState(!editState);
   };
-
-  useCheckToken([editState], openModal);
 
   return (
     <>

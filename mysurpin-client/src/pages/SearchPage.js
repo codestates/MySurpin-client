@@ -117,13 +117,13 @@ const SearchPage = () => {
           <div className="searchpage__best__title">Popular Surpins</div>
           <ul className="searchpage-best-lists">
             {searchTagLists.top ? (
-              searchTagLists.top.map((searchTagList) => {
+              searchTagLists.top.map((searchTagList, idx) => {
                 return (
                   <li
                     className="searchpage-best-list"
                     key={searchTagList.surpinId}
                   >
-                    <Surpin surpin={searchTagList}></Surpin>
+                    <Surpin key={idx} surpin={searchTagList}></Surpin>
                   </li>
                 );
               })
@@ -147,13 +147,13 @@ const SearchPage = () => {
               {...useScrollEventListener(fetchMoreLists, 1)}
             >
               {mergedData ? (
-                mergedData.map((surpin) => {
+                mergedData.map((surpin, idx) => {
                   return (
                     <li
                       className="searchpage-all-result__list"
                       key={surpin.surpinId}
                     >
-                      <SearchResult surpin={surpin}></SearchResult>
+                      <SearchResult key={idx} surpin={surpin}></SearchResult>
                     </li>
                   );
                 })

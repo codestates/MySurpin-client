@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import AlertModal from "../components/AlertModal";
+import { withdrawal } from "../actions/index";
 
 const awsController = require("../aws_controller/aws_controller");
 require("dotenv").config();
 
 const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const userState = useSelector((state) => state.userReducer);
   const {
     user: { token, email },
@@ -56,6 +58,7 @@ const Withdrawal = ({ isChangeInfoFormOn, handleEditUserInfo }) => {
       .then((res) => res.json())
       .then((body) => {
         if (body.message === "Successfully processed") {
+          dispatch(withdrawal(email, password));
           setAlertModalOpen(true);
           setAlertModalComment("탈퇴가 완료되었습니다.");
           history.push("/");
