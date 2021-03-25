@@ -149,13 +149,20 @@ const SurpinModal = ({ location, match }) => {
     }
   }, [inputTag]);
 
-  const setInputThumbnail = () => {
+  const setInputThumbnail = async () => {
     if (
       document.querySelector("#sidebar__thumbnail__input").files[0].size >
       20 * 1024 * 1024
     ) {
       setAlertModalOpen(true);
       setAlertModalComment("2MB 이하의 파일만 등록가능합니다.");
+    }
+    if (document.querySelector("#sidebar__thumbnail__input").files.length > 0) {
+      const tempThumbnail = await awsController.uploadSurpinThumbnail(
+        email,
+        document.querySelector("#sidebar__thumbnail__input").files
+      );
+      setNewThumbnail(tempThumbnail);
     }
   };
 
@@ -198,7 +205,6 @@ const SurpinModal = ({ location, match }) => {
         document.querySelector("#sidebar__thumbnail__input").files
       );
     }
-
     const newSurpinState = {
       thumbnail,
       listname,
