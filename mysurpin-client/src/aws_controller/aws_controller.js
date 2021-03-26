@@ -232,7 +232,11 @@ const copyThumbnail = async (originalURL, email) => {
       bucketName + originalLocation,
       targetLocation
     );
-    return result;
+    if (result === 1) {
+      return `https://${bucketName}/${targetLocation}`;
+    } else {
+      return result;
+    }
   } catch (err) {
     return -1;
   }
