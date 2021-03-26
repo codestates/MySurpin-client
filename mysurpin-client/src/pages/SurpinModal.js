@@ -387,7 +387,6 @@ const SurpinModal = ({ location, match }) => {
   };
 
   const handleGoBack = () => {
-    console.log(history);
     if (!location.surpin) {
       history.go(-2);
     } else {
@@ -409,9 +408,8 @@ const SurpinModal = ({ location, match }) => {
   };
 
   const handleCopy = () => {
-    var dummy = document.createElement("input");
-    var text = process.env.REACT_APP_CLIENT_URL + location.pathname;
-    // console.log(location);
+    let dummy = document.createElement("input");
+    let text = process.env.REACT_APP_CLIENT_URL + location.pathname;
 
     document.body.appendChild(dummy);
     dummy.value = text;
