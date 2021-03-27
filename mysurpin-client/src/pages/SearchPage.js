@@ -52,8 +52,6 @@ const SearchPage = () => {
     }
   }, []);
 
-  console.log(newSurpinCount);
-
   useEffect(() => {
     if (pagenumber < parseInt(newSurpinCount / 10)) {
       fetch(`${process.env.REACT_APP_SERVER_URL}/surpin/searchlists`, {

@@ -1206,14 +1206,11 @@ li {
         margin-right: 2px;
         padding: 4px 10px;
         border: none;
-        // border: 1px solid rgba(0, 0, 0, 2);
         &:hover {
           border: none;
           font-weight: 600;
           border-bottom: #8ab5f7 2px solid;
-          // background-color: $main;
           color: #8ab5f7;
-          // color: rgba(255, 255, 255, 0.8);
         }
       }
     }
@@ -1258,7 +1255,6 @@ li {
 }
 
 // Page - SurpinModal
-
 .surpinModal {
   display: flex;
   justify-content: center;
