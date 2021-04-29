@@ -10,6 +10,7 @@ import AlertModal from "../components/AlertModal";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 require("dotenv").config();
 const awsController = require("../aws_controller/aws_controller");
+import { Resizable } from "re-resizable";
 
 const SurpinModal = ({ location, match }) => {
   const history = useHistory();
@@ -600,7 +601,19 @@ const SurpinModal = ({ location, match }) => {
                       return (
                         <Draggable key={idx} draggableId={`${idx}`} index={idx}>
                           {(provided) => (
-                            <li
+                            <Resizable
+                              onResizeStop={(e, direction, ref, d) => {
+                                this.setState({
+                                  // width: this.state.width + d.width,
+                                  height: this.state.height + d.height,
+                                  // Math.round(this.state.height / 46) * 46,
+                                });
+                              }}
+                              defaultSize={{
+                                width: 800,
+                              }}
+                              minHeight={"46px"}
+                              maxHeight={`${46 * 6}px`}
                               key={idx}
                               className="surpinModal__url-list"
                               ref={provided.innerRef}
@@ -622,7 +635,7 @@ const SurpinModal = ({ location, match }) => {
                               ) : (
                                 <></>
                               )}
-                            </li>
+                            </Resizable>
                           )}
                         </Draggable>
                       );
